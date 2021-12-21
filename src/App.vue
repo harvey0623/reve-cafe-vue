@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import { termApi } from '@/assets/api/index.js';
+import { thirdPartyApi } from '@/assets/api/index.js';
 export default {
    mounted() {
-		termApi.getTerm({ type: [ "register"] }).then(res => {
+		thirdPartyApi.getTerm().then(res => {
 			console.log(res)
 		})
 	}

@@ -1,3 +1,3 @@
-import { termRequest } from './term.js';
+import { thirdPartyRequest } from './third-party-api.js';
 
-export const termApi = termRequest;
+export const thirdPartyApi = thirdPartyRequest;
