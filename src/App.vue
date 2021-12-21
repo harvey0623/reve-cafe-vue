@@ -5,10 +5,14 @@
 </template>
 
 <script>
-import { thirdPartyApi } from '@/assets/api/index.js';
+import { thirdPartyApi, thirdPartyAuthApi } from '@/assets/api/index.js';
+import { wm_aes } from '@/assets/crypto/index.js';
 export default {
-   mounted() {
-		thirdPartyApi.getTerm().then(res => {
+   async mounted() {
+		thirdPartyAuthApi.login({
+			account: wm_aes('0986104667'),
+    		password: wm_aes('abc123'),
+		}).then(res => {
 			console.log(res)
 		})
 	}

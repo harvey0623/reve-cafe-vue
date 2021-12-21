@@ -1,11 +1,11 @@
 import { httpConfig } from './config.js';
 
-export const thirdPartyApiRequest = {
-   getTerm(payload) {
+export const thirdPartyAuthRequest = {
+   login(payload) {
       return httpConfig({
-         url: '/third_party_api/term/doBriefTerm',
+         url: '/third_party_auth/login',
          method: 'post',
-         data: payload
+         data: { ...payload }
       }).then(res => {
          return res.data;
       }).catch(err => {

@@ -1,9 +1,9 @@
 import CryptoJS from 'crypto-js';
 
 export const wm_aes = function (input) {
-   let keyHash = process.env.VUE_APP_AESKEY;
-   let key = CryptoJS.enc.Hex.parse(keyHash.toString().substring(0, 64));
-   let iv = CryptoJS.enc.Hex.parse(keyHash.toString().substring(64, 96));
-   let encrypted = CryptoJS.AES.encrypt(input, key, { iv: iv });
+   var keyHash = CryptoJS.SHA384(process.env.VUE_APP_AESKEY);
+   var key = CryptoJS.enc.Hex.parse(keyHash.toString().substring(0, 64));
+   var iv = CryptoJS.enc.Hex.parse(keyHash.toString().substring(64, 96));
+   var encrypted = CryptoJS.AES.encrypt(input, key, { iv: iv });
    return encrypted.toString();
 }
