@@ -1,20 +1,25 @@
 <template>
    <div id="app">
-		<div class="mycontainer">test</div>
+		<div class="mycontainer">
+			<button @click="logout">login</button>
+		</div>
 	</div>
 </template>
 
 <script>
-import { thirdPartyApi, thirdPartyAuthApi } from '@/assets/api/index.js';
-import { wm_aes } from '@/assets/crypto/index.js';
+import { wm_aes } from '@/plugins/crypto/index.js';
 export default {
+	methods: {
+		async logout() {
+			let logoutResponse = await this.$store.dispatch('auth/login', {
+				account: wm_aes("0986104667"),
+    			password: wm_aes("abc123")
+			})
+			console.log(logoutResponse);
+		}
+	},
    async mounted() {
-		thirdPartyAuthApi.login({
-			account: wm_aes('0986104667'),
-    		password: wm_aes('abc123'),
-		}).then(res => {
-			console.log(res)
-		})
+	
 	}
 };
 </script>

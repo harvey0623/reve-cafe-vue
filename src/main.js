@@ -4,9 +4,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import VueCompositionAPI from '@vue/composition-api'
+import '@/plugins/storage/index.js'
 
 Vue.use(VueCompositionAPI)
-
 Vue.config.productionTip = false
 
 new Vue({

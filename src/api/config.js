@@ -1,12 +1,17 @@
 import axios from 'axios';
-// import router from '@/router/index.js';
-// import store from '@/store/index.js';
+import router from '@/router/index.js';
+import store from '@/store/index.js';
+import { storageObj } from '@/plugins/storage/index.js';
 
 const instance = axios.create({
    baseURL: process.env.VUE_APP_API_BASEURL,
 });
 
 instance.interceptors.request.use(function (config) {
+   let userInfo = storageObj.getItem('userInfo');
+   if (userInfo !== null) {
+      config.headers.Authorization = `Bearer ${userInfo.token}`;
+   }
    return config;
 }, function (error) {
    return Promise.reject(error);

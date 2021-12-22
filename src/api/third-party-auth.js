@@ -10,6 +10,17 @@ export const thirdPartyAuthRequest = {
          return res.data;
       }).catch(err => {
          return err.response.data;
-      })
+      });
+   },
+   logout() {
+      return httpConfig({
+         url: '/third_party_auth/logout',
+         method: 'post',
+         data: {}
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      });
    }
 }
