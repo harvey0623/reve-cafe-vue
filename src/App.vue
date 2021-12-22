@@ -11,11 +11,13 @@ import { wm_aes } from '@/plugins/crypto/index.js';
 export default {
 	methods: {
 		async logout() {
-			let logoutResponse = await this.$store.dispatch('auth/login', {
-				account: wm_aes("0986104667"),
-    			password: wm_aes("abc123")
-			})
-			console.log(logoutResponse);
+			// let logoutResponse = await this.$store.dispatch('auth/login', {
+			// 	account: wm_aes("0986104667"),
+    		// 	password: wm_aes("abc123")
+			// })
+
+			// let logoutResponse = await this.$store.dispatch('auth/checkLoginStatus')
+			// console.log(logoutResponse);
 		}
 	},
    async mounted() {

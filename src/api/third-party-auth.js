@@ -22,5 +22,27 @@ export const thirdPartyAuthRequest = {
       }).catch(err => {
          return err.response.data;
       });
+   },
+   me() {
+      return httpConfig({ //登入狀態驗證
+         url: '/third_party_auth/me',
+         method: 'post',
+         data: {}
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      });
+   },
+   refresh() {
+      return httpConfig({ //刷新jwt token
+         url: '/third_party_auth/refresh',
+         method: 'post',
+         data: {}
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      });
    }
 }

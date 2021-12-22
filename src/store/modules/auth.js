@@ -26,7 +26,9 @@ export const authStore = {
       async login({ commit }, payload) {
          let loginResponse = await thirdPartyAuthApi.login(payload);
          if (loginResponse.status === 1) {
-            commit('setUserInfo', { token: loginResponse.aaData.access_token });
+            let token = loginResponse.aaData.access_token;
+            commit('setUserInfo', { token });
+            storageObj.setItem('userInfo', { token });
          }
          return loginResponse;
       },
@@ -37,6 +39,20 @@ export const authStore = {
             storageObj.removeItem('userInfo');
          }
          return logoutResponse;
-      }
+      },
+      async checkLoginStatus({ commit }) {
+         let meResponse = await thirdPartyAuthApi.me();
+         if (meResponse.status === 1) return { status: 1 };
+         let refreshResponse = await thirdPartyAuthApi.refresh();
+         if (refreshResponse.status === 1) {
+            let token = refreshResponse.aaData.access_token;
+            commit('setUserInfo', { token });
+            storageObj.setItem('userInfo', { token });
+         } else {
+            commit('setUserInfo', {});
+            storageObj.removeItem('userInfo');
+         }
+         return refreshResponse;
+      },
    }
 }
