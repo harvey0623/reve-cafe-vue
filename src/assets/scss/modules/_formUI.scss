@@ -12,6 +12,7 @@ textarea {
    padding: 5px 12px;
    background-color: map-get($elBgColor, input);
    border-radius: map-get($radius, basic);
+   font-size: 15px;
    &::placeholder {
       color: #989085;
       font-size: 16px;

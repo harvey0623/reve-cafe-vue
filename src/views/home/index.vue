@@ -1,6 +1,6 @@
 <template>
    <div class="home">
-      home
+      
    </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
       }
    },
    mounted() {
-      console.log(this.$route)
+      
    }
 };
 </script>

@@ -2,7 +2,15 @@
    <header>
       <div class="header-top">
          <div class="my-container">
-           
+           <a href="javascript:;" class="dropdown-block" @mouseenter="openDropdownMenu = true" @mouseleave="openDropdownMenu = false">
+               所有商品
+               <i class="fal fa-chevron-down"></i>
+               <div class="header-dropdown-menu" :class="{mouseenter:openDropdownMenu}">
+                  <router-link to="/" @click.native="openDropdownMenu = false">優惠活動</router-link>
+               </div>
+            </a>
+           <router-link to="/">品牌介紹</router-link>
+           <router-link to="/">聯絡我們</router-link>
          </div>
       </div>
       <div class="header-bottom">
@@ -33,8 +41,14 @@
 </template>
 
 <script>
+import { ref } from '@vue/composition-api'
 export default {
+   setup() {
+      let openDropdownMenu = ref(false);
+   
 
+      return { openDropdownMenu };
+   }
 }
 </script>
 
