@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/home/index.vue';
+import store from '@/store/index.js';
 
 Vue.use(VueRouter)
 
@@ -8,7 +9,10 @@ const routes = [
 	{
 		path: '/',
 		name: 'Home',
-		component: Home
+		component: Home,
+		meta: {
+			auth: false,
+		}
 	},
 ]
 
@@ -28,15 +32,12 @@ const router = new VueRouter({
 	}
 })
 
-router.beforeEach((to, from, next) => {
-	// if (to.matched.some(item => item.meta.auth === true)) {
-	// 	let mmrmToken = cookie.get('mmrmToken');
-	// 	if (mmrmToken === undefined) {
-	// 		store.commit('auth/setLogin', false);
-	// 		return next('/login');
-	// 	}
-	// }
+router.beforeEach(async(to, from, next) => {
+	if (to.matched.some(item => item.meta.auth === true)) {
+		let checkResult = await store.dispatch('auth/checkLoginStatus');
+		if (checkResult.status !== 1) return next('/signin');
+	}
 	return next();
 });
 
-export default router
+export default router;

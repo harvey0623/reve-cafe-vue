@@ -41,6 +41,7 @@ export const authStore = {
          return logoutResponse;
       },
       async checkLoginStatus({ commit }) {
+         // this._vm.$Progress.start();
          let meResponse = await thirdPartyAuthApi.me();
          if (meResponse.status === 1) return { status: 1 };
          let refreshResponse = await thirdPartyAuthApi.refresh();

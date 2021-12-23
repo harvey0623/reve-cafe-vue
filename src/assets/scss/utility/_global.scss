@@ -13,11 +13,12 @@ $gutter: (
 
 //圓角
 $radius: (
-   basic: 10px
+   basic: 3px
 );
 
 //字體顏色
 $fontColor: (
+   primary: #bc9f75,
    input: #797979,
    placeholder: #c9c9c9,
    formTitle: #292929,
@@ -27,12 +28,12 @@ $fontColor: (
 
 //元素背景色(不包含按鈕)
 $elBgColor: (
-   body: #f0f0f0,
-   input: #797979,
+   primary: #bc9f75,
+   input: #f2f2f2,
    placeholder: #c9c9c9,
    modal: #e7e7e7,
    panel: #f8f8f8,
-   variationSub: #4a4a4a
+   variationSub: #4a4a4a,
 );
 
 //按鈕背景色

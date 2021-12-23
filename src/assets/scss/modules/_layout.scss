@@ -3,10 +3,10 @@ body {
 }
 
 //===置中區塊
-.mycontainer {
+.my-container {
    max-width: 1200px;
    margin: 0 auto;
-   padding: 15px 20px;
+   padding: 15px 15px;
    @media (max-width: 768px) {
       max-width: 100%;
    }
