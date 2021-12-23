@@ -1,52 +1,30 @@
-input,
-select,
-textarea {
+.form-control {
    display: block;
-   &:focus {
-      outline: none;
-   }
-}
-
-.my-input {
-   height: 40px;
-   padding: 5px 12px;
    background-color: map-get($elBgColor, input);
    border-radius: map-get($radius, basic);
+   border: 1px solid map-get($borderColor, input);
    font-size: 15px;
    &::placeholder {
       color: #989085;
       font-size: 16px;
    }
+   &:focus {
+      background-color: #fff;
+      outline: none;
+   }
 }
 
-// select {
-//    background-color: #fff;
-//    &:focus {
-//       outline: none;
-//    }
-// }
+input.form-control,
+select.form-control {
+   height: 38px;
+   padding: 5px 12px;
+}
 
-// textarea {
-//    resize: none;
-// }
-
-// //===input
-// .form-control {
-//    height: map-get($heightObj, basic);
-//    color: map-get($fontColor, input);
-//    border-radius: map-get($radius, basic);
-//    background-color: #fff;
-//    &::placeholder {
-//       color: map-get($fontColor, placeholder);
-//    }
-//    &:focus {
-//       box-shadow: none;
-//    }
-//    &:disabled,
-//    &[readonly] {
-//       background-color: #fff;
-//    }
-// }
+textarea.form-control {
+   height: 250px;
+   padding: 15px;
+   resize: none;
+}
 
 // //===date
 // [type=date] {

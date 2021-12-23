@@ -83,8 +83,8 @@ header {
       >.search-block {
          >.input-box {
             position: relative;
-            >.my-input {
-               @include size(330px, 38px);
+            >.form-control {
+               width: 350px;
                padding-right: 35px;
             }
             >i {

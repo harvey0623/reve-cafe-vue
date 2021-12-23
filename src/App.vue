@@ -7,7 +7,6 @@
 				<router-view></router-view>
 			</div>
 		</section>
-
 		<!-- <Footer></Footer> -->
 	</div>
 </template>
@@ -48,5 +47,5 @@ export default {
 </script>
 
 <style lang="scss">
-	
+
 </style>

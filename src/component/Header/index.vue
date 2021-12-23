@@ -20,7 +20,7 @@
             </router-link>
             <div class="search-block">
                <div class="input-box">
-                  <input type="text" class="my-input" placeholder="Search">
+                  <input type="text" class="form-control" placeholder="Search">
                   <i class="fal fa-search"></i>
                </div>
             </div>
@@ -45,7 +45,7 @@ import { ref } from '@vue/composition-api'
 export default {
    setup() {
       let openDropdownMenu = ref(false);
-   
+
 
       return { openDropdownMenu };
    }
