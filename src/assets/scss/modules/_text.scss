@@ -1,0 +1,13 @@
+$textList: (
+   ( 
+      class: text-primary, 
+      color: map-get($fontColor, primary),
+   ),
+);
+
+@each $obj in $textList {
+   $textClass: map-get($obj, class);
+   .#{$textClass} {
+      color: map-get($obj, color);
+   }
+}

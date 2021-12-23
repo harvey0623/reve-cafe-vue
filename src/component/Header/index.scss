@@ -1,0 +1,61 @@
+.header-top {
+   background-color: #000;
+}
+
+.header-bottom {
+   >.my-container {
+      @extend %bwtFlex;
+      >.logo-box {
+         >img {
+            @include size(170px, 73px);
+            object-fit: contain;
+         }
+      }
+      >.search-block {
+         >.input-box {
+            position: relative;
+            >.my-input {
+               @include size(330px, 38px);
+               padding-right: 35px;
+            }
+            >i {
+               position: absolute;
+               right: 10px;
+               top: 10px;
+               font-size: 18px;
+               cursor: pointer;
+            }
+         }
+      }
+      >.feature-block {
+         display: flex;
+         align-items: center;
+         >.feature-item {
+            position: relative;
+            margin-right: 28px;
+            text-align: center;
+            &:last-child {
+               margin-right: 0;
+            }
+            >i {
+               font-size: 30px;
+            }
+            >p {
+               margin-top: 5px;
+            }
+            >.cart-count {
+               position: absolute;
+               right: -2px;
+               top: -10px;
+               @include size(23px);
+               padding: 1px;
+               line-height: 22px;
+               border-radius: 50%;
+               color: #fff;
+               background-color: map-get($elBgColor, primary);
+               font-size: 14px;
+            }
+         }
+      }
+   }
+}
