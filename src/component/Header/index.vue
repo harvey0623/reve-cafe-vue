@@ -25,7 +25,7 @@
                </div>
             </div>
             <div class="feature-block">
-               <router-link to="/" class="feature-item">
+               <router-link :to="memberLink" class="feature-item">
                   <i class="fal fa-user"></i>
                   <p class="text-primary">會員中心</p>
                </router-link>
@@ -41,13 +41,14 @@
 </template>
 
 <script>
-import { ref } from '@vue/composition-api'
+import { ref, computed } from '@vue/composition-api'
 export default {
-   setup() {
+   setup(props, { root }) {
       let openDropdownMenu = ref(false);
+      let isLogin = computed(() => root.$store.getters['auth/isLogin']);
+      let memberLink = computed(() => isLogin.value ? '/' : '/signin');
 
-
-      return { openDropdownMenu };
+      return { openDropdownMenu, memberLink };
    }
 }
 </script>

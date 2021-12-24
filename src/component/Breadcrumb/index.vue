@@ -14,7 +14,7 @@
 
 <script>
 import { computed } from '@vue/composition-api'
-import BreadItem from './BreadItem.vue';
+import BreadItem from './BreadItem.vue'
 export default {
    components: {
       BreadItem
@@ -37,7 +37,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .breadcrumb {
    background-color: #f2f2f2;
    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2) inset;
@@ -46,17 +46,6 @@ export default {
       align-items: center;
       padding-top: 9px;
       padding-bottom: 9px;
-   }
-}
-.bread-item {
-   margin-right: 10px;
-   &.active {
-      >a {
-         color: #000;
-      }
-   }
-   >a {
-      color: #bcb9b9;
    }
 }
 </style>

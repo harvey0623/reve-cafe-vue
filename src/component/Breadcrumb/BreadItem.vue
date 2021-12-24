@@ -25,7 +25,7 @@ export default {
       let { breadTotal, breadItem, order } = toRefs(props);
       let linkText = computed(() => {
          let breadTitle = breadItem.value.meta.breadcrumb.title;
-         return order.value !== breadTotal.value - 1 ? `${breadTitle}  /` : breadTitle;
+         return order.value !== breadTotal.value - 1 ? `${breadTitle}` : breadTitle;
       });
       let isActive = computed(() => order.value === breadTotal.value - 1);
 
@@ -34,6 +34,25 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.bread-item {
+   margin-right: 8px;
+   >a {
+      color: #bcb9b9;
+      &:after {
+         content: '/';
+         display: inline-block;
+         margin-left: 8px;
+      }
+   }
+   &.active {
+      >a {
+         color: #000;
+         &:after {
+            display: none;
+            margin-left: 0;
+         }
+      }
+   }
+}
 </style>
