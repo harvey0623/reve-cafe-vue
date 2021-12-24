@@ -11,3 +11,20 @@ body {
       max-width: 100%;
    }
 }
+
+//===btnBox
+.btnBox {
+   margin-top: 20px;
+   &.no-mt {
+      margin-top: 0;
+   }
+   >button, a {
+      display: block;
+      @include size(100%, 38px);
+      text-align: center;
+      font-size: 15px;
+   }
+   >a {
+      line-height: 38px;
+   }
+}

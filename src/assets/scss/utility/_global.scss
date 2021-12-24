@@ -21,9 +21,7 @@ $fontColor: (
    primary: #bc9f75,
    input: #797979,
    placeholder: #c9c9c9,
-   formTitle: #292929,
-   modalCancel: #288efb,
-   search:#528fff,
+   formTitle: rgb(112, 112, 112),
 );
 
 //元素背景色(不包含按鈕)
@@ -38,14 +36,16 @@ $elBgColor: (
 
 //按鈕背景色
 $btnBgColor:(
+   primary: #bc9f75,
    placeholder: #C9C9C9,
 );
 
 //邊框顏色
 $borderColor: (
    primary: #bc9f75,
-   placeholder: #C9C9C9,
    input: #f2f2f2,
+   outer: #d1cfcf,
+   divide: #e8e7e7,
 );
 
 //======extand

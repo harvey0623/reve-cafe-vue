@@ -76,8 +76,8 @@ header {
       @extend %bwtFlex;
       >.logo-box {
          >img {
-            @include size(170px, 73px);
-            object-fit: contain;
+            @include size(180px, 75px);
+            object-fit: cover;
          }
       }
       >.search-block {

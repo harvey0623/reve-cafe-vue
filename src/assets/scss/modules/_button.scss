@@ -1,12 +1,22 @@
 $normalBtn: (
    ( 
-      class: btnAgain, 
-      color: map-get($fontColor, input),
-      backgroundColor: map-get($btnBgColor, placeholder),
+      class: btn-primary, 
+      color: map-get($fontColor, primary),
+      backgroundColor: #000,
       borderColor: none,
    ),
 );
 
+$hoverBtn: (
+   ( 
+      class: btn-hover-primary, 
+      color: map-get($fontColor, primary),
+      backgroundColor: #fff,
+      borderColor: map-get($borderColor, primary),
+      hoverColor: #fff,
+      hoverBgColor: map-get($btnBgColor, primary),
+   ),
+);
 
 //一般button
 @each $item in $normalBtn {
@@ -16,5 +26,24 @@ $normalBtn: (
    $normalBdColor: map-get($item, borderColor);
    .#{$normalClass} {
       @include normalBtn($normalColor, $normalBgColor, $normalBdColor);
+   }
+}
+
+//hover button
+%btnHoverTransition {
+   transition: background-color 0.25s, color 0.25s; 
+}
+
+@each $item in $hoverBtn {
+   $class: map-get($item, class);
+   .#{$class} {
+      @extend %btnHoverTransition;
+      color: map-get($item, color);
+      background-color: map-get($item, backgroundColor);
+      border: 1px solid map-get($item, borderColor);
+      &:hover {
+         color: map-get($item, hoverColor);
+         background-color: map-get($item, hoverBgColor);
+      }
    }
 }

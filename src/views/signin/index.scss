@@ -1,0 +1,59 @@
+.center-block {
+   max-width: 78%;
+   margin: 0 auto;
+   padding: 40px 55px;
+   border: 1px solid map-get($borderColor, outer);
+}
+
+.signin-slogon {
+   padding-bottom: 15px;
+   border-bottom: 1px solid map-get($borderColor, divide);
+   >p {
+      font-weight: 300;
+      &:first-child {
+         margin-bottom: 3px;
+      }
+   }
+}
+
+.signin-bottom {
+   display: flex;
+   padding-top: 35px;
+   >.left {
+      width: 55%;
+      padding-right: 25px;
+      .btnBox {
+         margin-top: 45px;
+      }
+      .forgot {
+         margin-top: 20px;
+         text-align: center;
+         >a {
+            color: map-get($fontColor, formTitle);
+            text-decoration: underline;
+            font-weight: bold;
+         }
+      }
+   }
+   >.right {
+      width: 45%;
+      padding-left: 25px;
+      border-left: 1px solid map-get($borderColor, divide);
+      >* {
+         @include elGutter(margin-bottom, 10px);
+      }
+      >.not-member {
+         color: map-get($fontColor, formTitle);
+         font-size: 20px;
+         font-weight: bold;
+      }
+      >.encourage-box {
+         font-size: 14px;
+         color: rgb(189, 187, 187);
+      }
+      >.register-img {
+         @include size(100%, 150px);
+         object-fit: cover;
+      }
+   }
+}

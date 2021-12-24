@@ -1,5 +1,6 @@
 .form-control {
    display: block;
+   width: 100%;
    background-color: map-get($elBgColor, input);
    border-radius: map-get($radius, basic);
    border: 1px solid map-get($borderColor, input);
