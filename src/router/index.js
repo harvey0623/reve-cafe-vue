@@ -13,10 +13,11 @@ const routes = [
 		component: Home,
 		meta: {
 			auth: false,
+			pageName:'首頁',
 			breadcrumb: {
 				title: '首頁',
 				skip: false
-			}
+			},
 		}
 	},
 	{
@@ -25,6 +26,7 @@ const routes = [
 		component: Signin,
 		meta: {
 			auth: false,
+			pageName:'登入',
 			breadcrumb: {
 				title: '登入',
 				skip: false

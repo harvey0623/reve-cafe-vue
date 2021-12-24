@@ -4,6 +4,7 @@
 		<Breadcrumb></Breadcrumb>
 		<section>
 			<div class="my-container">
+				<PageName></PageName>
 				<router-view></router-view>
 			</div>
 		</section>
@@ -11,15 +12,17 @@
 </template>
 
 <script>
-import Header from '@/component/Header/index.vue';
-import Footer from '@/component/Footer/index.vue';
-import Breadcrumb from '@/component/Breadcrumb/index.vue';
+import Header from '@/component/Header/index.vue'
+import Footer from '@/component/Footer/index.vue'
+import Breadcrumb from '@/component/Breadcrumb/index.vue'
+import PageName from '@/component/PageName/index.vue'
 export default {
 	name: 'App',
 	components: {
 		Header,
 		Footer,
-		Breadcrumb
+		Breadcrumb,
+		PageName
 	},
 	metaInfo: {
       title: 'reve-cafe',

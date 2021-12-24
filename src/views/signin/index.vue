@@ -1,10 +1,11 @@
 <template>
    <div class="signin">
-      <router-view></router-view>
+      aaaa
    </div>
 </template>
 
 <script>
+import { ref, computed } from '@vue/composition-api'
 export default {
    name: 'signin',
    metaInfo () {
