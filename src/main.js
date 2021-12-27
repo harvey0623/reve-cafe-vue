@@ -7,6 +7,7 @@ import VueCompositionAPI from '@vue/composition-api'
 import VueMeta from 'vue-meta'
 import '@/plugins/storage/index.js'
 import '@/component/veevalidate/index.js';
+import '@/component/Global/index.js';
 
 // import Swiper from 'swiper/swiper-bundle.min.js';
 // import 'swiper/swiper.min.css';

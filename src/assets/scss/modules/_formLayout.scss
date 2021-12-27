@@ -1,13 +1,19 @@
 .form-row {
    display: flex;
-   align-items: center;
+   align-items: flex-start;
    @include elGutter(margin-bottom, 20px);
    >.form-title {
       flex: 0 0 70px;
+      padding-top: 7px;
       font-size: 18px;
       color: map-get($fontColor, formTitle);
    }
    >.form-content {
       flex: 1;
+      >.error-text {
+         margin-top: 3px;
+         color: red;
+         text-align: right;
+      }
    }
 }

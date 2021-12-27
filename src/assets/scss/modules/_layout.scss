@@ -24,7 +24,7 @@ body {
       text-align: center;
       font-size: 15px;
    }
-   >a {
-      line-height: 38px;
+   >a[class^=btn-hover] {
+      line-height: 36px;
    }
 }

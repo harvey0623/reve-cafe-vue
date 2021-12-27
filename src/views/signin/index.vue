@@ -7,22 +7,24 @@
          </div>
          <div class="signin-bottom">
             <div class="left">
-               <div class="form-layout">
+               <validation-observer class="form-layout" tag="div" ref="form">
                   <div class="form-row">
                      <p class="form-title">帳號</p>
-                     <div class="form-content">
-                        <input type="text" class="form-control" placeholder="請輸入手機號碼">
-                     </div>
+                     <validation-provider class="form-content" rules="required|phone" v-slot="{ errors, failed }">
+                        <input type="number" class="form-control" placeholder="請輸入手機號碼" v-model.trim="user.account">
+                        <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+                     </validation-provider>
                   </div>
                   <div class="form-row">
                      <p class="form-title">密碼</p>
-                     <div class="form-content">
-                        <input type="text" class="form-control" placeholder="請輸入密碼">
-                     </div>
+                     <validation-provider class="form-content" rules="required|password" v-slot="{ errors, failed }">
+                        <input type="password" class="form-control" placeholder="請輸入密碼" v-model.trim="user.password">
+                        <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+                     </validation-provider>
                   </div>
-               </div>
+               </validation-observer>
                <div class="btnBox">
-                  <button class="btn-primary">登入</button>
+                  <button class="btn-primary" @click="loginHandler">登入</button>
                </div>
                <p class="forgot">
                   <router-link to="/">忘記密碼?</router-link>
@@ -41,11 +43,13 @@
             </div>
          </div>
       </div>
+      <Loading v-show="isLoading"></Loading>
    </div>
 </template>
 
 <script>
-import { ref, computed, reactive } from '@vue/composition-api'
+import { ref, reactive } from '@vue/composition-api'
+import { wm_aes } from '@/plugins/crypto/index.js'
 export default {
    name: 'signin',
    metaInfo () {
@@ -53,8 +57,24 @@ export default {
         title: '登入',
       }
    },
-   setup() {
+   setup(props, { root }) {
+      let user = reactive({ account: '0986104667', password: 'abc123' });
+      let isLoading = ref(false);
+      let form = ref(null);
 
+      let loginHandler = async() => {
+         let isValid = await form.value.validate();
+         if (!isValid) return;
+         isLoading.value = true;
+         let loginResult = await root.$store.dispatch('auth/login', {
+            account: wm_aes(user.account),
+            password: wm_aes(user.password)
+         });
+         console.log(loginResult);
+         isLoading.value = false;
+      }
+
+      return { user, form, loginHandler, isLoading };
    }
 }
 </script>
