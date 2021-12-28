@@ -67,6 +67,15 @@ export default {
       let signinModal = ref(null);
       let signinInfo = reactive({ status: false, message: '' });
 
+      let getAllCart = () => {
+         return Promise.all([ 
+            root.$store.dispatch('cart/getNormalCart'),
+            root.$store.dispatch('cart/getActivityCart')
+         ]).then(response => {
+            return response;
+         }).catch(err => []);
+      }
+
       let loginHandler = async() => {
          let isValid = await form.value.validate();
          if (!isValid) return;
@@ -81,12 +90,12 @@ export default {
          isLoading.value = false;
       }
 
-      let confirmHandler = async() => {
+      let confirmHandler = () => {
          if (signinInfo.status) {
-            
-         } else {
-            signinModal.value.closeModal();
+            getAllCart();
+            root.$router.replace('/');
          }
+         signinModal.value.closeModal();
       }
 
       return { user, form, loginHandler, isLoading, signinModal, signinInfo, confirmHandler };

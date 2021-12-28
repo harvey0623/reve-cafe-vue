@@ -9,9 +9,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(function (config) {
    let userInfo = storageObj.getItem('userInfo');
-   if (userInfo !== null) {
-      config.headers.Authorization = `Bearer ${userInfo.token}`;
-   }
+   config.headers.Authorization = userInfo !== null ? `Bearer ${userInfo.token}` : '';
    return config;
 }, function (error) {
    return Promise.reject(error);
