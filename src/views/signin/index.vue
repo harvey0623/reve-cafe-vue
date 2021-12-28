@@ -44,6 +44,9 @@
          </div>
       </div>
       <Loading v-show="isLoading"></Loading>
+      <modal-message ref="signinModal" @confirm="confirmHandler">
+         <p>{{ signinInfo.message }}</p>
+      </modal-message>
    </div>
 </template>
 
@@ -61,6 +64,8 @@ export default {
       let user = reactive({ account: '0986104667', password: 'abc123' });
       let isLoading = ref(false);
       let form = ref(null);
+      let signinModal = ref(null);
+      let signinInfo = reactive({ status: false, message: '' });
 
       let loginHandler = async() => {
          let isValid = await form.value.validate();
@@ -70,11 +75,21 @@ export default {
             account: wm_aes(user.account),
             password: wm_aes(user.password)
          });
-         console.log(loginResult);
+         signinInfo.status = loginResult.status === 1;
+         signinInfo.message = loginResult.message;
+         signinModal.value.openModal();
          isLoading.value = false;
       }
 
-      return { user, form, loginHandler, isLoading };
+      let confirmHandler = async() => {
+         if (signinInfo.status) {
+            
+         } else {
+            signinModal.value.closeModal();
+         }
+      }
+
+      return { user, form, loginHandler, isLoading, signinModal, signinInfo, confirmHandler };
    }
 }
 </script>

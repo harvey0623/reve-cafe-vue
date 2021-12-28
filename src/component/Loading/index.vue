@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from '@vue/composition-api'
+import { ref, computed } from '@vue/composition-api'
 export default {
    setup() {
       let totalDots = ref(15);
