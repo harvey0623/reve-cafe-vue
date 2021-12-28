@@ -29,10 +29,10 @@
                   <i class="fal fa-user"></i>
                   <p class="text-primary">會員中心</p>
                </router-link>
-               <router-link to="/" class="feature-item">
+               <router-link to="/" class="feature-item" v-if="isLogin">
                   <i class="fal fa-shopping-cart"></i>
                   <p class="text-primary">購物車</p>
-                  <span class="cart-count">10</span>
+                  <span class="cart-count" v-show="showCartCount">{{ cartTotal }}</span>
                </router-link>
             </div>
          </div>
@@ -41,14 +41,21 @@
 </template>
 
 <script>
-import { ref, computed } from '@vue/composition-api'
+import { ref, computed, onMounted } from '@vue/composition-api'
 export default {
    setup(props, { root }) {
       let openDropdownMenu = ref(false);
       let isLogin = computed(() => root.$store.getters['auth/isLogin']);
       let memberLink = computed(() => isLogin.value ? '/' : '/signin');
+      let cartTotal = computed(() => root.$store.getters['cart/subTotal']);
+      let showCartCount = computed(() => cartTotal.value > 0);
 
-      return { openDropdownMenu, memberLink };
+      onMounted(() => {
+         if (!isLogin.value) return;
+         root.$store.dispatch('cart/getAllCart');
+      });
+
+      return { openDropdownMenu, memberLink, cartTotal, showCartCount, isLogin };
    }
 }
 </script>

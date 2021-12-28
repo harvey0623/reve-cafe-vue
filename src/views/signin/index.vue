@@ -67,15 +67,6 @@ export default {
       let signinModal = ref(null);
       let signinInfo = reactive({ status: false, message: '' });
 
-      let getAllCart = () => {
-         return Promise.all([ 
-            root.$store.dispatch('cart/getNormalCart'),
-            root.$store.dispatch('cart/getActivityCart')
-         ]).then(response => {
-            return response;
-         }).catch(err => []);
-      }
-
       let loginHandler = async() => {
          let isValid = await form.value.validate();
          if (!isValid) return;
@@ -92,7 +83,7 @@ export default {
 
       let confirmHandler = () => {
          if (signinInfo.status) {
-            getAllCart();
+            root.$store.dispatch('cart/getAllCart')
             root.$router.replace('/');
          }
          signinModal.value.closeModal();
