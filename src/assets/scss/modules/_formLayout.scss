@@ -7,6 +7,11 @@
       padding-top: 7px;
       font-size: 18px;
       color: map-get($fontColor, formTitle);
+      >.require-mark {
+         margin-right: 3px;
+         font-weight: bold;
+         font-size: 18px;
+      }
    }
    >.form-content {
       flex: 1;

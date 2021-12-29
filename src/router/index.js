@@ -5,6 +5,7 @@ import TempView from '@/views/tempView/index.vue';
 import Home from '@/views/home/index.vue';
 import Signin from '@/views/signin/index.vue';
 import Profile from '@/views/member/profile.vue';
+import Register_Step1 from '@/views/register/step1.vue';
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,37 @@ const routes = [
 				skip: false
 			}
 		}
+	},
+	{
+		path: '/register',
+		component: TempView,
+		meta: {
+			auth: false,
+			pageName:'',
+			breadcrumb: {
+				title: '',
+				skip: true
+			}
+		},
+		children: [
+			{
+				path: '',
+				redirect: '/'
+			},
+			{
+				path: 'step1',
+				name: 'register-step1',
+				component: Register_Step1,
+				meta: {
+					auth: false,
+					pageName: '加入會員',
+					breadcrumb: {
+						title: '加入會員',
+						skip: false
+					}
+				}
+			}
+		]
 	},
 	{
 		path: '/member',

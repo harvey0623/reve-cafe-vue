@@ -38,7 +38,9 @@
                </div>
                <img :src="require('@/assets/img/register-bg.jpg')" class="register-img">
                <div class="btnBox no-mt">
-                  <router-link to="/" class="btn-hover-primary">立即註冊加入會員</router-link>
+                  <router-link :to="{name: 'register-step1'}" class="btn-hover-primary">
+                     立即註冊加入會員
+                  </router-link>
                </div>
             </div>
          </div>

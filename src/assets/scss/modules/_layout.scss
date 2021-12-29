@@ -18,6 +18,11 @@ body {
    &.no-mt {
       margin-top: 0;
    }
+   &.center {
+      >* {
+         margin: 0 auto;
+      }
+   }
    >button, a {
       display: block;
       @include size(100%, 38px);
@@ -27,4 +32,12 @@ body {
    >a[class^=btn-hover] {
       line-height: 36px;
    }
+}
+
+.outline-block {
+   width: 760px;
+   min-height: 300px;
+   margin: 0 auto;
+   padding: 30px 70px;
+   border: 1px solid map-get($borderColor, outer);
 }
