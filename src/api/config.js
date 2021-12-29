@@ -18,11 +18,25 @@ instance.interceptors.request.use(function (config) {
 instance.interceptors.response.use(function (response) {
    return response;
 }, function (error) {
-   // if (error.response.status === 401) {
-   //    store.commit('auth/setLogin', false);
-   //    store.commit('setExpirePopup', true);
-   //    router.push('/').catch(err => {});
-   // }
+   let statusCode = error.response.status;
+   if (statusCode !== 401) return Promise.reject(error);
+   let responseUrl = error.response.config.url;
+   let currentRoute = router.app.$route;
+   let skipApiUrl = {
+      me: '/third_party_auth/me'
+   };
+   for (let key in skipApiUrl) {
+      let regx = new RegExp(skipApiUrl[key]);
+      let isSkip = regx.test(responseUrl);
+      if (isSkip) return Promise.reject(error); 
+   }
+   store.commit('auth/setUserInfo', {});
+   store.dispatch('cart/clearAllCart');
+   storageObj.removeItem('userInfo');
+   if (currentRoute.meta.auth === true) {
+      store.commit('setAuthPopup', true);
+      storageObj.setSessionItem('backInfo', { url: currentRoute.path });
+   }
    return Promise.reject(error);
 });
 

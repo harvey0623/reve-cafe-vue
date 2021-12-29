@@ -58,7 +58,10 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
 	if (to.matched.some(item => item.meta.auth === true)) {
 		let checkResult = await store.dispatch('auth/checkLoginStatus');
-		if (checkResult.status !== 1) return next('/signin');
+		if (checkResult.status !== 1) {
+			store.commit('setAuthPopup', true);
+			return next(false);
+		}
 	}
 	return next();
 });

@@ -22,10 +22,6 @@ export const cartStore = {
       }
    },
    actions: {
-      getAllCart({ dispatch }) {
-         dispatch('getNormalCart');
-         dispatch('getActivityCart');
-      },
       async getNormalCart({ commit }) {
          let cartResponse = await cartApi.getCart();
          let payload = cartResponse.status === 1 ? cartResponse.aaData : [];
@@ -37,6 +33,14 @@ export const cartStore = {
          let payload = cartResponse.status === 1 ? cartResponse.aaData : [];
          commit('setActivityCartList', payload);
          return cartResponse;
+      },
+      getAllCart({ dispatch }) {
+         dispatch('getNormalCart');
+         dispatch('getActivityCart');
+      },
+      clearAllCart({ commit }) {
+         commit('setNormalCartList', []);
+         commit('setActivityCartList', []);
       }
    }
 }

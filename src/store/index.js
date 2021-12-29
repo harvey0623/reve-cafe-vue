@@ -9,10 +9,12 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 	strict: process.env.NODE_ENV === 'development',
 	state: {
-
+		showAuthPopup: false
 	},
 	mutations: {
-
+		setAuthPopup(state, payload) {
+			state.showAuthPopup = payload;
+		}
 	},
 	actions: {
 		

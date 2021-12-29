@@ -51,8 +51,9 @@
 </template>
 
 <script>
-import { ref, reactive } from '@vue/composition-api'
+import { ref, reactive, onBeforeUnmount } from '@vue/composition-api'
 import { wm_aes } from '@/plugins/crypto/index.js'
+import { storageObj } from '@/plugins/storage/index.js'
 export default {
    name: 'signin',
    metaInfo () {
@@ -83,11 +84,16 @@ export default {
 
       let confirmHandler = () => {
          if (signinInfo.status) {
-            root.$store.dispatch('cart/getAllCart')
-            root.$router.replace('/');
+            let backInfo = storageObj.getSessionItem('backInfo');
+            root.$store.dispatch('cart/getAllCart');
+            root.$router.replace(backInfo !== null ? backInfo.url : '/');
          }
          signinModal.value.closeModal();
       }
+
+      onBeforeUnmount(() => {
+         storageObj.removeSessionItem('backInfo');
+      });
 
       return { user, form, loginHandler, isLoading, signinModal, signinInfo, confirmHandler };
    }
