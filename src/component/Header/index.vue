@@ -46,7 +46,7 @@ export default {
    setup(props, { root }) {
       let openDropdownMenu = ref(false);
       let isLogin = computed(() => root.$store.getters['auth/isLogin']);
-      let memberLink = computed(() => isLogin.value ? '/' : '/signin');
+      let memberLink = computed(() => isLogin.value ? '/member/profile' : '/signin');
       let cartTotal = computed(() => root.$store.getters['cart/subTotal']);
       let showCartCount = computed(() => cartTotal.value > 0);
 

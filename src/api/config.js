@@ -33,9 +33,9 @@ instance.interceptors.response.use(function (response) {
    store.commit('auth/setUserInfo', {});
    store.dispatch('cart/clearAllCart');
    storageObj.removeItem('userInfo');
-   if (currentRoute.meta.auth === true) {
-      store.commit('setAuthPopup', true);
+   if (currentRoute.meta.auth) {
       storageObj.setSessionItem('backInfo', { url: currentRoute.path });
+      router.replace('/signin');
    }
    return Promise.reject(error);
 });

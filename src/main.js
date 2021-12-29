@@ -6,17 +6,11 @@ import store from './store'
 import VueCompositionAPI from '@vue/composition-api'
 import VueMeta from 'vue-meta'
 import '@/plugins/storage/index.js'
-import '@/component/Global/index.js';
+import '@/component/Global/index.js'
+import '@/component/PageProgress/index.js'
 
 // import Swiper from 'swiper/swiper-bundle.min.js';
 // import 'swiper/swiper.min.css';
-
-// import VueProgressBar from 'vue-progressbar'
-// Vue.use(VueProgressBar, {
-//   color: 'orange',
-//   failedColor: 'red',
-//   height: '2px'
-// })
 
 Vue.use(VueCompositionAPI)
 Vue.use(VueMeta)

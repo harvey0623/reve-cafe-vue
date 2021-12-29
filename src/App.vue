@@ -1,5 +1,6 @@
 <template>
    <div id="app">
+		<vue-progress-bar></vue-progress-bar>
 		<Header></Header>
 		<Breadcrumb></Breadcrumb>
 		<section>
@@ -8,14 +9,11 @@
 				<router-view></router-view>
 			</div>
 		</section>
-		<modal-message ref="doLoginModal" @confirm="redirectHandler">
-         <p>請重新登入</p>
-      </modal-message>
 	</div>
 </template>
 
 <script>
-import { ref, computed, watch } from '@vue/composition-api'
+import { ref, computed, watch, onMounted } from '@vue/composition-api'
 import Header from '@/component/Header/index.vue'
 import Footer from '@/component/Footer/index.vue'
 import Breadcrumb from '@/component/Breadcrumb/index.vue'
@@ -33,18 +31,8 @@ export default {
       titleTemplate: '%s | reve-cafe'
    },
 	setup(props, { root }) {
-		let doLoginModal = ref(null);
-		let showAuthPopup = computed(() => root.$store.state.showAuthPopup);
-		let redirectHandler = () => {
-			doLoginModal.value.closeModal();
-			root.$router.replace('/signin');
-		}
 
-		watch(showAuthPopup, (val) => {
-			console.log(val)
-		});
-
-		return { redirectHandler, doLoginModal }
+		return {  }
 	}
 };
 </script>

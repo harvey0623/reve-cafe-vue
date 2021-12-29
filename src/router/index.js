@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store/index.js';
+import TempView from '@/views/tempView/index.vue';
 import Home from '@/views/home/index.vue';
 import Signin from '@/views/signin/index.vue';
+import Profile from '@/views/member/profile.vue';
 
 Vue.use(VueRouter)
 
@@ -34,6 +36,37 @@ const routes = [
 		}
 	},
 	{
+		path: '/member',
+		component: TempView,
+		meta: {
+			auth: true,
+			pageName: '',
+			breadcrumb: {
+				title: '',
+				skip: true
+			}
+		},
+		children: [
+			{
+				path: '',
+				redirect: '/'
+			},
+			{
+				path: 'profile',
+				name: 'profile',
+				component: Profile,
+				meta: {
+					auth: true,
+					pageName: '會員資料',
+					breadcrumb: {
+						title: '會員資料',
+						skip: false
+					}
+				},
+			}
+		]
+	},
+	{
 		path: '*',
 		redirect: '/'
 	}
@@ -57,12 +90,14 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
 	if (to.matched.some(item => item.meta.auth === true)) {
+		router.app.$Progress.start();
 		let checkResult = await store.dispatch('auth/checkLoginStatus');
 		if (checkResult.status !== 1) {
-			store.commit('setAuthPopup', true);
-			return next(false);
+			router.app.$Progress.finish();
+			return next('/signin');
 		}
 	}
+	router.app.$Progress.finish();
 	return next();
 });
 
