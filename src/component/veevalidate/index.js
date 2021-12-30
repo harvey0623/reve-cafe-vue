@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { ValidationObserver , ValidationProvider, extend, setInteractionMode } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
+import dayjs from 'dayjs';
 
 Vue.component('ValidationObserver', ValidationObserver);
 Vue.component('ValidationProvider', ValidationProvider);
@@ -34,6 +35,18 @@ extend('confirmPw', {
    message: '確認密碼有誤',
    validate(value, { target }) {
       return value === target;
+   }
+});
+
+extend('birthday', {
+   message: '需滿18歲才能註冊',
+   validate(value) {
+      let year = dayjs().year();
+      let month = dayjs().month();
+      let date = dayjs().date();
+      let today = dayjs().set('year', year).set('month', month).set('date', date);
+      let birthday = dayjs(value);
+      return today.diff(birthday, 'year') >= 18;
    }
 });
 

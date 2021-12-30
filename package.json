@@ -11,6 +11,7 @@
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
     "crypto-js": "^4.1.1",
+    "dayjs": "^1.10.7",
     "lodash": "^4.17.21",
     "swiper": "^7.3.4",
     "vee-validate": "^3.4.14",
