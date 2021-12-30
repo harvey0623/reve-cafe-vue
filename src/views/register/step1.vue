@@ -1,8 +1,8 @@
 <template src="./html/step1.html"></template>
 
 <script>
-import { ref, reactive, onBeforeUnmount } from '@vue/composition-api'
-import { formList } from '@/composition-api/formList.js';
+import { ref, reactive } from '@vue/composition-api'
+import { createFormList, createZipcode } from '@/composition-api/index.js';
 export default {
    name: 'register-step1',
    metaInfo () {
@@ -11,11 +11,19 @@ export default {
       }
    },
    setup(props, { root }) {
-      let { genderList, questionList } = formList();
-      let user = reactive({ mobile: '', password: '', confirm_password: '', name: '', gender: '',security_question: '', security_answer: '', isAgree: false, email: '', birthday: '', address: ''
+      let { genderList, questionList } = createFormList();
+      let { addressInfo, cityList, districtList } = createZipcode();
+      let user = reactive({ mobile: '', password: '', confirm_password: '', name: '', gender: '',security_question: '', security_answer: '', isAgree: false, email: '', birthday: '', road: ''
       });
+      let form = ref(null);
 
-      return { genderList, questionList, user }
+      let submitHandler = async() => {
+         let isValid = await form.value.validate();
+         if (!isValid) return;
+      }
+
+
+      return { genderList, questionList, user, addressInfo, cityList, districtList, submitHandler, form }
    }
 }
 </script>
@@ -24,7 +32,6 @@ export default {
 .outline-block {
    .form-row {
       &.divide-line {
-         // height: 1px;
          border-top: 1px solid map-get($borderColor, outer);
       }
       >.form-title {
