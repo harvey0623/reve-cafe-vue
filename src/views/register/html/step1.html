@@ -120,4 +120,8 @@
          <button class="btn-primary" @click="submitHandler">下一步</button>
       </div>
    </div>
+   <Loading v-show="isLoading"></Loading>
+   <modal-message ref="checkModal" @confirm="confirmHandler">
+      <p>{{ responseInfo.message }}</p>
+   </modal-message>
 </div>

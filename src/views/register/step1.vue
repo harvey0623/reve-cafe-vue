@@ -3,6 +3,8 @@
 <script>
 import { ref, reactive } from '@vue/composition-api'
 import { createFormList, createZipcode } from '@/composition-api/index.js';
+import { wm_aes } from '@/plugins/crypto/index.js';
+import { thirdPartyAuthApi } from '@/api/index.js';
 export default {
    name: 'register-step1',
    metaInfo () {
@@ -13,17 +15,54 @@ export default {
    setup(props, { root }) {
       let { genderList, questionList } = createFormList();
       let { addressInfo, cityList, districtList } = createZipcode();
-      let user = reactive({ mobile: '', password: '', confirm_password: '', name: '', gender: '',security_question: '', security_answer: '', isAgree: false, email: '', birthday: '', road: ''
+      let user = reactive({ mobile: '0986104667', password: 'abc123', confirm_password: 'abc123', name: 'aaa', gender: 'M',security_question: 'sq01', security_answer: 'aaa', isAgree: false, email: '', birthday: '', road: ''
       });
       let form = ref(null);
+      let isLoading = ref(false);
+      let checkModal = ref(null);
+      let responseInfo = reactive({ status: 0, message: '', type: '' });
+
+      let register_check = () => {
+         return thirdPartyAuthApi.register_check({
+            register_check: {
+               mobile: wm_aes(user.mobile),
+               password: wm_aes(user.password),
+               confirm_password: wm_aes(user.confirm_password),
+               name: user.name,
+               gender: user.gender,
+               security_question: user.security_question,
+               security_answer: user.security_answer
+            }
+         })
+      }
+
+      let setResponseInfo = (payload, type)  => {
+         responseInfo.status = payload.status;
+         responseInfo.message = payload.message;
+         responseInfo.type = type;
+         checkModal.value.openModal();
+         isLoading.value = false;   
+      }
 
       let submitHandler = async() => {
          let isValid = await form.value.validate();
          if (!isValid) return;
+         isLoading.value = true;
+         let checkResponse = await register_check();
+         if (checkResponse.status === 0) {
+            setResponseInfo(checkResponse, 'register_check');
+            return;
+         }
       }
 
+      let confirmHandler = () => {
+         if (responseInfo.status === 0) return checkModal.value.closeModal();
+         if (responseInfo.type === 'register') {
+            root.$router.push('/');
+         }
+      }
 
-      return { genderList, questionList, user, addressInfo, cityList, districtList, submitHandler, form }
+      return { genderList, questionList, user, addressInfo, cityList, districtList, submitHandler, form, isLoading, responseInfo, confirmHandler, checkModal }
    }
 }
 </script>
