@@ -77,5 +77,16 @@ export const thirdPartyAuthRequest = {
       }).catch(err => {
          return err.response.data;
       });
+   },
+   resend_register_verify(payload) {
+      return httpConfig({
+         url: '/third_party_auth/resend_register_verify',
+         method: 'post',
+         data: payload
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      });
    }
 }

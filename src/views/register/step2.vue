@@ -30,6 +30,18 @@ export default {
          user.tempToken = step1Data.tempToken; 
       }
 
+      let resend_verify = async() => {
+         isLoading.value = true;
+         let resendResponse = await thirdPartyAuthApi.resend_register_verify({ 
+            temp_access_token: user.tempToken
+         });
+         tipInfo.status = resendResponse.status;
+         tipInfo.message = resendResponse.message;
+         tipInfo.type = 'resend';
+         checkModal.value.openModal();
+         isLoading.value = false;
+      }
+
       let submitHandler = async() => {
          let isValid = await form.value.validate();
          if (!isValid) return;
@@ -48,12 +60,24 @@ export default {
 
       let confirmHandler = () => {
          if (tipInfo.type === 'check') return root.$router.push('/register/step1');
-         if (tipInfo.type !== 'verify') return;
-         if (tipInfo.status === 1) {
-            storageObj.removeSessionItem('step1');
-            root.$router.push('/signin');
-         } else {
-            checkModal.value.closeModal();
+         if (tipInfo.type === 'resend') {
+            let { status } = tipInfo;
+            if (status === 0 || status === 1) {
+               checkModal.value.closeModal();
+            } else {
+               storageObj.removeSessionItem('step1');
+               root.$router.push('/register/step1');
+            }
+            return;
+         }
+         if (tipInfo.type === 'verify') {
+            if (tipInfo.status === 1) {
+               storageObj.removeSessionItem('step1');
+               root.$router.push('/signin');
+            } else {
+               checkModal.value.closeModal();
+            }
+            return;
          }
       }
 
@@ -61,7 +85,7 @@ export default {
          checkAndSetStep1Data();
       });
 
-      return { user, checkModal, tipInfo, confirmHandler, isLoading, submitHandler, form };
+      return { user, checkModal, tipInfo, confirmHandler, isLoading, submitHandler, form, resend_verify };
    }
 }
 </script>
@@ -98,7 +122,7 @@ export default {
          >.btnBox {
             display: inline-block;
             >button {
-               width: 100px;
+               width: 110px;
                color: #fff;
             }
          }

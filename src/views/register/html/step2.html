@@ -12,7 +12,7 @@
                <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors,failed }">
                   <input type="text" class="form-control" placeholder="請輸入驗證碼" v-model.trim="user.code">
                   <div class="btnBox no-mt">
-                     <button class="btn-primary">發送驗證碼</button>
+                     <button class="btn-primary" @click="resend_verify">發送驗證碼</button>
                   </div>
                   <p class="error-text text-align-left" v-show="failed">{{ errors[0] }}</p>
                </validation-provider>
