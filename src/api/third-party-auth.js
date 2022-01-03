@@ -55,5 +55,16 @@ export const thirdPartyAuthRequest = {
       }).catch(err => {
          return err.response.data;
       });
+   },
+   register(payload) {
+      return httpConfig({
+         url: '/third_party_auth/register',
+         method: 'post',
+         data: payload
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      });
    }
 }

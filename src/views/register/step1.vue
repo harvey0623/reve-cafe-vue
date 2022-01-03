@@ -5,6 +5,7 @@ import { ref, reactive } from '@vue/composition-api'
 import { createFormList, createZipcode } from '@/composition-api/index.js';
 import { wm_aes } from '@/plugins/crypto/index.js';
 import { thirdPartyAuthApi } from '@/api/index.js';
+import { storageObj } from '@/plugins/storage/index.js';
 export default {
    name: 'register-step1',
    metaInfo () {
@@ -15,7 +16,7 @@ export default {
    setup(props, { root }) {
       let { genderList, questionList } = createFormList();
       let { addressInfo, cityList, districtList } = createZipcode();
-      let user = reactive({ mobile: '0986104667', password: 'abc123', confirm_password: 'abc123', name: 'aaa', gender: 'M',security_question: 'sq01', security_answer: 'aaa', isAgree: false, email: '', birthday: '', road: ''
+      let user = reactive({ mobile: '0986104660', password: 'abc123', confirm_password: 'abc123', name: 'aaa', gender: 'M',security_question: 'sq01', security_answer: 'aaa', isAgree: false, email: '', birthday: '2000-06-06', address: ''
       });
       let form = ref(null);
       let isLoading = ref(false);
@@ -36,6 +37,22 @@ export default {
          })
       }
 
+      let register = () => {
+         let copyUser = _.cloneDeep(user);
+         delete copyUser.isAgree;
+         copyUser.birthday = copyUser.birthday.replace(/-/g, '/');
+         return thirdPartyAuthApi.register({
+            register: {
+               ...copyUser,
+               mobile: wm_aes(copyUser.mobile),
+               password: wm_aes(copyUser.password),
+               confirm_password: wm_aes(copyUser.confirm_password),
+               city: addressInfo.city,
+               district: addressInfo.district
+            }
+         });
+      }
+
       let setResponseInfo = (payload, type)  => {
          responseInfo.status = payload.status;
          responseInfo.message = payload.message;
@@ -53,13 +70,16 @@ export default {
             setResponseInfo(checkResponse, 'register_check');
             return;
          }
+         let registerResponse = await register();
+         setResponseInfo(registerResponse, 'register');
+         if (registerResponse.status === 1) {
+            storageObj.setSessionItem('temp_access_token', { token: registerResponse.aaData.temp_access_token });
+         }
       }
 
       let confirmHandler = () => {
          if (responseInfo.status === 0) return checkModal.value.closeModal();
-         if (responseInfo.type === 'register') {
-            root.$router.push('/');
-         }
+         if (responseInfo.type === 'register') root.$router.push('/register_step2');
       }
 
       return { genderList, questionList, user, addressInfo, cityList, districtList, submitHandler, form, isLoading, responseInfo, confirmHandler, checkModal }
