@@ -74,6 +74,16 @@
                <p class="error-text" v-show="failed">{{ errors[0] }}</p>
             </validation-provider>
          </div>
+         <div class="form-row checkbox-row">
+            <validation-provider tag="div" class="form-title" rules="term" v-slot="{ errors, failed }">
+               <input type="checkbox" class="test-checkbox" v-model="user.isAgree">
+            </validation-provider>
+            <div class="term-content term-content text-form">
+               我同意<TermTrigger v-for="(obj, key, index) in termList.data" :key="key" :termId="obj.id" 
+                  :termTitle="obj.title" :totalTerms="totalTerms" :order="index" @term-trigger="showTermContent"></TermTrigger>
+               <!-- <p class="error-text" v-show="failed">請同意條款</p> -->
+            </div>
+         </div>
          <div class="form-row divide-line"></div>
          <div class="form-row">
             <div class="form-title">電子信箱</div>

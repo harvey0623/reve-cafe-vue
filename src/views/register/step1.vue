@@ -1,13 +1,15 @@
 <template src="./html/step1.html"></template>
 
 <script>
-import { ref, reactive, onMounted } from '@vue/composition-api'
+import { ref, reactive, onMounted, computed } from '@vue/composition-api'
 import { createFormList, createZipcode } from '@/composition-api/index.js'
 import { wm_aes } from '@/plugins/crypto/index.js'
-import { thirdPartyAuthApi } from '@/api/index.js'
+import { thirdPartyAuthApi, thirdPartyApi } from '@/api/index.js'
 import { storageObj } from '@/plugins/storage/index.js'
+import TermTrigger from '@/component/Term/TermTrigger.vue'
 export default {
    name: 'register-step1',
+   components: { TermTrigger },
    metaInfo () {
       return {
         title: '加入會員',
@@ -22,6 +24,22 @@ export default {
       let isLoading = ref(false);
       let checkModal = ref(null);
       let responseInfo = reactive({ status: 0, message: '', type: '' });
+      let termList = reactive({ data: {}, targetContent: '' });
+
+      let totalTerms = computed(() => _.size(termList.data));
+
+      let createTermList = (payload) => {
+         return payload.reduce((prev, current) => {
+            prev[current.id] = current;
+            return prev;
+         }, {});
+      }
+
+      let getTerm = async() => {
+         let termResponse = await thirdPartyApi.getTerm({ type: ['register'] });
+         if (termResponse.results.term_information.length === 0) return;
+         termList.data = createTermList(termResponse.results.term_information[0].terms);
+      }
 
       let register_check = () => {
          return thirdPartyAuthApi.register_check({
@@ -95,11 +113,16 @@ export default {
          if (responseInfo.type === 'register') root.$router.push('/register/step2');
       }
 
+      let showTermContent = (termId) => {
+         console.log(termId)
+      }
+
       onMounted(() => {
          setUserData();
+         getTerm();
       });
 
-      return { genderList, questionList, user, addressInfo, cityList, districtList, submitHandler, form, isLoading, responseInfo, confirmHandler, checkModal }
+      return { genderList, questionList, user, addressInfo, cityList, districtList, submitHandler, form, isLoading, responseInfo, confirmHandler, checkModal, termList, totalTerms, showTermContent }
    }
 }
 </script>
@@ -110,6 +133,11 @@ export default {
       &.divide-line {
          border-top: 1px solid map-get($borderColor, outer);
       }
+      &.checkbox-row {
+         >.form-title {
+            padding-top: 0;
+         }
+      }
       >.form-title {
          flex: 0 0 200px;
          padding-right: 15px;
@@ -118,6 +146,9 @@ export default {
       }
       >.form-content {
          flex: 0 0 300px;
+      }
+      >.term-content {
+         display: flex;
       }
    }
    .btnBox {

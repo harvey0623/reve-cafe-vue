@@ -41,16 +41,27 @@ textarea.form-control {
 // }
 
 // //===checkbox or radio
-// .hookCheckbox {
-//    @extend %resetForm;
-//    @include size(18px);
-//    background-color: #fff;
-//    border-radius: 50%;
-//    border: 1px solid map-get($borderColor, placeholder);
-//    @extend %bgImgCenter;
-//    background-image: url("~@/assets/img/page/btn_filter_check_n_n@3x.png");
-//    border: none;
-//    &:checked {
-//       background-image: url("~@/assets/img/page/btn_filter_check_n_h@3x.png");
-//    }
-// }
+.test-checkbox {
+   @extend %resetForm;
+   position: relative;
+   @include size(20px);
+   background-color: #fff;
+   border: 1px solid map-get($borderColor, primary);
+   border-radius: map-get($radius, basic);
+   &:after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      @include size(7px, 14px);
+      transform: translate(-50%, -62%) rotate(40deg);
+      border: 1px solid transparent;
+      cursor: pointer;
+   }
+   &:checked {
+      &:after {
+         border-bottom-color: map-get($borderColor, primary);
+         border-right-color: map-get($borderColor, primary);
+      }
+   }
+}

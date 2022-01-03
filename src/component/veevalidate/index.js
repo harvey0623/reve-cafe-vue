@@ -50,9 +50,7 @@ extend('birthday', {
    }
 });
 
-// extend('term', {
-//    message: '請同意條款',
-//    validate(value) {
-//       return value;
-//    }
-// });
+extend('term', {
+   message: '請同意條款',
+   validate: (value) =>  value
+});
