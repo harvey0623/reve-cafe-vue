@@ -22,5 +22,5 @@ const storage = {
    },
 };
 
-// Vue.prototype.$storage = storage;
+Vue.prototype.$storage = storage;
 export const storageObj = storage;

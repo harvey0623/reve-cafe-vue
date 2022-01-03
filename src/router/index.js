@@ -6,6 +6,7 @@ import Home from '@/views/home/index.vue';
 import Signin from '@/views/signin/index.vue';
 import Profile from '@/views/member/profile.vue';
 import Register_Step1 from '@/views/register/step1.vue';
+import Register_Step2 from '@/views/register/step2.vue';
 
 Vue.use(VueRouter)
 
@@ -61,6 +62,19 @@ const routes = [
 					pageName: '加入會員',
 					breadcrumb: {
 						title: '加入會員',
+						skip: false
+					}
+				}
+			},
+			{
+				path: 'step2',
+				name: 'register-step2',
+				component: Register_Step2,
+				meta: {
+					auth: false,
+					pageName: '帳號驗證',
+					breadcrumb: {
+						title: '帳號驗證',
 						skip: false
 					}
 				}

@@ -3,6 +3,10 @@ $textList: (
       class: text-primary, 
       color: map-get($fontColor, primary),
    ),
+   ( 
+      class: text-form, 
+      color: map-get($fontColor, formTitle),
+   ),
 );
 
 @each $obj in $textList {

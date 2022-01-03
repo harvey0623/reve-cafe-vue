@@ -1,11 +1,11 @@
 <template src="./html/step1.html"></template>
 
 <script>
-import { ref, reactive } from '@vue/composition-api'
-import { createFormList, createZipcode } from '@/composition-api/index.js';
-import { wm_aes } from '@/plugins/crypto/index.js';
-import { thirdPartyAuthApi } from '@/api/index.js';
-import { storageObj } from '@/plugins/storage/index.js';
+import { ref, reactive, onMounted } from '@vue/composition-api'
+import { createFormList, createZipcode } from '@/composition-api/index.js'
+import { wm_aes } from '@/plugins/crypto/index.js'
+import { thirdPartyAuthApi } from '@/api/index.js'
+import { storageObj } from '@/plugins/storage/index.js'
 export default {
    name: 'register-step1',
    metaInfo () {
@@ -16,7 +16,7 @@ export default {
    setup(props, { root }) {
       let { genderList, questionList } = createFormList();
       let { addressInfo, cityList, districtList } = createZipcode();
-      let user = reactive({ mobile: '0986104660', password: 'abc123', confirm_password: 'abc123', name: 'aaa', gender: 'M',security_question: 'sq01', security_answer: 'aaa', isAgree: false, email: '', birthday: '2000-06-06', address: ''
+      let user = reactive({ mobile: '', password: '', confirm_password: '', name: '', gender: '',security_question: '', security_answer: '', isAgree: false, email: '', birthday: '', address: ''
       });
       let form = ref(null);
       let isLoading = ref(false);
@@ -61,6 +61,21 @@ export default {
          isLoading.value = false;   
       }
 
+      let saveUserData = (tempToken) => {
+         storageObj.setSessionItem('step1', { user, addressInfo, tempToken });
+      }
+
+      let setUserData = async() => {
+         let payload = storageObj.getSessionItem('step1');
+         if (payload === null) return;
+         for (let key in payload.user) {
+            user[key] = payload.user[key];
+         }
+         addressInfo.city = payload.addressInfo.city;
+         await root.$nextTick();
+         addressInfo.district = payload.addressInfo.district;
+      }
+
       let submitHandler = async() => {
          let isValid = await form.value.validate();
          if (!isValid) return;
@@ -72,15 +87,17 @@ export default {
          }
          let registerResponse = await register();
          setResponseInfo(registerResponse, 'register');
-         if (registerResponse.status === 1) {
-            storageObj.setSessionItem('temp_access_token', { token: registerResponse.aaData.temp_access_token });
-         }
+         if (registerResponse.status === 1) saveUserData(registerResponse.aaData.temp_access_token);
       }
 
       let confirmHandler = () => {
          if (responseInfo.status === 0) return checkModal.value.closeModal();
-         if (responseInfo.type === 'register') root.$router.push('/register_step2');
+         if (responseInfo.type === 'register') root.$router.push('/register/step2');
       }
+
+      onMounted(() => {
+         setUserData();
+      });
 
       return { genderList, questionList, user, addressInfo, cityList, districtList, submitHandler, form, isLoading, responseInfo, confirmHandler, checkModal }
    }

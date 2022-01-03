@@ -14,7 +14,7 @@ body {
 
 //===btnBox
 .btnBox {
-   margin-top: 20px;
+   margin-top: 40px;
    &.no-mt {
       margin-top: 0;
    }
@@ -26,6 +26,7 @@ body {
    >button, a {
       display: block;
       @include size(100%, 38px);
+      margin: 0 auto;
       text-align: center;
       font-size: 15px;
    }
