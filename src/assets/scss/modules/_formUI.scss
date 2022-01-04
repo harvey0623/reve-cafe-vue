@@ -27,21 +27,8 @@ textarea.form-control {
    resize: none;
 }
 
-// //===date
-// [type=date] {
-//    @extend %resetForm;
-//    text-align-last: right;
-// }
-
-// [type=date]::-webkit-calendar-picker-indicator {
-//    background-color: gray;
-//    @media(max-width: 768px) {
-//       display: none;
-//    }
-// }
-
-// //===checkbox or radio
-.test-checkbox {
+//===checkbox or radio
+.hook-checkbox {
    @extend %resetForm;
    position: relative;
    @include size(20px);
