@@ -20,26 +20,15 @@ export default {
       let { addressInfo, cityList, districtList } = createZipcode();
       let user = reactive({ mobile: '', password: '', confirm_password: '', name: '', gender: '',security_question: '', security_answer: '', isAgree: false, email: '', birthday: '', address: ''
       });
-      let form = ref(null);
-      let isLoading = ref(false);
-      let checkModal = ref(null);
       let responseInfo = reactive({ status: 0, message: '', type: '' });
-      let termList = reactive({ data: {}, targetContent: '' });
+      let termInfo = reactive({ list: {}, content: '' });
+      let form = ref(null);
+      let checkModal = ref(null);
+      let agreeModal = ref(null);
+      let termModal = ref(null);
+      let isLoading = ref(false);
 
-      let totalTerms = computed(() => _.size(termList.data));
-
-      let createTermList = (payload) => {
-         return payload.reduce((prev, current) => {
-            prev[current.id] = current;
-            return prev;
-         }, {});
-      }
-
-      let getTerm = async() => {
-         let termResponse = await thirdPartyApi.getTerm({ type: ['register'] });
-         if (termResponse.results.term_information.length === 0) return;
-         termList.data = createTermList(termResponse.results.term_information[0].terms);
-      }
+      let totalTerms = computed(() => _.size(termInfo.list));
 
       let register_check = () => {
          return thirdPartyAuthApi.register_check({
@@ -71,6 +60,24 @@ export default {
          });
       }
 
+      let createTermList = (payload) => {
+         return payload.reduce((prev, current) => {
+            prev[current.id] = current;
+            return prev;
+         }, {});
+      }
+
+      let getTerm = async() => {
+         let termResponse = await thirdPartyApi.getTerm({ type: ['register'] });
+         if (termResponse.results.term_information.length === 0) return;
+         termInfo.list = createTermList(termResponse.results.term_information[0].terms);
+      }
+
+      let showTermContent = (termId) => {
+         termInfo.content = termInfo.list[termId].content;
+         termModal.value.openModal();
+      }
+
       let setResponseInfo = (payload, type)  => {
          responseInfo.status = payload.status;
          responseInfo.message = payload.message;
@@ -96,7 +103,8 @@ export default {
 
       let submitHandler = async() => {
          let isValid = await form.value.validate();
-         if (!isValid) return;
+         if (!user.isAgree) agreeModal.value.openModal();
+         if (!isValid || !user.isAgree) return;
          isLoading.value = true;
          let checkResponse = await register_check();
          if (checkResponse.status === 0) {
@@ -113,16 +121,12 @@ export default {
          if (responseInfo.type === 'register') root.$router.push('/register/step2');
       }
 
-      let showTermContent = (termId) => {
-         console.log(termId)
-      }
-
       onMounted(() => {
          setUserData();
          getTerm();
       });
 
-      return { genderList, questionList, user, addressInfo, cityList, districtList, submitHandler, form, isLoading, responseInfo, confirmHandler, checkModal, termList, totalTerms, showTermContent }
+      return { genderList, questionList, user, addressInfo, cityList, districtList, submitHandler, form, isLoading, responseInfo, confirmHandler, checkModal, termInfo, totalTerms, showTermContent, agreeModal, termModal }
    }
 }
 </script>
@@ -137,6 +141,10 @@ export default {
          >.form-title {
             padding-top: 0;
          }
+         >.term-content {
+            display: flex;
+            flex-wrap: wrap;
+         }
       }
       >.form-title {
          flex: 0 0 200px;
@@ -146,9 +154,6 @@ export default {
       }
       >.form-content {
          flex: 0 0 300px;
-      }
-      >.term-content {
-         display: flex;
       }
    }
    .btnBox {
