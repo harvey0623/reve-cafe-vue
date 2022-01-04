@@ -2,7 +2,7 @@
    <div class="outline-block">
       <validation-observer tag="div" class="form-layout" ref="form">
          <div class="form-row">
-            <div class="form-title">
+            <div class="form-title text-right">
                <span class="require-mark text-primary">*</span>手機號碼
             </div>
             <validation-provider tag="div" class="form-content" rules="required|phone" v-slot="{ errors,failed }">
@@ -11,7 +11,7 @@
             </validation-provider>
          </div>
          <div class="form-row">
-            <div class="form-title">
+            <div class="form-title text-right">
                <span class="require-mark text-primary">*</span>密碼
             </div>
             <validation-provider tag="div" class="form-content" rules="required|password" vid="a" v-slot="{ errors,failed }">
@@ -20,7 +20,7 @@
             </validation-provider>
          </div>
          <div class="form-row">
-            <div class="form-title">
+            <div class="form-title text-right">
                <span class="require-mark text-primary">*</span>確認密碼
             </div>
             <validation-provider tag="div" class="form-content" rules="required|confirmPw:@a" v-slot="{ errors,failed }">
@@ -29,7 +29,7 @@
             </validation-provider>
          </div>
          <div class="form-row">
-            <div class="form-title">
+            <div class="form-title text-right">
                <span class="require-mark text-primary">*</span>姓名
             </div>
             <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors,failed }">
@@ -38,7 +38,7 @@
             </validation-provider >
          </div>
          <div class="form-row">
-            <div class="form-title">
+            <div class="form-title text-right">
                <span class="require-mark text-primary">*</span>性別
             </div>
             <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors,failed }">
@@ -52,7 +52,7 @@
             </validation-provider>
          </div>
          <div class="form-row">
-            <div class="form-title">
+            <div class="form-title text-right">
                <span class="require-mark text-primary">*</span>忘記密碼安全問題
             </div>
             <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors, failed }">
@@ -66,7 +66,7 @@
             </validation-provider>
          </div>
          <div class="form-row">
-            <div class="form-title">
+            <div class="form-title text-right">
                <span class="require-mark text-primary">*</span>安全問題答案
             </div>
             <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors, failed }">
@@ -75,7 +75,7 @@
             </validation-provider>
          </div>
          <div class="form-row checkbox-row">
-            <div class="form-title">
+            <div class="form-title text-right">
                <input type="checkbox" class="hook-checkbox" v-model="user.isAgree">
             </div>
             <div class="term-content text-form">
@@ -85,21 +85,21 @@
          </div>
          <div class="form-row divide-line"></div>
          <div class="form-row">
-            <div class="form-title">電子信箱</div>
+            <div class="form-title text-right">電子信箱</div>
             <validation-provider tag="div" class="form-content" rules="email" v-slot="{ errors, failed }">
                <input type="email" class="form-control" placeholder="Email" v-model.trim="user.email">
                <p class="error-text" v-show="failed">{{ errors[0] }}</p>
             </validation-provider>
          </div>
          <div class="form-row">
-            <div class="form-title">出生日期</div>
+            <div class="form-title text-right">出生日期</div>
             <validation-provider tag="div" class="form-content" rules="birthday" v-slot="{ errors, failed }">
                <input type="date" class="form-control" v-model="user.birthday">
                <p class="error-text" v-show="failed">{{ errors[0] }}</p>
             </validation-provider>
          </div>
          <div class="form-row">
-            <div class="form-title">縣市</div>
+            <div class="form-title text-right">縣市</div>
             <div class="form-content">
                <select class="form-control" v-model="addressInfo.city">
                   <option value="" disabled>請選擇</option>
@@ -108,7 +108,7 @@
             </div>
          </div>
          <div class="form-row">
-            <div class="form-title">地區</div>
+            <div class="form-title text-right">地區</div>
             <div class="form-content">
                <select class="form-control" v-model="addressInfo.district">
                   <option value="" disabled>請選擇</option>
@@ -119,7 +119,7 @@
             </div>
          </div>
          <div class="form-row">
-            <div class="form-title">地址</div>
+            <div class="form-title text-right">地址</div>
             <div class="form-content">
                <input type="text" class="form-control" v-model.trim="user.address" placeholder="地址">
             </div>

@@ -88,5 +88,38 @@ export const thirdPartyAuthRequest = {
       }).catch(err => {
          return err.response.data;
       });
-   }
+   },
+   forgot_password(payload) {
+      return httpConfig({
+         url: '/third_party_auth/forgot_password',
+         method: 'post',
+         data: payload
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      });
+   },
+   resend_forget_verify(payload) {
+      return httpConfig({
+         url: '/third_party_auth/resend_forget_verify',
+         method: 'post',
+         data: payload
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      });
+   },
+   forgot_password_verify(payload) {
+      return httpConfig({
+         url: '/third_party_auth/forgot_password_verify',
+         method: 'post',
+         data: payload
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      });
+   },
 }

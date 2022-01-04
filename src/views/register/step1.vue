@@ -134,9 +134,6 @@ export default {
 <style lang="scss" scoped>
 .outline-block {
    .form-row {
-      &.divide-line {
-         border-top: 1px solid map-get($borderColor, outer);
-      }
       &.checkbox-row {
          >.form-title {
             padding-top: 0;
@@ -148,9 +145,6 @@ export default {
       }
       >.form-title {
          flex: 0 0 200px;
-         padding-right: 15px;
-         font-weight: bold;
-         text-align: right;
       }
       >.form-content {
          flex: 0 0 300px;

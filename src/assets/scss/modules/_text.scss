@@ -15,3 +15,9 @@ $textList: (
       color: map-get($obj, color);
    }
 }
+
+[class^=text-] {
+   &.font-bold {
+      font-weight: bold;
+   }   
+}

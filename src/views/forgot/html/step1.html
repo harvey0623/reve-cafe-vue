@@ -1,0 +1,49 @@
+<div class="forgot-step1">
+   <div class="outline-block">
+      <validation-observer tag="div" class="form-layout" ref="form">
+         <div class="form-row">
+            <div class="form-title text-right">
+               <span class="require-mark text-primary">*</span>手機號碼
+            </div>
+            <validation-provider tag="div" class="form-content" rules="required|phone" v-slot="{ errors,failed }">
+               <input type="number" class="form-control" placeholder="共10碼" v-model.trim="user.mobile">
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">
+               <span class="require-mark text-primary">*</span>忘記密碼安全問題
+            </div>
+            <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors, failed }">
+               <select class="form-control" v-model="user.security_question">
+                  <option value="" disabled>請選擇</option>
+                  <option v-for="question in questionList" :key="question.id" :value="question.id">
+                     {{ question.title }}
+                  </option>
+               </select>
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">
+               <span class="require-mark text-primary">*</span>安全問題答案
+            </div>
+            <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors, failed }">
+               <input type="text" class="form-control" placeholder="請輸入答案" v-model.trim="user.security_answer">
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row divide-line"></div>
+      </validation-observer>
+      <div class="bottom-block">
+         <p class="text-form font-bold">請輸入您的手機號碼及安全問題答案，系統將寄送驗證碼至您的手機，驗證身分後即可重設密碼</p>
+         <div class="btnBox center">
+            <button class="btn-primary" @click="submitHandler">確認</button>
+         </div>
+      </div>
+   </div>
+   <Loading v-show="isLoading"></Loading>
+   <modal-message ref="checkModal" @confirm="confirmHandler">
+      <p>{{ checkInfo.message }}</p>
+   </modal-message>
+</div>

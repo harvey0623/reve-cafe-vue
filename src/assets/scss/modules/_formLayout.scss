@@ -1,12 +1,20 @@
 .form-row {
    display: flex;
    align-items: flex-start;
-   @include elGutter(margin-bottom, 20px);
+   @include elGutter(margin-bottom, 25px);
+   &.divide-line {
+      border-top: 1px solid map-get($borderColor, outer);
+   }
    >.form-title {
       flex: 0 0 70px;
       padding-top: 7px;
       font-size: 18px;
       color: map-get($fontColor, formTitle);
+      font-weight: bold;
+      &.text-right {
+         padding-right: 15px;
+         text-align: right;
+      }
       >.require-mark {
          margin-right: 3px;
          font-weight: bold;

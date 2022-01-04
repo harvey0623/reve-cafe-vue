@@ -1,0 +1,30 @@
+<div class="register-step2">
+   <div class="outline-block">
+      <div class="top">
+         <p class="text-form">已寄送驗正碼至{{ user.mobile }}，若您未收到驗證碼請按下方「重新寄送驗證碼」</p>
+      </div>
+      <div class="line"></div>
+      <div class="bottom">
+         <h3 class="text-form">手機驗證碼</h3>
+         <validation-observer tag="div" class="form-layout" ref="form">
+            <div class="form-row">
+               <div class="form-title">手機驗證碼</div>
+               <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors,failed }">
+                  <input type="text" class="form-control" placeholder="請輸入驗證碼" v-model.trim="user.code">
+                  <div class="btnBox no-mt">
+                     <button class="btn-primary" @click="resend_verify">發送驗證碼</button>
+                  </div>
+                  <p class="error-text text-align-left" v-show="failed">{{ errors[0] }}</p>
+               </validation-provider>
+            </div>
+         </validation-observer>
+      </div>
+      <div class="btnBox submitBox">
+         <button class="btn-primary" @click="submitHandler">送出</button>
+      </div>
+   </div>
+   <modal-message ref="checkModal" @confirm="confirmHandler">
+      <p>{{ tipInfo.message }}</p>
+   </modal-message>
+   <Loading v-show="isLoading"></Loading>
+</div>

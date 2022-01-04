@@ -7,6 +7,8 @@ import Signin from '@/views/signin/index.vue';
 import Profile from '@/views/member/profile.vue';
 import Register_Step1 from '@/views/register/step1.vue';
 import Register_Step2 from '@/views/register/step2.vue';
+import Forgot_Step1 from '@/views/forgot/step1.vue';
+import Forgot_Step2 from '@/views/forgot/step2.vue';
 
 Vue.use(VueRouter)
 
@@ -75,6 +77,50 @@ const routes = [
 					pageName: '帳號驗證',
 					breadcrumb: {
 						title: '帳號驗證',
+						skip: false
+					}
+				}
+			}
+		]
+	},
+	{
+		path: '/forgot',
+		component: TempView,
+		meta: {
+			auth: false,
+			pageName:'',
+			breadcrumb: {
+				title: '',
+				skip: true
+			}
+		},
+		children: [
+			{
+				path: '',
+				redirect: '/'
+			},
+			{
+				path: 'step1',
+				name: 'forgot-step1',
+				component: Forgot_Step1,
+				meta: {
+					auth: false,
+					pageName: '忘記密碼',
+					breadcrumb: {
+						title: '忘記密碼',
+						skip: false
+					}
+				}
+			},
+			{
+				path: 'step2',
+				name: 'forgot-step2',
+				component: Forgot_Step2,
+				meta: {
+					auth: false,
+					pageName: '忘記密碼(簡訊驗證)',
+					breadcrumb: {
+						title: '忘記密碼(簡訊驗證)',
 						skip: false
 					}
 				}

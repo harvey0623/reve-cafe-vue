@@ -27,7 +27,7 @@
                   <button class="btn-primary" @click="loginHandler">登入</button>
                </div>
                <p class="forgot">
-                  <router-link to="/">忘記密碼?</router-link>
+                  <router-link to="/forgot/step1">忘記密碼?</router-link>
                </p>
             </div>
             <div class="right">
