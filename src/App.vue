@@ -20,17 +20,18 @@ import Breadcrumb from '@/component/Breadcrumb/index.vue'
 import PageName from '@/component/PageName/index.vue'
 export default {
 	name: 'App',
-	components: {
-		Header,
-		Footer,
-		Breadcrumb,
-		PageName
-	},
+	components: { Header, Footer, Breadcrumb, PageName },
 	metaInfo: {
       title: 'reve-cafe',
       titleTemplate: '%s | reve-cafe'
    },
 	setup(props, { root }) {
+		let isLogin = computed(() => root.$store.getters['auth/isLogin']);
+
+		onMounted(() => {
+			if (!isLogin.value) return;
+         root.$store.dispatch('cart/getAllCart');
+		})
 
 		return {  }
 	}

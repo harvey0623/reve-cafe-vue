@@ -51,8 +51,8 @@ export default {
       let showCartCount = computed(() => cartTotal.value > 0);
 
       onMounted(() => {
-         if (!isLogin.value) return;
-         root.$store.dispatch('cart/getAllCart');
+         // if (!isLogin.value) return;
+         // root.$store.dispatch('cart/getAllCart');
       });
 
       return { openDropdownMenu, memberLink, cartTotal, showCartCount, isLogin };
