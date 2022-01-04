@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store/index.js';
+import { checkEntrance } from './middleware/checkEntrance.js';
 import TempView from '@/views/tempView/index.vue';
 import Home from '@/views/home/index.vue';
 import Signin from '@/views/signin/index.vue';
@@ -38,7 +39,8 @@ const routes = [
 				title: '登入',
 				skip: false
 			}
-		}
+		},
+		beforeEnter: checkEntrance
 	},
 	{
 		path: '/register',
@@ -49,12 +51,13 @@ const routes = [
 			breadcrumb: {
 				title: '',
 				skip: true
-			}
+			},
 		},
+		beforeEnter: checkEntrance,
 		children: [
 			{
 				path: '',
-				redirect: '/'
+				redirect: 'step1'
 			},
 			{
 				path: 'step1',
@@ -95,10 +98,11 @@ const routes = [
 				skip: true
 			}
 		},
+		beforeEnter: checkEntrance,
 		children: [
 			{
 				path: '',
-				redirect: '/'
+				redirect: 'step1'
 			},
 			{
 				path: 'step1',
