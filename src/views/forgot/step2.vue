@@ -47,10 +47,9 @@ export default {
          if (!isValid) return;
          isLoading.value = true;
          let verifyResponse = await thirdPartyAuthApi.forgot_password_verify({
-            temp_access_token: 'abc123-anc555',
+            temp_access_token: user.tempToken,
             verify_code: user.code
          });
-         console.log(verifyResponse);
          tipInfo.status = verifyResponse.status;
          tipInfo.message = verifyResponse.message;
          tipInfo.type = 'verify';

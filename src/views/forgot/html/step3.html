@@ -1,0 +1,34 @@
+<div class="forgot-step1">
+   <div class="outline-block">
+      <validation-observer tag="div" class="form-layout" ref="form">
+         <div class="form-row">
+            <div class="form-title text-right">
+               <span class="require-mark text-primary">*</span>新密碼
+            </div>
+            <validation-provider tag="div" class="form-content" rules="required|password" vid="a" v-slot="{ errors,failed }">
+               <input type="password" class="form-control" placeholder="6-12碼英數字" v-model.trim="user.password">
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">
+               <span class="require-mark text-primary">*</span>確認新密碼
+            </div>
+            <validation-provider tag="div" class="form-content" rules="required|confirmPw:@a" v-slot="{ errors,failed }">
+               <input type="password" class="form-control" placeholder="6-12碼英數字" v-model.trim="user.confirm_password">
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row divide-line"></div>
+      </validation-observer>
+      <div class="bottom-block">
+         <div class="btnBox center">
+            <button class="btn-primary" @click="submitHandler">確認</button>
+         </div>
+      </div>
+   </div>
+   <Loading v-show="isLoading"></Loading>
+   <modal-message ref="checkModal" @confirm="confirmHandler">
+      <p>{{ tipInfo.message }}</p>
+   </modal-message>
+</div>

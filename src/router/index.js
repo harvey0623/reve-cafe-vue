@@ -9,6 +9,7 @@ import Register_Step1 from '@/views/register/step1.vue';
 import Register_Step2 from '@/views/register/step2.vue';
 import Forgot_Step1 from '@/views/forgot/step1.vue';
 import Forgot_Step2 from '@/views/forgot/step2.vue';
+import Forgot_Step3 from '@/views/forgot/step3.vue';
 
 Vue.use(VueRouter)
 
@@ -124,7 +125,20 @@ const routes = [
 						skip: false
 					}
 				}
-			}
+			},
+			{
+				path: 'step3',
+				name: 'forgot-step3',
+				component: Forgot_Step3,
+				meta: {
+					auth: false,
+					pageName: '重設密碼',
+					breadcrumb: {
+						title: '重設密碼',
+						skip: false
+					}
+				}
+			},
 		]
 	},
 	{

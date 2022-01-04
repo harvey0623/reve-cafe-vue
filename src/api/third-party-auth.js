@@ -122,4 +122,15 @@ export const thirdPartyAuthRequest = {
          return err.response.data;
       });
    },
+   reset_password(payload) {
+      return httpConfig({
+         url: '/third_party_auth/reset_password',
+         method: 'post',
+         data: payload
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      });
+   },
 }
