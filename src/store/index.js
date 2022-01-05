@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { authStore } from './modules/auth.js'
+import { authStore, cartStore } from './modules/index.js'
 import { authPlugin } from './plugins/auth.js'
-import { cartStore } from './modules/cart.js'
 
 Vue.use(Vuex)
 

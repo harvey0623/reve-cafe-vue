@@ -1,6 +1,6 @@
 import { cartApi, activityCartApi } from '@/api/index.js';
 
-export const cartStore = {
+export const cart = {
    namespaced: true,
    state: () => ({
       normalCartList: [],
