@@ -22,6 +22,7 @@ const routes = [
 		meta: {
 			auth: false,
 			pageName:'首頁',
+			layout: 'home-layout',
 			breadcrumb: {
 				title: '首頁',
 				skip: false
@@ -35,6 +36,7 @@ const routes = [
 		meta: {
 			auth: false,
 			pageName:'登入',
+			layout: 'page-layout',
 			breadcrumb: {
 				title: '登入',
 				skip: false
@@ -48,6 +50,7 @@ const routes = [
 		meta: {
 			auth: false,
 			pageName:'',
+			layout: 'page-layout',
 			breadcrumb: {
 				title: '',
 				skip: true
@@ -66,6 +69,7 @@ const routes = [
 				meta: {
 					auth: false,
 					pageName: '加入會員',
+					layout: 'page-layout',
 					breadcrumb: {
 						title: '加入會員',
 						skip: false
@@ -79,6 +83,7 @@ const routes = [
 				meta: {
 					auth: false,
 					pageName: '帳號驗證',
+					layout: 'page-layout',
 					breadcrumb: {
 						title: '帳號驗證',
 						skip: false
@@ -93,6 +98,7 @@ const routes = [
 		meta: {
 			auth: false,
 			pageName:'',
+			layout: 'page-layout',
 			breadcrumb: {
 				title: '',
 				skip: true
@@ -111,6 +117,7 @@ const routes = [
 				meta: {
 					auth: false,
 					pageName: '忘記密碼',
+					layout: 'page-layout',
 					breadcrumb: {
 						title: '忘記密碼',
 						skip: false
@@ -124,6 +131,7 @@ const routes = [
 				meta: {
 					auth: false,
 					pageName: '忘記密碼(簡訊驗證)',
+					layout: 'page-layout',
 					breadcrumb: {
 						title: '忘記密碼(簡訊驗證)',
 						skip: false
@@ -137,6 +145,7 @@ const routes = [
 				meta: {
 					auth: false,
 					pageName: '重設密碼',
+					layout: 'page-layout',
 					breadcrumb: {
 						title: '重設密碼',
 						skip: false
@@ -151,6 +160,7 @@ const routes = [
 		meta: {
 			auth: true,
 			pageName: '',
+			layout: 'page-layout',
 			breadcrumb: {
 				title: '',
 				skip: true
@@ -168,6 +178,7 @@ const routes = [
 				meta: {
 					auth: true,
 					pageName: '會員資料',
+					layout: 'page-layout',
 					breadcrumb: {
 						title: '會員資料',
 						skip: false
