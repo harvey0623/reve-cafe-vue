@@ -1,4 +1,3 @@
-import Vue from "vue";
 const storage = {
    getItem(key) {
       let data = localStorage.getItem(key);
@@ -22,5 +21,4 @@ const storage = {
    },
 };
 
-Vue.prototype.$storage = storage;
 export const storageObj = storage;
