@@ -14,19 +14,11 @@
          <div class="my-container">
             <h3 class="blobk-title text-primary">POPULAR</h3>
             <div class="popular-row">
-               <div class="popular-item" v-for="count in 3" :key="count">
-                  <div class="imgBox">
-                     <img src="https://fakeimg.pl/300x120/" alt="">
-                  </div>
-                  <div class="descBox">
-                     <p class="name">test</p>
-                     <p class="intro text-input">saxsaxasxsaxsa</p>
-                     <div class="price">
-                        <span class="text-input">NT$2000</span>
-                        <span class="text-primary">NT$2000</span>
-                     </div>
-                  </div>
-               </div>
+               <PopularItem 
+                  v-for="recommend in recommendList.data" 
+                  :key="recommend.iId"
+                  :recommendInfo="recommend"
+               ></PopularItem>
             </div>
          </div>
       </div>
@@ -55,11 +47,12 @@
 
 <script>
 import { ref, reactive ,onMounted } from '@vue/composition-api'
-import { scenesApi, productApi } from '@/api/index.js';
-import Swiper from 'swiper/swiper-bundle.min.js';
+import { scenesApi, productApi } from '@/api/index.js'
+import Swiper from 'swiper/swiper-bundle.min.js'
+import PopularItem from '@/component/PopularItem/index.vue'
 export default {
    name: 'Home',
-   components: {},
+   components: { PopularItem },
    metaInfo () {
       return {
         title: '首頁',
@@ -67,6 +60,7 @@ export default {
    },
    setup(props, { root }) {
       let bannerList = reactive({ data: [] });
+      let recommendList = reactive({ data: [] });
       let isLoading = ref(false);
 
       let createBannerList = (arr) => {
@@ -89,18 +83,31 @@ export default {
                el: '.swiper-pagination',
             },
          });
-         return;
+      }
+
+      let processProduct = (payload, endIndex) => {
+         let sliceData = payload.aaData.slice(0, endIndex);
+         if (sliceData.length === 0) return [];
+         return sliceData.reduce((prev, current) => {
+            let specs = current.specs;
+            if (specs.length === 0) return prev;
+            specs.sort((a, b) => a.price.iSpecPromoPrice - b.price.iSpecPromoPrice);
+            prev.push({ ...current, specs,})
+            return prev;
+         }, []);
       }
 
       onMounted(async() => {
          isLoading.value = true;
-         let allResponse = await Promise.all([ scenesApi.banner() ]);
-         let [ bannerInfo ] = allResponse;
+         let allResponse = await Promise.all([ scenesApi.banner(), productApi.product_recommend() ]);
+         let [ bannerInfo, recommendInfo ] = allResponse;
          setBanner(bannerInfo);
+         recommendList.data = processProduct(recommendInfo, 3);
+
          isLoading.value = false;
       });
 
-      return { bannerList, isLoading }
+      return { bannerList, recommendList, isLoading }
    }
 };
 </script>
