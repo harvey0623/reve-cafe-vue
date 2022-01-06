@@ -1,4 +1,4 @@
-const storage = {
+export const storage = {
    getItem(key) {
       let data = localStorage.getItem(key);
       return data !== null ? JSON.parse(data) : null;
@@ -20,5 +20,3 @@ const storage = {
       sessionStorage.removeItem(key);
    },
 };
-
-export const storageObj = storage;

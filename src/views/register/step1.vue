@@ -3,9 +3,8 @@
 <script>
 import { ref, reactive, onMounted, computed } from '@vue/composition-api'
 import { createFormList, createZipcode } from '@/composition-api/index.js'
-import { wm_aes } from '@/plugins/crypto/index.js'
 import { thirdPartyAuthApi, thirdPartyApi } from '@/api/index.js'
-import { storageObj } from '@/plugins/storage/index.js'
+import { storageObj, wm_aes } from '@/plugins/index.js'
 import TermTrigger from '@/component/Term/TermTrigger.vue'
 export default {
    name: 'register-step1',

@@ -2,7 +2,7 @@
 
 <script>
 import { ref, reactive, onMounted } from '@vue/composition-api'
-import { storageObj } from '@/plugins/storage/index.js'
+import { storageObj } from '@/plugins/index.js'
 import { thirdPartyAuthApi } from '@/api/index.js'
 export default {
    name: 'register-step2',

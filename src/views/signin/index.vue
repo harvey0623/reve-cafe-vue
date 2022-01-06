@@ -54,8 +54,7 @@
 
 <script>
 import { ref, reactive, onBeforeUnmount } from '@vue/composition-api'
-import { wm_aes } from '@/plugins/crypto/index.js'
-import { storageObj } from '@/plugins/storage/index.js'
+import { storageObj, wm_aes } from '@/plugins/index.js'
 export default {
    name: 'signin',
    metaInfo () {
