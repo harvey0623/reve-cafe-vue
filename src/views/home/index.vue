@@ -10,7 +10,7 @@
             <div class="swiper-pagination"></div>
          </div>
       </div>
-      <div class="product-block popular">
+      <div class="section-block popular">
          <div class="my-container">
             <h3 class="blobk-title text-primary">POPULAR</h3>
             <div class="popular-row">
@@ -30,7 +30,7 @@
             </div>
          </div>
       </div>
-      <div class="product-block">
+      <div class="section-block">
          <div class="my-container">
             <h3 class="blobk-title text-primary">PRODUCT</h3>
             <div class="product-row">
@@ -55,7 +55,7 @@
 
 <script>
 import { ref, reactive ,onMounted } from '@vue/composition-api'
-import { scenesApi } from '@/api/index.js';
+import { scenesApi, productApi } from '@/api/index.js';
 import Swiper from 'swiper/swiper-bundle.min.js';
 export default {
    name: 'Home',
@@ -67,6 +67,7 @@ export default {
    },
    setup(props, { root }) {
       let bannerList = reactive({ data: [] });
+      let isLoading = ref(false);
 
       let createBannerList = (arr) => {
          return arr.reduce((prev, current) => {
@@ -75,9 +76,8 @@ export default {
          }, []);
       }
       
-      let getBanner = async() => {
-         let bannerResponse = await scenesApi.banner();
-         bannerList.data = createBannerList(bannerResponse.aaData);
+      let setBanner = async(payload) => {
+         bannerList.data = createBannerList(payload.aaData);
          await root.$nextTick();
          new Swiper('#banner-swiper', {
             loop: true,
@@ -89,13 +89,18 @@ export default {
                el: '.swiper-pagination',
             },
          });
+         return;
       }
 
-      onMounted(() => {
-         getBanner();
+      onMounted(async() => {
+         isLoading.value = true;
+         let allResponse = await Promise.all([ scenesApi.banner() ]);
+         let [ bannerInfo ] = allResponse;
+         setBanner(bannerInfo);
+         isLoading.value = false;
       });
 
-      return { bannerList }
+      return { bannerList, isLoading }
    }
 };
 </script>
