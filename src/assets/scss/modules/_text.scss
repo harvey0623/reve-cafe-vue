@@ -7,6 +7,10 @@ $textList: (
       class: text-form, 
       color: map-get($fontColor, formTitle),
    ),
+   ( 
+      class: text-input, 
+      color: map-get($fontColor, input),
+   ),
 );
 
 @each $obj in $textList {

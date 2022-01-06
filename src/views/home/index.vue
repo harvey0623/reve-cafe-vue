@@ -10,6 +10,25 @@
             <div class="swiper-pagination"></div>
          </div>
       </div>
+      <div class="product-block popular">
+         <div class="my-container">
+            <h3 class="blobk-title text-primary">POPULAR</h3>
+            <div class="popular-row">
+               <div class="popular-item">
+                  <div class="imgBox">
+                     <img src="https://fakeimg.pl/300x120/" alt="">
+                  </div>
+                  <div class="descBox">
+                     <p class="name">test</p>
+                     <div class="price">
+                        <span class="text-input">NT$2000</span>
+                        <span class="text-primary">NT$2000</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
    </div>
 </template>
 
@@ -60,15 +79,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-#banner-swiper {
-   .swiper-slide {
-      height: 550px;
-      >img {
-         @include size(100%);
-         object-fit: cover;
-      }
-   }
-}
-</style>
-
+<style src="./scss/home.scss" lang="scss" scoped></style>

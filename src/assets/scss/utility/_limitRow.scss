@@ -5,6 +5,7 @@
    -webkit-box-orient: vertical;
    padding: 0;
    height: auto;
+   word-break: break-all;
 }
 
 @mixin setWebkitLimitRow($lines:1) {
