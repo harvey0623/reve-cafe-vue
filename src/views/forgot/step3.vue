@@ -3,8 +3,7 @@
 <script>
 import { ref, reactive, onMounted } from '@vue/composition-api'
 import { thirdPartyAuthApi } from '@/api/index.js'
-import { wm_aes } from '@/plugins/crypto/index.js';
-import { storageObj } from '@/plugins/storage/index.js'
+import { storageObj, wm_aes } from '@/plugins/index.js'
 export default {
    name: 'forgot-step3',
    metaInfo () {

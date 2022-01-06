@@ -1,7 +1,7 @@
 import axios from 'axios';
 import router from '@/router/index.js';
 import store from '@/store/index.js';
-import { storageObj } from '@/plugins/storage/index.js';
+import { storageObj } from '@/plugins/index.js';
 
 const instance = axios.create({
    baseURL: process.env.VUE_APP_API_BASEURL,

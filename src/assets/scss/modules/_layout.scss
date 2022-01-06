@@ -42,3 +42,11 @@ body {
    padding: 30px 70px;
    border: 1px solid map-get($borderColor, outer);
 }
+
+.swiper-pagination-bullet {
+   opacity: 1;
+   background-color: #000;
+   &-active {
+      background-color: map-get($elBgColor, primary);
+   }
+}

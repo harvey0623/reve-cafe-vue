@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { thirdPartyAuthApi } from '@/api/index.js';
-import { storageObj } from '@/plugins/storage/index.js';
+import { storageObj } from '@/plugins/index.js';
 
-export const authStore = {
+export const auth = {
    namespaced: true,
    state: () => ({
       userInfo: {},
