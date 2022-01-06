@@ -14,12 +14,33 @@
          <div class="my-container">
             <h3 class="blobk-title text-primary">POPULAR</h3>
             <div class="popular-row">
-               <div class="popular-item">
+               <div class="popular-item" v-for="count in 3" :key="count">
                   <div class="imgBox">
                      <img src="https://fakeimg.pl/300x120/" alt="">
                   </div>
                   <div class="descBox">
                      <p class="name">test</p>
+                     <p class="intro text-input">saxsaxasxsaxsa</p>
+                     <div class="price">
+                        <span class="text-input">NT$2000</span>
+                        <span class="text-primary">NT$2000</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="product-block">
+         <div class="my-container">
+            <h3 class="blobk-title text-primary">PRODUCT</h3>
+            <div class="product-row">
+               <div class="product-item" v-for="count in 10" :key="count">
+                  <div class="imgBox">
+                     <img src="https://fakeimg.pl/500x220/" alt="">
+                  </div>
+                  <div class="descBox">
+                     <p class="name">cxaxsaxsa</p>
+                     <p class="intro text-input">xadsxsaxdscxdscdscdscdscdscds</p>
                      <div class="price">
                         <span class="text-input">NT$2000</span>
                         <span class="text-primary">NT$2000</span>

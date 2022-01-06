@@ -8,6 +8,7 @@ import VueMeta from 'vue-meta'
 import '@/component/Global/index.js'
 import '@/component/PageProgress/index.js'
 import '@/component/veevalidate/index.js';
+import '@/plugins/filter/index.js';
 import 'swiper/swiper-bundle.min.css';
 
 Vue.use(VueCompositionAPI)
