@@ -1,5 +1,5 @@
 <template>
-   <div class="popular-item">
+   <router-link class="popular-item" :to="{name: 'product_detail', params:{ productCode: productCode }}">
       <div class="imgBox">
          <img :src="productImageUrl" alt="">
       </div>
@@ -11,7 +11,7 @@
             <span class="text-primary">NT${{ promotePrice | currency }}</span>
          </div>
       </div>
-   </div>
+   </router-link>
 </template>
 
 <script>
@@ -33,13 +33,14 @@ export default {
       let singleSpec = computed(() => info.value.specs[0]);
       let normalPrice = computed(() => singleSpec.value.price.iSpecPrice);
       let promotePrice = computed(() => singleSpec.value.price.iSpecPromoPrice);
+      let productCode = computed(() => info.value.vProductCode);
 
-      return { productImageUrl, productName, productSummary, normalPrice, promotePrice }
+      return { productImageUrl, productName, productSummary, normalPrice, promotePrice, productCode }
    }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .popular-item {
    flex: 1;
    max-width: 400px;
@@ -47,6 +48,7 @@ export default {
    padding: 15px;
    border: 1px solid map-get($borderColor, outer);
    @extend %clearFix;
+   cursor: pointer;
    >* {
       float: left;
    }

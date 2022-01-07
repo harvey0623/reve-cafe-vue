@@ -11,6 +11,7 @@ import Register_Step2 from '@/views/register/step2.vue';
 import Forgot_Step1 from '@/views/forgot/step1.vue';
 import Forgot_Step2 from '@/views/forgot/step2.vue';
 import Forgot_Step3 from '@/views/forgot/step3.vue';
+import ProductDetail from '@/views/product/detail.vue';
 
 Vue.use(VueRouter)
 
@@ -30,7 +31,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/signin',
+		path: '/signin/:productCode',
 		name: 'signin',
 		component: Signin,
 		meta: {
@@ -181,6 +182,39 @@ const routes = [
 					layout: 'page-layout',
 					breadcrumb: {
 						title: '會員資料',
+						skip: false
+					}
+				},
+			}
+		]
+	},
+	{
+		path: '/product',
+		component: TempView,
+		meta: {
+			auth: false,
+			pageName: '',
+			layout: 'page-layout',
+			breadcrumb: {
+				title: '',
+				skip: true
+			}
+		},
+		children: [
+			{
+				path: '',
+				redirect: '/'
+			},
+			{
+				path: 'detail/:productCode',
+				name: 'product_detail',
+				component: ProductDetail,
+				meta: {
+					auth: false,
+					pageName: '商品詳情',
+					layout: 'page-layout',
+					breadcrumb: {
+						title: '商品詳情',
 						skip: false
 					}
 				},

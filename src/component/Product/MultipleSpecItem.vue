@@ -1,5 +1,5 @@
 <template>
-   <div class="multiple-spec-item">
+   <router-link class="multiple-spec-item" :to="{name: 'product_detail', params:{ productCode: productCode }}">
       <div class="imgBox">
          <img :src="productImageUrl" alt="">
       </div>
@@ -11,7 +11,7 @@
             <span class="text-primary">NT${{ promotePrice | currency }}</span>
          </div>
       </div>
-   </div>
+   </router-link>
 </template>
 
 <script>
@@ -33,8 +33,9 @@ export default {
       let singleSpec = computed(() => info.value.specs[0]);
       let normalPrice = computed(() => singleSpec.value.price.iSpecPrice);
       let promotePrice = computed(() => singleSpec.value.price.iSpecPromoPrice);
+      let productCode = computed(() => info.value.vProductCode);
 
-      return { productImageUrl, productName, productSummary, normalPrice, promotePrice }
+      return { productImageUrl, productName, productSummary, normalPrice, promotePrice, productCode }
    }
 }
 </script>
