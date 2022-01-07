@@ -75,9 +75,11 @@ header {
 .header-bottom {
    >.my-container {
       @extend %bwtFlex;
+      padding-top: 8px;
+      padding-bottom: 8px;
       >.logo-box {
          >img {
-            @include size(180px, 75px);
+            @include size(155px, 66.66px);
             object-fit: cover;
          }
       }

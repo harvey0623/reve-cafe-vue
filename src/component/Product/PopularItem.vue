@@ -4,8 +4,8 @@
          <img :src="productImageUrl" alt="">
       </div>
       <div class="descBox">
-         <p class="name">{{ info.vProductName }}</p>
-         <p class="intro text-input">{{ info.vProductSummary }}</p>
+         <p class="name">{{ productName }}</p>
+         <p class="intro text-input">{{ productSummary }}</p>
          <div class="price">
             <span class="text-input">NT${{ normalPrice | currency }}</span>
             <span class="text-primary">NT${{ promotePrice | currency }}</span>
@@ -24,15 +24,17 @@ export default {
       let { recommendInfo:info } = toRefs(props);
 
       let productImageUrl = computed(() => {
-         let images = info.value.vImages
-         return images.length !== 0 ? images[0] : '';
+         let images = info.value.vImages;
+         return images.length > 0 ? images[0] : '';
       });
 
+      let productName = computed(() => info.value.vProductName);
+      let productSummary = computed(() => info.value.vProductSummary);
       let singleSpec = computed(() => info.value.specs[0]);
       let normalPrice = computed(() => singleSpec.value.price.iSpecPrice);
       let promotePrice = computed(() => singleSpec.value.price.iSpecPromoPrice);
 
-      return { productImageUrl, info, normalPrice, promotePrice }
+      return { productImageUrl, productName, productSummary, normalPrice, promotePrice }
    }
 }
 </script>
