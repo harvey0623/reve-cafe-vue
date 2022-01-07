@@ -31,7 +31,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/signin/:productCode',
+		path: '/signin',
 		name: 'signin',
 		component: Signin,
 		meta: {
