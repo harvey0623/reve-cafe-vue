@@ -22,5 +22,16 @@ export const productRequest = {
       }).catch(err => {
          return err.response.data;
       })
+   },
+   product_detail(productCode) {
+      return httpConfig({
+         url: `/product/product_detail/${productCode}`,
+         method: 'get',
+         data: {}
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      })
    }
 }

@@ -2,48 +2,16 @@
    <div class="product-gallery">
       <div class="swiper main-swiper">
          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-               <img src="https://swiperjs.com/demos/images/nature-1.jpg">
-            </div>
-            <div class="swiper-slide">
-               <img src="https://swiperjs.com/demos/images/nature-2.jpg">
-            </div>
-            <div class="swiper-slide">
-               <img src="https://swiperjs.com/demos/images/nature-3.jpg">
-            </div>
-            <div class="swiper-slide">
-               <img src="https://swiperjs.com/demos/images/nature-4.jpg">
-            </div>
-            <div class="swiper-slide">
-               <img src="https://swiperjs.com/demos/images/nature-5.jpg">
+            <div class="swiper-slide" v-for="(imgUrl,index) in slideList" :key="index">
+               <img :src="imgUrl">
             </div>
          </div>
       </div>
       <div class="swiper sub-swiper">
          <div class="swiper-wrapper">
-            <div class="swiper-slide">
+            <div class="swiper-slide" v-for="(imgUrl,index) in slideList" :key="index">
                <div class="imgBox">
-                  <img src="https://swiperjs.com/demos/images/nature-1.jpg">
-               </div>
-            </div>
-            <div class="swiper-slide">
-               <div class="imgBox">
-                  <img src="https://swiperjs.com/demos/images/nature-2.jpg">
-               </div>
-            </div>
-            <div class="swiper-slide">
-               <div class="imgBox">
-                  <img src="https://swiperjs.com/demos/images/nature-3.jpg">
-               </div>
-            </div>
-            <div class="swiper-slide">
-               <div class="imgBox">
-                  <img src="https://swiperjs.com/demos/images/nature-4.jpg">
-               </div>
-            </div>
-            <div class="swiper-slide">
-               <div class="imgBox">
-                  <img src="https://swiperjs.com/demos/images/nature-5.jpg">
+                  <img :src="imgUrl">
                </div>
             </div>
          </div>
@@ -52,11 +20,14 @@
 </template>
 
 <script>
-import { ref, reactive, onMounted } from "@vue/composition-api"
+import { onMounted, toRefs } from "@vue/composition-api"
 import Swiper from 'swiper/swiper-bundle.min.js'
 export default {
-   props: {},
+   props: {
+      bannerList: { type: Array, default: () => [] }
+   },
    setup(props, { root }) {
+      let { bannerList:slideList } = toRefs(props);
 
       let initSwiper = () => {
          let subSwiper = new Swiper('.sub-swiper', {
@@ -74,24 +45,29 @@ export default {
 
       onMounted(() => {
          initSwiper()
-      })
+      });
 
-      return {};
+      return { slideList };
    },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+%imgStyle {
+   position: absolute;
+   left: 0;
+   top: 0;
+   @include size(100%);
+   object-fit: cover;
+}
+
 .main-swiper {
-   margin-bottom: 5px;
+   margin-bottom: 8px;
    .swiper-slide {
       position: relative;
       padding-top: 75%;
       img {
-         position: absolute;
-         left: 0;
-         top: 0;
-         @include size(100%);
+         @extend %imgStyle;
       }
    }
 }
@@ -106,10 +82,7 @@ export default {
          padding-top: 75%;
          cursor: pointer;
          img {
-            position: absolute;
-            left: 0;
-            top: 0;
-            @include size(100%);
+            @extend %imgStyle;
          }
       }
    }

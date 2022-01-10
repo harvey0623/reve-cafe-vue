@@ -1,49 +1,9 @@
-<template>
-   <div class="product_detail">
-      <h3 class="categoryName text-primary">商品名稱</h3>
-      <div class="product-top">
-         <div class="slideBox">
-            <ImageGallery></ImageGallery>
-         </div>
-         <div class="descBox">
-            <p class="productNum">xasxsaxas</p>
-            <p class="productName">xasxasxsa</p>
-            <p class="productSummary">xasxsaxasxsa</p>
-            <ul class="specList">
-               <li class="spec-item active">巴西咖啡</li>
-               <li class="spec-item">巴西咖啡</li>
-            </ul>
-            <div class="edit-block">
-               <div class="edit-row">
-                  <span>溫層:</span>
-                  <span>常溫</span>
-               </div>
-               <div class="edit-row">
-                  <span>數量:</span>
-                  <select class="form-control">
-                     <option value="1">1</option>
-                  </select>
-               </div>
-               <div class="edit-row">
-                  <span>價格:</span>
-                  <span class="price text-primary">${{ 1000 | currency }}</span>
-               </div>
-               <div class="edit-row btnBox no-mt">
-                  <button class="cart">加入購物車</button>
-                  <button class="immediate">直接購買</button>
-               </div>
-            </div>
-         </div>
-      </div>
-      <div class="product-middle">
-         xsaxasxas
-      </div>
-   </div>
-</template>
+<template src="./html/detail.html"></template>
 
 <script>
-import { ref, reactive, computed, onMounted, watch, onBeforeMount } from '@vue/composition-api'
-import ImageGallery from '@/component/Product/ImageGallery.vue';
+import { ref, reactive, computed, onMounted, watch } from '@vue/composition-api'
+import ImageGallery from '@/component/Product/ImageGallery.vue'
+import { productApi } from '@/api/index.js'
 export default {
    name: 'product-detail',
    components: { ImageGallery },
@@ -54,23 +14,53 @@ export default {
    },
    setup(props, { root }) {
       let productCode = ref('');
+      let isLoading = ref(false);
+      let bannerList = reactive({ data: [] });
+      let showGallery = ref(false);
+      let productIntro = reactive({ category: '',  num: '', name: '', summary: '', temperature: '', editContent: '' });
+
+      let setProductIntro = (payload) => {
+         console.log(payload);
+         productIntro.category = payload.category.vCategoryName;
+         productIntro.num = payload.vProductNum;
+         productIntro.name = payload.vProductName;
+         productIntro.summary = payload.vProductSummary;
+         productIntro.temperature = payload.temperature.vTemperatureTitle;
+         productIntro.editContent = payload.vProductDetail;
+      }
       
+      let setProductDetail = async() => {
+         let detailResponse = await productApi.product_detail(productCode.value);
+         if (detailResponse.status === 0 ) {
+            console.log(detailResponse.message);
+            return;
+         }
+         showGallery.value = false;
+         bannerList.data = detailResponse.aaData.info.vImages;
+         setProductIntro(detailResponse.aaData);
 
-      onBeforeMount(() => {
+         showGallery.value = true;
+      }
+
+      onMounted(async() => {
+         isLoading.value = true;
          productCode.value = root.$route.params.productCode;
+         await setProductDetail();
+         isLoading.value = false;
       });
 
-      onMounted(() => {
-         
+      watch(() => root.$route, async(val) => {
+         isLoading.value = true;
+         productCode.value = val.params.productCode;
+         await setProductDetail();
+         isLoading.value = false;
       });
 
-      watch(() => root.$route, (val) => {
-         console.log(val)
-      })
-
-      return {  }
+      return { isLoading, bannerList, showGallery, productIntro }
    }
 }
+// 9175cf640f439ddd94d3e295ca25ea49
+// 58a2aea6b1314a3d5f989c8ca1ff894a
 </script>
 
 <style src="./scss/detail.scss" lang="scss"></style>
