@@ -1,0 +1,86 @@
+.product_detail {
+   max-width: 1000px;
+   margin: 0 auto;
+}
+
+.categoryName {
+   margin-top: 20px;
+   margin-bottom: 40px;
+   font-size: 35px;
+   text-align: center;
+   font-weight: normal;
+}
+
+.product-top {
+   @extend %clearFix;
+   >div {
+      float: left;
+   }
+   >.slideBox {
+      width: 400px;
+   }
+   >.descBox {
+      width: calc(100% - 400px);
+      padding-left: 30px;
+      >* {
+         @include elGutter(margin-bottom, 18px);
+      }
+   }
+}
+
+.specList {
+   display: flex;
+   align-items: center;
+   flex-wrap: wrap;
+}
+
+.spec-item {
+   min-width: 100px;
+   padding: 8px 12px;
+   @include elGutter(margin-right, 5px);
+   border: 1px solid map-get($borderColor, outer);
+   text-align: center;
+   cursor: pointer;
+   &.active {
+      border-color: map-get($borderColor, primary);
+      background-color: map-get($elBgColor, primary);
+      color: #fff;
+   }
+}
+
+.edit-block {
+   >.edit-row {
+      @extend %bwtFlex;
+      @include elGutter(margin-bottom, 18px);
+      .form-control {
+         width: 150px;
+         text-align: right;    
+      }
+      .price {
+         font-size: 18px;
+      }
+      &.btnBox {
+         justify-content: flex-end;
+         padding-top: 20px;
+         border-top: 1px solid map-get($borderColor, outer);
+         >button {
+            width: 120px;
+            margin: initial;
+            @include elGutter(margin-right, 8px);
+            color: #fff;
+            border: none;
+            border-radius: map-get($radius, basic);
+            &.cart {
+               background-color: #dc3545;
+            }
+            &.immediate {
+               background-color: #343a40;
+            }
+         }
+      }
+   }
+}
+
+.product-middle {
+   padding: 40px 0;
+}
