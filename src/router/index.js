@@ -22,8 +22,11 @@ const routes = [
 		component: Home,
 		meta: {
 			auth: false,
-			pageName:'首頁',
 			layout: 'home-layout',
+			pageName: {
+				title: '',
+				show: false
+			},
 			breadcrumb: {
 				title: '首頁',
 				skip: false
@@ -36,8 +39,11 @@ const routes = [
 		component: Signin,
 		meta: {
 			auth: false,
-			pageName:'登入',
 			layout: 'page-layout',
+			pageName: {
+				title: '登入',
+				show: true
+			},
 			breadcrumb: {
 				title: '登入',
 				skip: false
@@ -50,8 +56,11 @@ const routes = [
 		component: TempView,
 		meta: {
 			auth: false,
-			pageName:'',
 			layout: 'page-layout',
+			pageName: {
+				title: '',
+				show: false
+			},
 			breadcrumb: {
 				title: '',
 				skip: true
@@ -69,8 +78,11 @@ const routes = [
 				component: Register_Step1,
 				meta: {
 					auth: false,
-					pageName: '加入會員',
 					layout: 'page-layout',
+					pageName: {
+						title: '加入會員',
+						show: true
+					},
 					breadcrumb: {
 						title: '加入會員',
 						skip: false
@@ -83,8 +95,11 @@ const routes = [
 				component: Register_Step2,
 				meta: {
 					auth: false,
-					pageName: '帳號驗證',
 					layout: 'page-layout',
+					pageName: {
+						title: '帳號驗證',
+						show: true
+					},
 					breadcrumb: {
 						title: '帳號驗證',
 						skip: false
@@ -98,8 +113,11 @@ const routes = [
 		component: TempView,
 		meta: {
 			auth: false,
-			pageName:'',
 			layout: 'page-layout',
+			pageName: {
+				title: '',
+				show: false
+			},
 			breadcrumb: {
 				title: '',
 				skip: true
@@ -117,8 +135,11 @@ const routes = [
 				component: Forgot_Step1,
 				meta: {
 					auth: false,
-					pageName: '忘記密碼',
 					layout: 'page-layout',
+					pageName: {
+						title: '忘記密碼',
+						show: true
+					},
 					breadcrumb: {
 						title: '忘記密碼',
 						skip: false
@@ -131,8 +152,11 @@ const routes = [
 				component: Forgot_Step2,
 				meta: {
 					auth: false,
-					pageName: '忘記密碼(簡訊驗證)',
 					layout: 'page-layout',
+					pageName: {
+						title: '忘記密碼(簡訊驗證)',
+						show: true
+					},
 					breadcrumb: {
 						title: '忘記密碼(簡訊驗證)',
 						skip: false
@@ -145,8 +169,11 @@ const routes = [
 				component: Forgot_Step3,
 				meta: {
 					auth: false,
-					pageName: '重設密碼',
 					layout: 'page-layout',
+					pageName: {
+						title: '重設密碼',
+						show: true
+					},
 					breadcrumb: {
 						title: '重設密碼',
 						skip: false
@@ -160,8 +187,11 @@ const routes = [
 		component: TempView,
 		meta: {
 			auth: true,
-			pageName: '',
 			layout: 'page-layout',
+			pageName: {
+				title: '',
+				show: false
+			},
 			breadcrumb: {
 				title: '',
 				skip: true
@@ -178,8 +208,11 @@ const routes = [
 				component: Profile,
 				meta: {
 					auth: true,
-					pageName: '會員資料',
 					layout: 'page-layout',
+					pageName: {
+						title: '會員資料',
+						show: true
+					},
 					breadcrumb: {
 						title: '會員資料',
 						skip: false
@@ -193,8 +226,11 @@ const routes = [
 		component: TempView,
 		meta: {
 			auth: false,
-			pageName: '',
 			layout: 'page-layout',
+			pageName: {
+				title: '',
+				show: false
+			},
 			breadcrumb: {
 				title: '',
 				skip: true
@@ -211,8 +247,11 @@ const routes = [
 				component: ProductDetail,
 				meta: {
 					auth: false,
-					pageName: '商品詳情',
 					layout: 'page-layout',
+					pageName: {
+						title: '商品詳情',
+						show: false
+					},
 					breadcrumb: {
 						title: '商品詳情',
 						skip: false

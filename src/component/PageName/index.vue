@@ -6,8 +6,8 @@
 import { computed } from '@vue/composition-api'
 export default {
    setup(props, { root }) {
-      let isShow = computed(() => root.$route.name !== 'home');
-      let pageName = computed(() => root.$route.meta.pageName);
+      let isShow = computed(() => root.$route.meta.pageName.show);
+      let pageName = computed(() => root.$route.meta.pageName.title);
 
       return { isShow, pageName }
    }
