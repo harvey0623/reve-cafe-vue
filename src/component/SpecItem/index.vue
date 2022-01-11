@@ -1,7 +1,7 @@
 <template>
    <li
       class="spec-item text-input" 
-      :class="{active:isActive, noStock:!hasStock}"
+      :class="{active:isActive, disabled:!hasStock}"
       @click="clickSpec">
       {{ specName }}
    </li>
@@ -22,7 +22,7 @@ export default {
 
       let clickSpec = () => {
          if (!hasStock.value) return;
-         if (spec.value.iId === currentSpecId) return;
+         if (isActive.value) return;
          emit('change-spec', { 
             specId: spec.value.iId,
             stockTotal: spec.value.stockInfo.iStockCount,
@@ -48,7 +48,7 @@ export default {
       background-color: map-get($elBgColor, primary);
       color: #fff;
    }
-   &.noStock {
+   &.disabled {
       opacity: 0.5;
       cursor: not-allowed;
    }

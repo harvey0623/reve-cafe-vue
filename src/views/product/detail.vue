@@ -45,7 +45,7 @@ export default {
       }
 
       let setDefaultSpecValue = () => {
-         let targetSpec = specList.data.find(spec => spec.stockInfo.iStockCount);
+         let targetSpec = specList.data.find(spec => spec.stockInfo.iStockCount > 0);
          let hasFirstSpec = targetSpec !== undefined;
          pickedSpec.specId = hasFirstSpec ? targetSpec.iId : 0;
          pickedSpec.stockTotal = hasFirstSpec ? targetSpec.stockInfo.iStockCount : 0;
@@ -54,10 +54,10 @@ export default {
       }
 
       let changeSpec = (payload) => {
+         pickedSpec.buyCount = 1;
          for (let key in payload) {
             pickedSpec[key] = payload[key];
          }
-         pickedSpec.buyCount = 1;
       }
       
       let setProductDetail = async() => {

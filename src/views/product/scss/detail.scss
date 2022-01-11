@@ -55,7 +55,7 @@
          border-top: 1px solid map-get($borderColor, outer);
          >button {
             width: auto;
-            min-width: 120px;
+            min-width: 110px;
             margin: initial;
             @include elGutter(margin-right, 8px);
             color: #fff;
