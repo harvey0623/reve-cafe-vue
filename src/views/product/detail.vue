@@ -2,11 +2,12 @@
 
 <script>
 import { ref, reactive, computed, onMounted, watch } from '@vue/composition-api'
-import ImageGallery from '@/component/Product/ImageGallery.vue'
 import { productApi } from '@/api/index.js'
+import ImageGallery from '@/component/Product/ImageGallery.vue'
+import SpecItem from '@/component/SpecItem/index.vue';
 export default {
    name: 'product-detail',
-   components: { ImageGallery },
+   components: { ImageGallery, SpecItem },
    metaInfo () {
       return {
         title: '商品詳情',
@@ -18,15 +19,45 @@ export default {
       let bannerList = reactive({ data: [] });
       let showGallery = ref(false);
       let productIntro = reactive({ category: '',  num: '', name: '', summary: '', temperature: '', editContent: '' });
+      let pickedSpec = reactive({ specId: 0, stockTotal: 0, buyCount: 0, price: 0 });
+      let specList = reactive({ data: [] });
+      let isFirstLoading = ref(true);
+
+      let pickedSpecHasStock = computed(() => pickedSpec.stockTotal > 0);
 
       let setProductIntro = (payload) => {
-         console.log(payload);
          productIntro.category = payload.category.vCategoryName;
          productIntro.num = payload.vProductNum;
          productIntro.name = payload.vProductName;
          productIntro.summary = payload.vProductSummary;
          productIntro.temperature = payload.temperature.vTemperatureTitle;
          productIntro.editContent = payload.vProductDetail;
+      }
+
+      let createSpecList = (payload) => {
+         let { specs, stocks } = payload;
+         if (specs.length === 0 || stocks.length === 0) return [];
+         return specs.reduce((prev, current) => {
+            let targetStock = stocks.find(stock => stock.iProductSpecId === current.iId);
+            prev.push({ ...current, stockInfo: targetStock });
+            return prev;
+         }, []);
+      }
+
+      let setDefaultSpecValue = () => {
+         let targetSpec = specList.data.find(spec => spec.stockInfo.iStockCount);
+         let hasFirstSpec = targetSpec !== undefined;
+         pickedSpec.specId = hasFirstSpec ? targetSpec.iId : 0;
+         pickedSpec.stockTotal = hasFirstSpec ? targetSpec.stockInfo.iStockCount : 0;
+         pickedSpec.buyCount = hasFirstSpec ? 1 : 0;
+         pickedSpec.price = hasFirstSpec ? targetSpec.price.iSpecPromoPrice : specList.data[0].price.iSpecPromoPrice;
+      }
+
+      let changeSpec = (payload) => {
+         for (let key in payload) {
+            pickedSpec[key] = payload[key];
+         }
+         pickedSpec.buyCount = 1;
       }
       
       let setProductDetail = async() => {
@@ -38,7 +69,8 @@ export default {
          showGallery.value = false;
          bannerList.data = detailResponse.aaData.info.vImages;
          setProductIntro(detailResponse.aaData);
-
+         specList.data = createSpecList(detailResponse.aaData);
+         setDefaultSpecValue();
          showGallery.value = true;
       }
 
@@ -46,6 +78,7 @@ export default {
          isLoading.value = true;
          productCode.value = root.$route.params.productCode;
          await setProductDetail();
+         isFirstLoading.value = false;
          isLoading.value = false;
       });
 
@@ -56,11 +89,9 @@ export default {
          isLoading.value = false;
       });
 
-      return { isLoading, bannerList, showGallery, productIntro }
+      return { isLoading, bannerList, showGallery, productIntro, pickedSpec, specList, changeSpec, pickedSpecHasStock, isFirstLoading }
    }
 }
-// 9175cf640f439ddd94d3e295ca25ea49
-// 58a2aea6b1314a3d5f989c8ca1ff894a
 </script>
 
 <style src="./scss/detail.scss" lang="scss"></style>

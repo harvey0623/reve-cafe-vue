@@ -31,25 +31,11 @@
    }
 }
 
-.specList {
+.spec-block {
    display: flex;
    align-items: center;
    flex-wrap: wrap;
    margin: 20px 0;
-}
-
-.spec-item {
-   min-width: 100px;
-   padding: 8px 12px;
-   @include elGutter(margin-right, 5px);
-   border: 1px solid map-get($borderColor, outer);
-   text-align: center;
-   cursor: pointer;
-   &.active {
-      border-color: map-get($borderColor, primary);
-      background-color: map-get($elBgColor, primary);
-      color: #fff;
-   }
 }
 
 .edit-block {
@@ -57,7 +43,7 @@
       @extend %bwtFlex;
       @include elGutter(margin-bottom, 10px);
       .form-control {
-         width: 150px;
+         width: 120px;
          text-align: right;    
       }
       .price {

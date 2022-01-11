@@ -8,25 +8,28 @@
          <p class="productNum">{{ productIntro.num }}</p>
          <p class="productName text-input">{{ productIntro.name }}</p>
          <p class="productSummary text-input">{{ productIntro.summary }}</p>
-         <ul class="specList">
-            <li class="spec-item">巴西咖啡</li>
+         <ul class="spec-block">
+            <SpecItem v-for="spec in specList.data" :key="spec.iId" :spec="spec" :currentSpecId="pickedSpec.specId" @change-spec="changeSpec"></SpecItem>
          </ul>
          <div class="edit-block">
-            <div class="edit-row">
-               <span>溫層:</span>
-               <span>{{ productIntro.temperature }}</span>
-            </div>
-            <div class="edit-row">
-               <span>數量:</span>
-               <select class="form-control">
-                  <option value="1">1</option>
-               </select>
-            </div>
-            <div class="edit-row">
-               <span>價格:</span>
-               <span class="price text-primary">${{ 1000 | currency }}</span>
-            </div>
-            <div class="edit-row btnBox no-mt">
+            <template v-if="!isFirstLoading">
+               <div class="edit-row">
+                  <span>溫層:</span>
+                  <span>{{ productIntro.temperature }}</span>
+               </div>
+               <div class="edit-row">
+                  <span>數量:</span>
+                  <select class="form-control" v-model.number="pickedSpec.buyCount" :disabled="!pickedSpecHasStock">
+                     <option value="0" v-show="!pickedSpecHasStock">0</option>
+                     <option v-for="num in pickedSpec.stockTotal" :key="num" :value="num">{{ num }}</option>
+                  </select>
+               </div>
+               <div class="edit-row">
+                  <span>價格:</span>
+                  <span class="price text-primary">${{ pickedSpec.price | currency }}</span>
+               </div>
+            </template>
+            <div class="edit-row btnBox no-mt" v-show="pickedSpecHasStock">
                <button class="cart">加入購物車</button>
                <button class="immediate">直接購買</button>
             </div>
