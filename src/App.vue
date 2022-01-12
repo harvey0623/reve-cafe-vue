@@ -6,11 +6,12 @@
 		<component :is="layoutName">
 			<router-view></router-view>
 		</component>
+		<Footer></Footer>
 	</div>
 </template>
 
 <script>
-import { ref, computed, watch, onMounted } from '@vue/composition-api'
+import { computed, onMounted } from '@vue/composition-api'
 import Header from '@/component/Header/index.vue'
 import Footer from '@/component/Footer/index.vue'
 import Breadcrumb from '@/component/Breadcrumb/index.vue'
