@@ -16,6 +16,20 @@ export default new Vuex.Store({
 			state.termList = payload;
 		}
 	},
+	getters: {
+		termInfo(state) {
+			return state.termList.reduce((prev, current) => {
+				prev[current.id] = current;
+				return prev;
+			}, {});
+		},
+		getTermContent(state, getters) {
+			return (termId) => {
+				let obj = getters.termInfo[termId];
+				return obj !== undefined ? obj.content : '';
+			}
+		}
+	},
 	actions: {
 		async getTerm({ commit }) {
 			let termResponse = await thirdPartyApi.getTerm({ type: ['register'] });

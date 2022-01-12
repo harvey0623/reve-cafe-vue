@@ -1,11 +1,12 @@
 <template src="./html/step1.html"></template>
 
 <script>
-import { ref, reactive, onMounted, computed } from '@vue/composition-api'
+import { ref, reactive, computed, onMounted } from '@vue/composition-api'
 import { createFormList, createZipcode } from '@/composition-api/index.js'
-import { thirdPartyAuthApi, thirdPartyApi } from '@/api/index.js'
+import { thirdPartyAuthApi } from '@/api/index.js'
 import { storageObj, wm_aes } from '@/plugins/index.js'
 import TermTrigger from '@/component/Term/TermTrigger.vue'
+import _ from 'lodash'
 export default {
    name: 'register-step1',
    components: { TermTrigger },
@@ -20,14 +21,19 @@ export default {
       let user = reactive({ mobile: '', password: '', confirm_password: '', name: '', gender: '',security_question: '', security_answer: '', isAgree: false, email: '', birthday: '', address: ''
       });
       let responseInfo = reactive({ status: 0, message: '', type: '' });
-      let termInfo = reactive({ list: {}, content: '' });
+      let termContent = ref('');
       let form = ref(null);
       let checkModal = ref(null);
       let agreeModal = ref(null);
       let termModal = ref(null);
       let isLoading = ref(false);
+      let termInfo = computed(() => root.$store.getters.termInfo);
+      let totalTerms = computed(() => _.size(termInfo.value));
 
-      let totalTerms = computed(() => _.size(termInfo.list));
+      let termTrigger = (termId) => {
+         termContent.value = root.$store.getters.getTermContent(termId);
+         termModal.value.openModal();
+      }
 
       let register_check = () => {
          return thirdPartyAuthApi.register_check({
@@ -57,24 +63,6 @@ export default {
                district: addressInfo.district
             }
          });
-      }
-
-      let createTermList = (payload) => {
-         return payload.reduce((prev, current) => {
-            prev[current.id] = current;
-            return prev;
-         }, {});
-      }
-
-      let getTerm = async() => {
-         let termResponse = await thirdPartyApi.getTerm({ type: ['register'] });
-         if (termResponse.results.term_information.length === 0) return;
-         termInfo.list = createTermList(termResponse.results.term_information[0].terms);
-      }
-
-      let showTermContent = (termId) => {
-         termInfo.content = termInfo.list[termId].content;
-         termModal.value.openModal();
       }
 
       let setResponseInfo = (payload, type)  => {
@@ -122,10 +110,9 @@ export default {
 
       onMounted(() => {
          setUserData();
-         getTerm();
       });
 
-      return { genderList, questionList, user, addressInfo, cityList, districtList, submitHandler, form, isLoading, responseInfo, confirmHandler, checkModal, termInfo, totalTerms, showTermContent, agreeModal, termModal }
+      return { genderList, questionList, user, addressInfo, cityList, districtList, submitHandler, form, isLoading, responseInfo, confirmHandler, checkModal, termInfo, totalTerms, termContent,agreeModal, termTrigger, termModal }
    }
 }
 </script>

@@ -79,8 +79,8 @@
                <input type="checkbox" class="hook-checkbox" v-model="user.isAgree">
             </div>
             <div class="term-content text-form">
-               我同意<TermTrigger v-for="(obj,key,index) in termInfo.list" :key="key" :termId="obj.id" 
-                  :termTitle="obj.title" :totalTerms="totalTerms" :order="index" @term-trigger="showTermContent"></TermTrigger>
+               我同意<TermTrigger v-for="(obj,key,index) in termInfo" :key="key" :termId="obj.id" 
+                  :termTitle="obj.title" :totalTerms="totalTerms" :order="index" @term-trigger="termTrigger"></TermTrigger>
             </div>
          </div>
          <div class="form-row divide-line"></div>
@@ -137,6 +137,6 @@
       <p>請同意條款</p>
    </modal-message>
    <modal-message ref="termModal" cancelText="確認" :showCancel="true" :showConfirm="false">
-      <p v-html="termInfo.content"></p>
+      <p v-html="termContent"></p>
    </modal-message>
 </div>

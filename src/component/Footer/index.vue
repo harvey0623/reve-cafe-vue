@@ -32,14 +32,13 @@
 </template>
 
 <script>
-import { computed } from '@vue/composition-api'
+import { computed, onMounted } from '@vue/composition-api'
 export default {
    setup(props, { root }) {
-      let termList = computed(() => {
-         return root.$store.state.termList.reduce((prev, current) => {
-            prev.push({ id: current.id, title: current.title });
-            return prev;
-         }, []);
+      let termList = computed(() => root.$store.getters.termInfo);
+
+      onMounted(() => {
+         root.$store.dispatch('getTerm');
       });
 
       return { termList }
