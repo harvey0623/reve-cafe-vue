@@ -30,12 +30,15 @@
                </div>
             </template>
             <div class="edit-row btnBox no-mt" v-show="pickedSpecHasStock">
-               <button class="cart">加入購物車</button>
-               <button class="immediate">直接購買</button>
+               <button class="cart" @click="addCart(false)">加入購物車</button>
+               <button class="immediate" @click="addCart(true)">直接購買</button>
             </div>
          </div>
       </div>
    </div>
    <div class="product-middle" v-html="productIntro.editContent"></div>
    <Loading v-show="isLoading"></Loading>
+   <modal-message ref="cartModal" @confirm="confirmHandler">
+      <p>{{ addInfo.message }}</p>
+   </modal-message>
 </div>

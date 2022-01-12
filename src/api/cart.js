@@ -11,5 +11,16 @@ export const cartRequest = {
       }).catch(err => {
          return err.response.data;
       })
+   },
+   addCart(payload) {
+      return httpConfig({
+         url: '/cart/add',
+         method: 'post',
+         data: payload
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      })
    }
 }

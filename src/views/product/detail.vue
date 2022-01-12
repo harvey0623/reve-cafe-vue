@@ -2,9 +2,9 @@
 
 <script>
 import { ref, reactive, computed, onMounted, watch } from '@vue/composition-api'
-import { productApi } from '@/api/index.js'
+import { productApi, cartApi } from '@/api/index.js'
 import ImageGallery from '@/component/Product/ImageGallery.vue'
-import SpecItem from '@/component/SpecItem/index.vue';
+import SpecItem from '@/component/SpecItem/index.vue'
 export default {
    name: 'product-detail',
    components: { ImageGallery, SpecItem },
@@ -22,6 +22,8 @@ export default {
       let pickedSpec = reactive({ specId: 0, stockTotal: 0, buyCount: 0, price: 0 });
       let specList = reactive({ data: [] });
       let isFirstLoading = ref(true);
+      let addInfo = reactive({ status: 0, message: '', isRedirect: '' });
+      let cartModal = ref(null);
 
       let pickedSpecHasStock = computed(() => pickedSpec.stockTotal > 0);
 
@@ -74,6 +76,30 @@ export default {
          showGallery.value = true;
       }
 
+      let addCart = async(isRedirect) => {
+         isLoading.value = true;
+         let addResponse = await cartApi.addCart({
+            vProductCode: productCode.value,
+            iSpecId: pickedSpec.specId,
+            iCount: pickedSpec.buyCount,
+         });
+         addInfo.status = addResponse.status;
+         addInfo.message = addResponse.message;
+         addInfo.isRedirect = isRedirect;
+         cartModal.value.openModal();
+         if (addInfo.status === 1) root.$store.dispatch('cart/getAllCart');
+         isLoading.value = false;
+      }
+
+      let confirmHandler = () => {
+         let { status, isRedirect } = addInfo;
+         if (status === 1 && isRedirect) {
+            root.$router.push('/');
+         } else {
+            cartModal.value.closeModal();
+         }
+      }
+
       onMounted(async() => {
          isLoading.value = true;
          productCode.value = root.$route.params.productCode;
@@ -89,7 +115,7 @@ export default {
          isLoading.value = false;
       });
 
-      return { isLoading, bannerList, showGallery, productIntro, pickedSpec, specList, changeSpec, pickedSpecHasStock, isFirstLoading }
+      return { isLoading, bannerList, showGallery, productIntro, pickedSpec, specList, changeSpec, pickedSpecHasStock, isFirstLoading, addInfo, addCart, cartModal, confirmHandler }
    }
 }
 </script>

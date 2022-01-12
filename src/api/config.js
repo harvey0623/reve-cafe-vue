@@ -33,7 +33,7 @@ instance.interceptors.response.use(function (response) {
    store.commit('auth/setUserInfo', {});
    store.dispatch('cart/clearAllCart');
    storageObj.removeItem('userInfo');
-   if (currentRoute.meta.auth) {
+   if (currentRoute.meta.auth || currentRoute.meta.needBackToSingin) {
       storageObj.setSessionItem('backInfo', { url: currentRoute.path });
       router.replace('/signin');
    }

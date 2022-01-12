@@ -248,6 +248,7 @@ const routes = [
 				meta: {
 					auth: false,
 					layout: 'page-layout',
+					needBackToSingin: true,
 					pageName: {
 						title: '商品詳情',
 						show: false
