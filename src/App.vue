@@ -28,7 +28,8 @@ export default {
 
 		onMounted(() => {
 			if (isLogin.value) root.$store.dispatch('cart/getAllCart');
-		})
+			root.$store.dispatch('getTerm');
+		});
 
 		return { layoutName }
 	}

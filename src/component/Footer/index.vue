@@ -7,17 +7,16 @@
             </div>
             <div class="footer-info">
                <ul class="infoList">
-                  <!-- <li class="info-item">
+                  <li class="info-item">
                      <p class="name">關於黑浮</p>
                      <div class="link-block">
                         <router-link to="/">Q&A</router-link>
                      </div>
-                  </li> -->
+                  </li>
                   <li class="info-item">
                      <p class="name">相關政策</p>
                      <div class="link-block">
-                        <router-link to="/">隱私權政策</router-link>
-                        <router-link to="/">會員服務條款</router-link>
+                        <router-link v-for="term in termList" :key="term.id" :to="{name: 'home', query:{termId: term.id }}">{{ term.title }}</router-link>
                      </div>
                   </li>
                </ul>
@@ -33,16 +32,17 @@
 </template>
 
 <script>
-import { onMounted } from '@vue/composition-api'
+import { computed } from '@vue/composition-api'
 export default {
    setup(props, { root }) {
-
-
-      onMounted(() => {
-
+      let termList = computed(() => {
+         return root.$store.state.termList.reduce((prev, current) => {
+            prev.push({ id: current.id, title: current.title });
+            return prev;
+         }, []);
       });
 
-      return {}
+      return { termList }
    }
 }
 </script>
