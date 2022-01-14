@@ -1,0 +1,15 @@
+<div class="product-category">
+   <div class="my-container">
+      <h3 class="categoryTitle text-primary">{{ categoryName }}</h3>
+      <div class="category-wrap">
+         <div class="category-left">
+            <div class="category-block">
+               <CategoryItem v-for="sub in subCategory.data" :key="sub.iId" :info="sub" :categoryId="categoryId" @changeCategory="changeCategory"></CategoryItem>
+            </div>
+         </div>
+         <div class="product-right">
+            content
+         </div>
+      </div>
+   </div>
+</div>

@@ -12,6 +12,7 @@ import Forgot_Step1 from '@/views/forgot/step1.vue';
 import Forgot_Step2 from '@/views/forgot/step2.vue';
 import Forgot_Step3 from '@/views/forgot/step3.vue';
 import ProductDetail from '@/views/product/detail.vue';
+import ProductCategory from '@/views/product/category.vue';
 
 Vue.use(VueRouter)
 
@@ -255,6 +256,23 @@ const routes = [
 					},
 					breadcrumb: {
 						title: '商品詳情',
+						skip: false
+					}
+				},
+			},
+			{
+				path: 'category',
+				name: 'product_category',
+				component: ProductCategory,
+				meta: {
+					auth: false,
+					layout: 'page-layout',
+					pageName: {
+						title: '商品分類',
+						show: false
+					},
+					breadcrumb: {
+						title: '商品分類',
 						skip: false
 					}
 				},

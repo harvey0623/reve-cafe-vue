@@ -120,4 +120,4 @@ export default {
 }
 </script>
 
-<style src="./scss/detail.scss" lang="scss"></style>
+<style src="./scss/detail.scss" lang="scss" scoped></style>

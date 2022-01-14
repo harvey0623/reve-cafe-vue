@@ -56,7 +56,7 @@ export default {
          return arr.reduce((prev, current) => {
             let { iId:id, vCategoryName:title } = current;
             if (id === 0) return prev;
-            prev.push({ id, title, urlParams: { name: 'home', query: { categoryId: id }}});
+            prev.push({ id, title, urlParams: { name: 'product_category', query: { categoryId: id }}});
             return prev;
          }, []);
       }
@@ -81,9 +81,9 @@ export default {
       }
 
       let createMenuList = async() => {
-         let categoryResponse = await productApi.product_category();
+         let categoryResponse = await productApi.product_category({});
          let list = createMenuSchema(categoryResponse.aaData);
-         let [fullInfo, matchInfo] = await Promise.all([ 
+         let [fullInfo, matchInfo] = await Promise.all([
             activityApi.fullAmount(),
             activityApi.red_with_green()
          ]);
