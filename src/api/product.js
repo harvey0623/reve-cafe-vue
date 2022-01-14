@@ -33,5 +33,17 @@ export const productRequest = {
       }).catch(err => {
          return err.response.data;
       })
+   },
+   product_category(payload) {
+      return httpConfig({
+         url: '/product/product_category',
+         method: 'get',
+         data: {},
+         params: payload
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      })
    }
 }

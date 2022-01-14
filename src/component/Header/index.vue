@@ -6,7 +6,7 @@
                所有商品
                <i class="fal fa-chevron-down"></i>
                <div class="header-dropdown-menu" :class="{mouseenter:openDropdownMenu}">
-                  <router-link to="/" @click.native="openDropdownMenu = false">優惠活動</router-link>
+                  <router-link v-for="(menu,index) in menuList.data" :key="index" :to="menu.urlParams" @click.native="openDropdownMenu = false">{{ menu.title }}</router-link>
                </div>
             </a>
            <router-link to="/">品牌介紹</router-link>
@@ -41,21 +41,63 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from '@vue/composition-api'
+import { ref, reactive, computed, onMounted } from '@vue/composition-api'
+import { productApi, activityApi } from '@/api/index.js'
 export default {
    setup(props, { root }) {
+      let menuList = reactive({ data: [] });
       let openDropdownMenu = ref(false);
       let isLogin = computed(() => root.$store.getters['auth/isLogin']);
       let memberLink = computed(() => isLogin.value ? '/member/profile' : '/signin');
       let cartTotal = computed(() => root.$store.getters['cart/subTotal']);
       let showCartCount = computed(() => cartTotal.value > 0);
 
+      let createMenuSchema = (arr) => {
+         return arr.reduce((prev, current) => {
+            let { iId:id, vCategoryName:title } = current;
+            if (id === 0) return prev;
+            prev.push({ id, title, urlParams: { name: 'home', query: { categoryId: id }}});
+            return prev;
+         }, []);
+      }
+
+      let getFirstActivityItem = (arr) => {
+         let obj = arr[0];
+         let activityInfo = {
+            full_amount: {
+               1: { routeName: 'home' }, 
+               2: { routeName: 'home' }
+            },
+            red_with_green: {
+               1: { routeName: 'home' }
+            }
+         }
+         let routeName = activityInfo[obj.code][obj.iId].routeName;
+         return {
+            id: obj.iId, 
+            title: obj.vTitle, 
+            urlParams: { name: routeName, query: { activityId: obj.iId }}
+         };
+      }
+
+      let createMenuList = async() => {
+         let categoryResponse = await productApi.product_category();
+         let list = createMenuSchema(categoryResponse.aaData);
+         let [fullInfo, matchInfo] = await Promise.all([ 
+            activityApi.fullAmount(),
+            activityApi.red_with_green()
+         ]);
+         let activityList = fullInfo.aaData.concat(matchInfo.aaData);
+         if (activityList.length === 0) return menuList.data = list;
+         let activityItem = getFirstActivityItem(activityList);
+         menuList.data = [ ...list, activityItem ];
+      }
+
       onMounted(() => {
-         // if (!isLogin.value) return;
-         // root.$store.dispatch('cart/getAllCart');
+         createMenuList();
       });
 
-      return { openDropdownMenu, memberLink, cartTotal, showCartCount, isLogin };
+      return { openDropdownMenu, memberLink, cartTotal, showCartCount, isLogin, menuList };
    }
 }
 </script>
