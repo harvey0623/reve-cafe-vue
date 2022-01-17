@@ -41,6 +41,7 @@
 <script>
 import { ref, reactive, computed, onMounted } from '@vue/composition-api'
 import { scenesApi, productApi } from '@/api/index.js'
+import { createMultipleSpec } from '@/composition-api/index.js'
 import Swiper from 'swiper/swiper-bundle.min.js'
 import PopularItem from '@/component/Product/PopularItem.vue'
 import MultipleSpecItem from '@/component/Product/MultipleSpecItem.vue'
@@ -53,6 +54,7 @@ export default {
       }
    },
    setup(props, { root }) {
+      let { processProduct } = createMultipleSpec();
       let bannerList = reactive({ data: [] });
       let recommendList = reactive({ data: [] });
       let productList = reactive({ data: [] });
@@ -83,18 +85,6 @@ export default {
          });
       }
 
-      let processProduct = (payload, endIndex) => {
-         let sliceData = payload.aaData.slice(0, endIndex);
-         if (sliceData.length === 0) return [];
-         return sliceData.reduce((prev, current) => {
-            let specs = current.specs;
-            if (specs.length === 0) return prev;
-            specs.sort((a, b) => a.price.iSpecPromoPrice - b.price.iSpecPromoPrice);
-            prev.push({ ...current, specs,})
-            return prev;
-         }, []);
-      }
-
       onMounted(async() => {
          isLoading.value = true;
          let allResponse = await Promise.all([ 
@@ -102,8 +92,8 @@ export default {
          ]);
          let [ bannerInfo, recommendInfo, productInfo ] = allResponse;
          setBanner(bannerInfo);
-         recommendList.data = processProduct(recommendInfo, 3);
-         productList.data = processProduct(productInfo, 10);
+         recommendList.data = processProduct(recommendInfo.aaData, 3);
+         productList.data = processProduct(productInfo.aaData, 10);
          isLoading.value = false;
       });
 
@@ -142,9 +132,5 @@ export default {
    display: flex;
    align-items: flex-start;
    justify-content: space-between;
-}
-.product-row {
-   display: flex;
-   flex-wrap: wrap;
 }
 </style>

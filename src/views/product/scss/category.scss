@@ -16,6 +16,38 @@
    }
    >.product-right {
       flex: 1;
-      padding-left: 60px;
+      padding-left: 55px;
    }
+}
+
+.category-panel {
+   @extend %bwtFlex;
+   padding-bottom: 20px;
+   margin-bottom: 20px;
+   border-bottom: 1px solid map-get($borderColor, divide);
+   >.count-block {
+      >.text-primary {
+         margin: 0 3px;
+      }
+   }
+   >.search-block {
+      display: flex;
+      align-items: center;
+      >button {
+         $basicRadius: map-get($radius, basic);
+         @include size(42px, 38px);
+         line-height: 38px;
+         font-size: 18px;
+         border-radius: 0 $basicRadius $basicRadius 0;
+      }
+   }
+}
+
+.product-row {
+   display: flex;
+   flex-wrap: wrap;
+}
+
+.seeMore {
+   width: 120px;
 }

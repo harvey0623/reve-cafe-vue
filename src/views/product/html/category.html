@@ -8,8 +8,27 @@
             </div>
          </div>
          <div class="product-right">
-            content
+            <div class="category-panel">
+               <div class="count-block">
+                  共<span class="text-primary">{{ totalProduct | currency }}</span>項商品
+               </div>
+               <div class="search-block">
+                  <input type="text" class="form-control" placeholder="關鍵字搜尋" v-model.trim="keyword">
+                  <button class="btn-primary" @click="searchHandler">
+                     <i class="fal fa-search"></i>
+                  </button>
+               </div>
+            </div>
+            <div class="product-block">
+               <div class="product-row">
+                  <MultipleSpecItem v-for="product in productList.data" :key="product.iId":productInfo="product"></MultipleSpecItem>
+               </div>
+            </div>
+            <div class="btnBox center">
+               <button class="btn-primary seeMore" @click="seeMore" v-show="hasNextPage">{{ buttonText }}</button>
+            </div>
          </div>
       </div>
    </div>
+   <Loading v-show="isLoading"></Loading>
 </div>

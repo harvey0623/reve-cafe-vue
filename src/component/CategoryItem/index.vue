@@ -16,6 +16,7 @@ export default {
       let isActive = computed(() => props.info.iId === props.categoryId);
 
       let clickHandler = () => {
+         if (isActive.value) return;
          emit('changeCategory', props.info.iId);
       }
 
@@ -33,7 +34,7 @@ export default {
    &:after {
       content: '';
       position: absolute;
-      right: 0;
+      left: 0;
       bottom: 0;
       @include size(0, 2px);
       background-color: map-get($elBgColor, primary);
@@ -47,7 +48,7 @@ export default {
    }
    >.name {
       margin-bottom: 5px;
-      font-size: 22px;
+      font-size: 18px;
    }
 }
 </style>

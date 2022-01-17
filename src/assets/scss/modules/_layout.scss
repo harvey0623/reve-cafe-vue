@@ -12,6 +12,27 @@ body {
    }
 }
 
+.outline-block {
+   width: 760px;
+   min-height: 300px;
+   margin: 0 auto;
+   padding: 30px 70px;
+   border: 1px solid map-get($borderColor, outer);
+}
+
+.swiper-pagination-bullet {
+   opacity: 1;
+   background-color: #000;
+   &-active {
+      background-color: map-get($elBgColor, primary);
+   }
+}
+
+.product-row {
+   display: flex;
+   flex-wrap: wrap;
+}
+
 //===btnBox
 .btnBox {
    margin-top: 40px;
@@ -32,21 +53,5 @@ body {
    }
    >a[class^=btn-hover] {
       line-height: 36px;
-   }
-}
-
-.outline-block {
-   width: 760px;
-   min-height: 300px;
-   margin: 0 auto;
-   padding: 30px 70px;
-   border: 1px solid map-get($borderColor, outer);
-}
-
-.swiper-pagination-bullet {
-   opacity: 1;
-   background-color: #000;
-   &-active {
-      background-color: map-get($elBgColor, primary);
    }
 }
