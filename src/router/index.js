@@ -13,6 +13,10 @@ import Forgot_Step2 from '@/views/forgot/step2.vue';
 import Forgot_Step3 from '@/views/forgot/step3.vue';
 import ProductDetail from '@/views/product/detail.vue';
 import ProductCategory from '@/views/product/category.vue';
+import Activity from '@/views/activity/index.vue';
+import Quanity from '@/views/activity/quanity.vue';
+import Quota from '@/views/activity/quota.vue';
+import RedWithGreen from '@/views/activity/red_with_green.vue';
 
 Vue.use(VueRouter)
 
@@ -273,6 +277,82 @@ const routes = [
 					},
 					breadcrumb: {
 						title: '商品分類',
+						skip: false
+					}
+				},
+			}
+		]
+	},
+	{
+		path: '/activity',
+		component: Activity,
+		meta: {
+			auth: false,
+			layout: 'page-layout',
+			pageName: {
+				title: '',
+				show: false
+			},
+			breadcrumb: {
+				title: '優惠活動',
+				skip: false
+			}
+		},
+		children: [
+			{
+				path: '',
+				redirect: '/'
+			},
+			{
+				path: 'quota',
+				name: 'quota',
+				component: Quota,
+				meta: {
+					auth: false,
+					layout: 'page-layout',
+					needBackToSingin: true,
+					pageName: {
+						title: '滿額活動',
+						show: true
+					},
+					breadcrumb: {
+						title: '滿額活動',
+						skip: false
+					}
+				},
+			},
+			{
+				path: 'quanity',
+				name: 'quanity',
+				component: Quanity,
+				meta: {
+					auth: false,
+					layout: 'page-layout',
+					needBackToSingin: true,
+					pageName: {
+						title: '滿件活動',
+						show: true
+					},
+					breadcrumb: {
+						title: '滿件活動',
+						skip: false
+					}
+				},
+			},
+			{
+				path: 'redwithgreen',
+				name: 'redwithgreen',
+				component: RedWithGreen,
+				meta: {
+					auth: false,
+					layout: 'page-layout',
+					needBackToSingin: true,
+					pageName: {
+						title: '紅配綠活動',
+						show: true
+					},
+					breadcrumb: {
+						title: '紅配綠活動',
 						skip: false
 					}
 				},

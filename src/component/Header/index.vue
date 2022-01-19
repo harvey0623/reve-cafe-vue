@@ -43,6 +43,7 @@
 <script>
 import { ref, reactive, computed, onMounted } from '@vue/composition-api'
 import { productApi, activityApi } from '@/api/index.js'
+import { createActivityInfo } from '@/composition-api/index.js'
 export default {
    setup(props, { root }) {
       let menuList = reactive({ data: [] });
@@ -51,6 +52,7 @@ export default {
       let memberLink = computed(() => isLogin.value ? '/member/profile' : '/signin');
       let cartTotal = computed(() => root.$store.getters['cart/subTotal']);
       let showCartCount = computed(() => cartTotal.value > 0);
+      let activityInfo = createActivityInfo();
 
       let createMenuSchema = (arr) => {
          return arr.reduce((prev, current) => {
@@ -63,20 +65,11 @@ export default {
 
       let getFirstActivityItem = (arr) => {
          let obj = arr[0];
-         let activityInfo = {
-            full_amount: {
-               1: { routeName: 'home' }, 
-               2: { routeName: 'home' }
-            },
-            red_with_green: {
-               1: { routeName: 'home' }
-            }
-         }
-         let routeName = activityInfo[obj.code][obj.iId].routeName;
+         let routeName = activityInfo[obj.code][obj.iType].routeName;
          return {
             id: obj.iId, 
-            title: obj.vTitle, 
-            urlParams: { name: routeName, query: { activityId: obj.iId }}
+            title: '優惠活動', 
+            urlParams: { name: routeName, query: { activityId: obj.iId, activityType: obj.code }}
          };
       }
 
