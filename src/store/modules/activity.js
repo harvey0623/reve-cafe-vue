@@ -38,6 +38,13 @@ export const activityStore = {
          if (obj !== undefined) return obj;
          else return null;
       },
+      bannerImage(state, getters) {
+         if (getters.targetActivity === null) return '';
+         else return getters.targetActivity.vImages[0] || '';
+      },
+      criteria(state, getters) {
+         
+      }
    },
    actions: {
       async getActivity({ commit }) {
