@@ -4,6 +4,7 @@
          <ActivityMenu></ActivityMenu>
       </div>
       <div class="activity-right">
+         <div class="banner" :style="{backgroundImage: `url(${bannerUrl})`}"></div>
          <router-view></router-view>
       </div>
       <modal-message ref="emptyModal" @confirm="emptyHandler">
@@ -13,7 +14,7 @@
 </template>
 
 <script>
-import { ref, watch, onBeforeMount, onBeforeUnmount } from '@vue/composition-api'
+import { ref, computed, watch, onMounted, onBeforeUnmount } from '@vue/composition-api'
 import { activityStore } from '@/store/modules/activity.js'
 import ActivityMenu from '@/component/ActivityMenu/index.vue'
 export default {
@@ -28,14 +29,27 @@ export default {
       let $route = root.$route;
       let emptyModal = ref(null);
       let emptyMsg = ref('');
+      let bannerUrl = ref('');
+      
+      let bannerImage = computed(() => {
+         if ($store.getters['activity/bannerImage'] === undefined) return '';
+         return $store.getters['activity/bannerImage'];
+      });
+
       let emptyHandler = () => root.$router.replace('/');
       let getHasStoreModule = (name) => $store.hasModule(name);
 
       let setStoreActivityInfo = (payload) => {
          $store.commit('activity/setActivtyInfo', { id: parseInt(payload.id), type: payload.type });
       }
-      
-      onBeforeMount(async() => {
+
+      let preloadBannerImage = (imgUrl) => {
+         let img = new Image();
+         img.onload = () => bannerUrl.value = imgUrl;
+         img.src = imgUrl;
+      }
+
+      let initStore = async() => {
          let hasActivityStore = getHasStoreModule('activity');
          if (hasActivityStore) return;
          $store.registerModule('activity', activityStore);
@@ -46,6 +60,16 @@ export default {
             emptyModal.value.openModal();
             return;
          }
+      }
+
+      initStore();
+
+      watch(() => root.$route, (val) => {
+         setStoreActivityInfo({ id: val.query.activityId, type: val.query.activityType });
+      });
+
+      watch(bannerImage, (val) => {
+         preloadBannerImage(val);
       });
 
       onBeforeUnmount(() => {
@@ -53,11 +77,8 @@ export default {
          if (hasActivityStore) $store.unregisterModule('activity');
       });
 
-      watch(() => root.$route, (val) => {
-         setStoreActivityInfo({ id: val.query.activityId, type: val.query.activityType });
-      });
+      return { emptyModal, emptyHandler, emptyMsg, bannerUrl }
 
-      return { emptyModal, emptyHandler, emptyMsg }
    }
 }
 </script>
@@ -71,7 +92,12 @@ export default {
    }
    >.activity-right {
       flex: 1;
-      padding-left: 30px;
+      padding-left: 50px;
+      >.banner {
+         height: 250px;
+         background-position: center center;
+         background-size: cover;
+      }
    }
 }
 </style>

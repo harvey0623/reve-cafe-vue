@@ -1,5 +1,5 @@
 <template>
-   <div class="">
+   <div class="quota-block">
       
    </div>
 </template>
