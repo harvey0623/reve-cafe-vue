@@ -93,7 +93,7 @@ body {
             display: flex;
             align-items: flex-start;
             >.imgBox {
-               @include size(120px, 80px);
+               @include size(130px, 97.5px);
                >img {
                   display: block;
                   @include size(100%);
@@ -103,6 +103,7 @@ body {
             >.descBox {
                padding-top: 5px;
                padding-left: 10px;
+               text-align: left;
                >.name {
                   margin-bottom: 5px;
                   font-size: 20px;

@@ -17,8 +17,9 @@
 import { ref, computed, watch, onMounted, onBeforeUnmount } from '@vue/composition-api'
 import { activityStore } from '@/store/modules/activity.js'
 import ActivityMenu from '@/component/ActivityMenu/index.vue'
+import FullAmountRow from '@/component/ActivityMenu/index.vue'
 export default {
-   components: { ActivityMenu },
+   components: { ActivityMenu, FullAmountRow },
    metaInfo () {
       return {
         title: '優惠活動',

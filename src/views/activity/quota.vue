@@ -3,10 +3,11 @@
 <script>
 import { ref, reactive, computed, onMounted, watch } from '@vue/composition-api'
 import { activityApi } from '@/api/index.js'
-import fullAmount from '@/component/ActivityProduct/fullAmount.vue'
+import fullAmountItem from '@/component/ActivityProduct/fullAmountItem.vue'
+import fullAmountRow from '@/component/ActivityRow/FullAmountRow.vue'
 export default {
    name: 'quota',
-   components: { fullAmount },
+   components: { fullAmountItem, fullAmountRow },
    metaInfo () {
       return {
         title: '滿額活動',
@@ -20,6 +21,14 @@ export default {
       let activityId = computed(() => root.$store.state.activity.activityInfo.id);
       let criteria = computed(() => root.$store.getters['activity/criteria']);
       let pickedCount = computed(() => pickedList.data.length);
+      
+      let pickedTotalDollar = computed(() => {
+         return pickedList.data.reduce((prev, current) => {
+            prev += current.buyCount * current.price; 
+            console.log(prev)
+            return prev;
+         }, 0);
+      });
 
       let createProductList = (arr) => {
          let list = arr.filter(item => {
@@ -36,7 +45,6 @@ export default {
       }
 
       let pickedHandler = (payload) => {
-         console.log(payload)
          let pickedObj = pickedList.data.find(item => item.productCode === payload.productCode && item.specId === payload.specId);
          if (pickedObj === undefined) {
             pickedList.data.push({ ...payload, buyCount: 1 });
@@ -45,15 +53,27 @@ export default {
          }
       }
 
+      let changeSpecCount = (payload) => {
+         let pickedObj = pickedList.data.find(item => item.specId === payload.specId);
+         if (pickedObj === undefined) return;
+         pickedObj.buyCount = payload.count;
+      }
+
+      let removePickedItem = ({ specId }) => {
+         let index = pickedList.data.find(item => item.specId === specId);
+         if (index === -1) return;
+         pickedList.data.splice(index, 1);
+      }
+
       onMounted(() => {
          getActivityProduct();
       });
 
       watch(activityId, (val) => {
          
-      })
+      });
 
-      return { isLoading, criteria, pickedList, pickedCount, productList, pickedHandler }
+      return { isLoading, criteria, pickedList, pickedCount, productList, pickedHandler, changeSpecCount, removePickedItem, pickedTotalDollar }
    }
 }
 </script>
