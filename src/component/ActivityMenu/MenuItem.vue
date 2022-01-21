@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed, toRefs } from '@vue/composition-api'
+import { computed, toRefs } from '@vue/composition-api'
 export default {
    props: {
       menuInfo: { type: Object, required: true }
@@ -26,7 +26,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .menu-item {
    display: block;
    @include elGutter(margin-bottom, 20px);
@@ -49,7 +49,10 @@ export default {
    }
    >.title {
       margin-bottom: 5px;
-      font-size: 18px;
+      font-size: 20px;
+   }
+   >.input-text {
+      font-size: 14px;
    }
 }
 </style>

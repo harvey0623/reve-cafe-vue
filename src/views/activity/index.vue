@@ -89,12 +89,16 @@ export default {
    align-items: flex-start;
    >.activity-left {
       flex: 0 0 220px;
+      position: sticky;
+      position: -webkit-sticky;
+      top: 160px;
    }
    >.activity-right {
       flex: 1;
       padding-left: 50px;
       >.banner {
          height: 250px;
+         margin-bottom: 50px;
          background-position: center center;
          background-size: cover;
       }

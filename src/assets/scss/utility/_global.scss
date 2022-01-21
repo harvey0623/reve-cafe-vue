@@ -31,13 +31,13 @@ $elBgColor: (
    placeholder: #c9c9c9,
    modal: #e7e7e7,
    panel: #f8f8f8,
-   variationSub: #4a4a4a,
 );
 
 //按鈕背景色
 $btnBgColor:(
    primary: #bc9f75,
    placeholder: #C9C9C9,
+   activity: #343a40
 );
 
 //邊框顏色
@@ -46,6 +46,7 @@ $borderColor: (
    input: #f2f2f2,
    outer: #d1cfcf,
    divide: #e8e7e7,
+   activity: #343a40
 );
 
 //======extand

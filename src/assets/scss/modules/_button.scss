@@ -15,6 +15,16 @@ $hoverBtn: (
       borderColor: map-get($borderColor, primary),
       hoverColor: #fff,
       hoverBgColor: map-get($btnBgColor, primary),
+      hoverBorderColor: map-get($borderColor, primary),
+   ),
+   ( 
+      class: btn-hover-activity, 
+      color: #fff,
+      backgroundColor: map-get($btnBgColor, activity),
+      borderColor: map-get($borderColor, activity),
+      hoverColor: #fff,
+      hoverBgColor: #23272b,
+      hoverBorderColor: #23272b,
    ),
 );
 
@@ -44,6 +54,17 @@ $hoverBtn: (
       &:hover {
          color: map-get($item, hoverColor);
          background-color: map-get($item, hoverBgColor);
+         border-color: map-get($item, hoverBorderColor);
+      }
+      @if ($class == btn-hover-activity) {
+         &.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            &:hover {
+               background-color: map-get($item, backgroundColor);
+               border-color: map-get($item, borderColor);
+            }
+         }
       }
    }
 }

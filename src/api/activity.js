@@ -5,7 +5,6 @@ export const activityRequest = {
       return httpConfig({
          url: '/activity/product_promotions/full_amount',
          method: 'get',
-         data: {}
       }).then(res => {
          return res.data;
       }).catch(err => {
@@ -16,11 +15,21 @@ export const activityRequest = {
       return httpConfig({
          url: '/activity/product_promotions/red_with_green',
          method: 'get',
-         data: {}
       }).then(res => {
          return res.data;
       }).catch(err => {
          return err.response.data;
       })
    },
+   full_amount_meta(payload) {
+      return httpConfig({
+         url: '/activity/product_promotions/full_amount_meta',
+         method: 'get',
+         params: payload
+      }).then(res => {
+         return res.data; 
+      }).catch(err => {
+         return err.response.data;
+      })
+   }
 }

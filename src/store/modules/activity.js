@@ -43,7 +43,17 @@ export const activityStore = {
          else return getters.targetActivity.vImages[0] || '';
       },
       criteria(state, getters) {
-         
+         let activityObj = getters.targetActivity
+         if (activityObj === null) return { status: 0 };
+         let { code, iPromoType, iPromoAmount, iMinAmount, iGreenAmount, iRedAmount } = activityObj;
+         let mapping = {
+            full_amount: { iPromoType, iPromoAmount, iMinAmount },
+            red_with_green: { iGreenAmount, iRedAmount }
+         };
+         let criteria = mapping[code];
+         if (criteria === undefined) return { status: 0 };
+         criteria.status = 1;
+         return criteria;
       }
    },
    actions: {
