@@ -3,7 +3,10 @@
 <script>
 import { ref, reactive, computed, onMounted, watch } from '@vue/composition-api'
 import { activityApi } from '@/api/index.js'
+import fullAmount from '@/component/ActivityProduct/fullAmount.vue'
 export default {
+   name: 'quota',
+   components: { fullAmount },
    metaInfo () {
       return {
         title: '滿額活動',
@@ -30,7 +33,16 @@ export default {
       let getActivityProduct = async() => {
          let response = await activityApi.full_amount_meta({ activity_product_promotions_ids: activityId.value });
          productList.data = createProductList(response.aaData);
-         
+      }
+
+      let pickedHandler = (payload) => {
+         console.log(payload)
+         let pickedObj = pickedList.data.find(item => item.productCode === payload.productCode && item.specId === payload.specId);
+         if (pickedObj === undefined) {
+            pickedList.data.push({ ...payload, buyCount: 1 });
+         } else {
+            pickedObj.buyCount += 1;
+         }
       }
 
       onMounted(() => {
@@ -41,7 +53,7 @@ export default {
          
       })
 
-      return { isLoading, criteria, pickedList, pickedCount }
+      return { isLoading, criteria, pickedList, pickedCount, productList, pickedHandler }
    }
 }
 </script>
