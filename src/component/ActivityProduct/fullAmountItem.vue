@@ -7,7 +7,7 @@
          <p class="name">{{ productName }}</p>
          <p class="spec text-input">{{ specName }}</p>
          <p class="price text-primary">${{ specPrice | currency }}</p>
-         <button class="btn-hover-activity" @click="pickHandler">選購</button>
+         <button class="btn-hover-activity" :class="{disabled:isFullStock}" @click="pickHandler">選購</button>
       </div>
    </div>
 </template>
@@ -20,25 +20,28 @@ export default {
    },
    setup(props, { emit }) {
       let { productInfo } = toRefs(props);
-
       let productImage = computed(() => productInfo.value.product.vImages[0] || '');
       let productName = computed(() => productInfo.value.product.info.vProductName);
       let specName = computed(() => productInfo.value.full_amount_meta_spec.vSpecTitle);
       let specPrice = computed(() => productInfo.value.full_amount_meta_spec.price.iSpecPromoPrice);
+      let totalStock =  computed(() => productInfo.value.full_amount_meta_spec.iSpecStock);
+      let isFullStock = computed(() => productInfo.value.buyCount >= totalStock.value);
 
       let pickHandler = () => {
+         if (isFullStock.value) return;
          emit('picked', {
+            iId: productInfo.value.iId,
             productCode: productInfo.value.product.vProductCode,
             productName: productName.value,
             specName: specName.value,
             specId: productInfo.value.full_amount_meta_spec.iId,
-            totalStock: productInfo.value.full_amount_meta_spec.iSpecStock,
+            totalStock: totalStock.value,
             price: specPrice.value,
             imageUrl: productImage.value
          });
       }
 
-      return { productImage, productName, specName, specPrice, pickHandler }
+      return { productImage, productName, specName, specPrice, pickHandler, isFullStock }
    }
 }
 </script>

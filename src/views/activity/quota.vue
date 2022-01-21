@@ -17,15 +17,13 @@ export default {
       let isLoading = ref(false);
       let productList = reactive({ data: [] });
       let pickedList = reactive({ data: [] });
-
       let activityId = computed(() => root.$store.state.activity.activityInfo.id);
       let criteria = computed(() => root.$store.getters['activity/criteria']);
       let pickedCount = computed(() => pickedList.data.length);
       
       let pickedTotalDollar = computed(() => {
          return pickedList.data.reduce((prev, current) => {
-            prev += current.buyCount * current.price; 
-            console.log(prev)
+            prev += current.buyCount * current.price;
             return prev;
          }, 0);
       });
@@ -36,6 +34,7 @@ export default {
             if (!isNotNull) return false;
             else return item.full_amount_meta_spec.iSpecStock > 0;
          });
+         list.forEach(item => item.buyCount = 0);
          return list;
       }
 
@@ -44,25 +43,36 @@ export default {
          productList.data = createProductList(response.aaData);
       }
 
+      let setProductBuyCount = (payload) => {
+         let productObj = productList.data.find(item => item.iId === payload.iId);
+         if (productObj === undefined) return;
+         productObj.buyCount = payload.count;
+      }
+
       let pickedHandler = (payload) => {
-         let pickedObj = pickedList.data.find(item => item.productCode === payload.productCode && item.specId === payload.specId);
+         let { iId } = payload;
+         let pickedObj = pickedList.data.find(item => item.iId === iId);
          if (pickedObj === undefined) {
             pickedList.data.push({ ...payload, buyCount: 1 });
+            setProductBuyCount({ iId, count: 1 });
          } else {
             pickedObj.buyCount += 1;
+            setProductBuyCount({ iId, count: pickedObj.buyCount });
          }
       }
 
       let changeSpecCount = (payload) => {
-         let pickedObj = pickedList.data.find(item => item.specId === payload.specId);
+         let pickedObj = pickedList.data.find(item => item.iId === payload.iId);
          if (pickedObj === undefined) return;
          pickedObj.buyCount = payload.count;
+         setProductBuyCount({ iId: payload.iId, count: payload.count });
       }
 
-      let removePickedItem = ({ specId }) => {
-         let index = pickedList.data.find(item => item.specId === specId);
+      let removePickedItem = (iId) => {
+         let index = pickedList.data.find(item => item.iId === iId);
          if (index === -1) return;
          pickedList.data.splice(index, 1);
+         setProductBuyCount({ iId, count: 0 });
       }
 
       onMounted(() => {

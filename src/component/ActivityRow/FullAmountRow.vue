@@ -35,22 +35,19 @@ export default {
       pickInfo: { type: Object, required: true }
    },
    setup(props, { emit }) {
-      console.log(props)
       let { pickInfo:info } = toRefs(props);
       let buyCount = computed({
          get() {
             return info.value.buyCount;
          },
          set(val) {
-            emit('changeSpecCount', { specId: info.value.specId, count: val });
+            emit('changeSpecCount', { iId: info.value.iId, count: val });
          }
       });
 
       let totalDollar = computed(() => buyCount.value * info.value.price);
 
-      let removeHandler = () => {
-         emit('remove', { specId:info.value.specId});
-      }
+      let removeHandler = () => emit('remove', info.value.iId);
 
       return { ...toRefs(props.pickInfo), buyCount, totalDollar, removeHandler }
    }
