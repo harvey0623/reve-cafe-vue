@@ -20,6 +20,8 @@ export default {
       let activityId = computed(() => root.$store.state.activity.activityInfo.id);
       let criteria = computed(() => root.$store.getters['activity/criteria']);
       let pickedCount = computed(() => pickedList.data.length);
+
+      console.log(criteria)
       
       let pickedTotalDollar = computed(() => {
          return pickedList.data.reduce((prev, current) => {

@@ -43,7 +43,7 @@ export const activityStore = {
          else return getters.targetActivity.vImages[0] || '';
       },
       criteria(state, getters) {
-         let activityObj = getters.targetActivity
+         let activityObj = getters.targetActivity;
          if (activityObj === null) return { status: 0 };
          let { code, iPromoType, iPromoAmount, iMinAmount, iGreenAmount, iRedAmount } = activityObj;
          let mapping = {
