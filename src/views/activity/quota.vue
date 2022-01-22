@@ -20,12 +20,45 @@ export default {
       let activityId = computed(() => root.$store.state.activity.activityInfo.id);
       let criteria = computed(() => root.$store.getters['activity/criteria']);
       let pickedCount = computed(() => pickedList.data.length);
-      
+
       let pickedTotalDollar = computed(() => {
          return pickedList.data.reduce((prev, current) => {
             prev += current.buyCount * current.price;
             return prev;
          }, 0);
+      });
+      
+      let discountText = computed(() => {
+         let { status, iPromoAmount, iPromoType } = criteria.value;
+         if (status === 0) return '';
+         let currencyFormat = root.$options.filters.currency;
+         let mappingText = {
+            1: `固定優惠${currencyFormat(iPromoAmount)}元`,
+            2: `折扣優惠${currencyFormat(iPromoAmount)}元`,
+            3: `折扣優惠${iPromoAmount}%`
+         };
+         return `已符合滿額折扣(${mappingText[iPromoType]})`;
+      });
+
+      let isAchieved = computed(() => {
+         if (criteria.value.status === 0) return false;
+         return pickedTotalDollar.value >= criteria.value.iMinAmount;
+      });
+
+      let discountPrice = computed(() => {
+         if (!isAchieved.value) return 0;
+         let { iPromoType, iPromoAmount } = criteria.value;
+         if (iPromoType === 1) {
+            return iPromoAmount;
+         } else if (iPromoType === 2) {
+            return pickedTotalDollar.value - iPromoAmount;
+         } else if (iPromoType === 3) {
+            let ratio = iPromoAmount / 100;
+            let discountAmount = Math.ceil(pickedTotalDollar * ratio);
+            return pickedTotalDollar.value - discountAmount;
+         } else {
+            return 0;
+         }
       });
 
       let createProductList = (arr) => {
@@ -75,6 +108,11 @@ export default {
          setProductBuyCount({ iId, count: 0 });
       }
 
+      let addCart = async() => {
+         if (!isAchieved.value) return;
+         
+      }
+
       onMounted(() => {
          getActivityProduct();
       });
@@ -83,18 +121,27 @@ export default {
          
       });
 
-      return { isLoading, criteria, pickedList, pickedCount, productList, pickedHandler, changeSpecCount, removePickedItem, pickedTotalDollar }
+      return { isLoading, criteria, pickedList, pickedCount, productList, pickedHandler, changeSpecCount, removePickedItem, pickedTotalDollar, discountText, isAchieved, discountPrice, addCart }
    }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .criteriaBox {
    .text-primary {
       margin: 0 3px;
    }
    .reached {
       color: red;
+   }
+   .subTotal {
+      margin-top: 10px;
+      >.origin {
+         margin: 0 5px;
+         &.achieve {
+            text-decoration: line-through;
+         }
+      }
    }
 }
 </style>

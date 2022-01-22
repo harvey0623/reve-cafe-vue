@@ -1,8 +1,13 @@
 <div class="quota-block">
-   <div class="criteriaBox">
-      <p v-if="criteria.status === 1">
+   <div class="criteriaBox" v-if="criteria.status === 1">
+      <p>
          活動條件 : 滿<span class="text-primary">{{ criteria.iMinAmount | currency }}</span>元享折扣，已選購<span class="text-primary">{{ pickedCount | currency }}</span>件
-         <span class="reached">已符合滿額折扣(折扣優惠150元)</span>
+         <span class="reached" v-show="isAchieved">{{ discountText }}</span>
+      </p>
+      <p class="subTotal">
+         目前總計: 
+         <span class="origin" :class="{achieve:isAchieved}">${{ pickedTotalDollar | currency }}</span>
+         <span class="reached" v-show="isAchieved">${{ discountPrice | currency }}</span>
       </p>
    </div>
    <div class="picked-outer">
@@ -22,7 +27,7 @@
       </table>
       <div class="picked-summary">
          <p>目前總計: <span class="text-primary">${{ pickedTotalDollar | currency }}</span></p>
-         <button class="btn-hover-activity">加入購物車</button>
+         <button class="btn-hover-activity" :class="{disabled:!isAchieved}" @click="addCart">加入購物車</button>
       </div>
    </div>
    <div class="activity-product-outer">
