@@ -17,6 +17,8 @@ export default {
       let isLoading = ref(false);
       let productList = reactive({ data: [] });
       let pickedList = reactive({ data: [] });
+      let cartMessage = ref('');
+      let cartModal = ref(null);
       let activityId = computed(() => root.$store.state.activity.activityInfo.id);
       let criteria = computed(() => root.$store.getters['activity/criteria']);
       let pickedCount = computed(() => pickedList.data.length);
@@ -54,7 +56,7 @@ export default {
             return pickedTotalDollar.value - iPromoAmount;
          } else if (iPromoType === 3) {
             let ratio = iPromoAmount / 100;
-            let discountAmount = Math.ceil(pickedTotalDollar * ratio);
+            let discountAmount = Math.ceil(pickedTotalDollar.value * ratio);
             return pickedTotalDollar.value - discountAmount;
          } else {
             return 0;
@@ -120,9 +122,17 @@ export default {
 
       let addCart = async() => {
          if (!isAchieved.value) return;
+         isLoading.value = true;
          let cartParams = createCartParams(activityId.value, 'full_amount');
          let cartResponse = await activityCartApi.addCart(cartParams);
-         console.log(cartResponse);
+         if (cartResponse.status === 1) {
+            cartMessage.value = cartResponse.message;
+            pickedList.data = [];
+            productList.data.forEach(item => item.buyCount = 0);
+            root.$store.dispatch('cart/getAllCart');
+         }
+         cartModal.value.openModal();
+         isLoading.value = false;
       }
 
       onMounted(async() => {
@@ -131,11 +141,13 @@ export default {
          isLoading.value = false;
       });
 
-      watch(activityId, (val) => {
-         
+      watch(activityId, async() => {
+         isLoading.value = true;
+         await getActivityProduct();
+         isLoading.value = false;
       });
 
-      return { isLoading, criteria, pickedList, pickedCount, productList, pickedHandler, changeSpecCount, removePickedItem, pickedTotalDollar, discountText, isAchieved, discountPrice, addCart }
+      return { isLoading, criteria, pickedList, pickedCount, productList, pickedHandler, changeSpecCount, removePickedItem, pickedTotalDollar, discountText, isAchieved, discountPrice, addCart, cartMessage, cartModal }
    }
 }
 </script>

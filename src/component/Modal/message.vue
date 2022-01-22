@@ -9,8 +9,8 @@
             <slot name="default"></slot>
          </div>
          <div class="modal-footer">
-            <button class="btn-primary" v-show="showCancel" @click="cancelHandler">{{ cancelText }}</button>
-            <button class="btn-primary" v-show="showConfirm" @click="confirmHandler">{{ confirmText }}</button>
+            <button class="btn-primary" v-if="showCancel" @click="cancelHandler">{{ cancelText }}</button>
+            <button class="btn-primary" v-if="showConfirm" @click="confirmHandler">{{ confirmText }}</button>
          </div>
       </div>
    </div>
@@ -111,7 +111,7 @@ $duration: 0.4s;
          padding-top: 15px;
          padding-bottom: 15px;
          >button {
-            @include size(120px, 38px);
+            @include size(120px, 40px);
             @include elGutter(margin-right, 12px);
             font-size: 15px;
          }
