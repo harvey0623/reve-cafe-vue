@@ -99,7 +99,7 @@ export default {
       padding-left: 50px;
       >.banner {
          height: 250px;
-         margin-bottom: 50px;
+         margin-bottom: 35px;
          background-position: center center;
          background-size: cover;
       }

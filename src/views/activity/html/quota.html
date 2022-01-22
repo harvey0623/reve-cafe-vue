@@ -33,4 +33,5 @@
    <div class="activity-product-outer">
       <fullAmountItem v-for="product in productList.data" :key="product.iId" :productInfo="product" @picked="pickedHandler"></fullAmountItem>
    </div>
+   <Loading v-show="isLoading"></Loading>
 </div>

@@ -33,8 +33,9 @@ instance.interceptors.response.use(function (response) {
    store.commit('auth/setUserInfo', {});
    store.dispatch('cart/clearAllCart');
    storageObj.removeItem('userInfo');
+   console.log(currentRoute)
    if (currentRoute.meta.auth || currentRoute.meta.needBackToSingin) {
-      storageObj.setSessionItem('backInfo', { url: currentRoute.path });
+      storageObj.setSessionItem('backInfo', { url: currentRoute.fullPath });
       router.replace('/signin');
    }
    return Promise.reject(error);

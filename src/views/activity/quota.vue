@@ -2,7 +2,7 @@
 
 <script>
 import { ref, reactive, computed, onMounted, watch } from '@vue/composition-api'
-import { activityApi } from '@/api/index.js'
+import { activityApi, activityCartApi } from '@/api/index.js'
 import fullAmountItem from '@/component/ActivityProduct/fullAmountItem.vue'
 import fullAmountRow from '@/component/ActivityRow/FullAmountRow.vue'
 export default {
@@ -74,6 +74,7 @@ export default {
       let getActivityProduct = async() => {
          let response = await activityApi.full_amount_meta({ activity_product_promotions_ids: activityId.value });
          productList.data = createProductList(response.aaData);
+         pickedList.data = [];
       }
 
       let setProductBuyCount = (payload) => {
@@ -108,13 +109,26 @@ export default {
          setProductBuyCount({ iId, count: 0 });
       }
 
-      let addCart = async() => {
-         if (!isAchieved.value) return;
-         
+      let createCartParams = (promotionId, code) => {
+         let products = pickedList.data.reduce((prev, current) => {
+            let { productCode, specId, buyCount } = current;
+            prev.push({ vProductCode: productCode, iSpecId: specId, iCount: buyCount });
+            return prev;
+         }, []);
+         return { iActivityProductPromotionsId: promotionId, code, products };
       }
 
-      onMounted(() => {
-         getActivityProduct();
+      let addCart = async() => {
+         if (!isAchieved.value) return;
+         let cartParams = createCartParams(activityId.value, 'full_amount');
+         let cartResponse = await activityCartApi.addCart(cartParams);
+         console.log(cartResponse);
+      }
+
+      onMounted(async() => {
+         isLoading.value = true;
+         await getActivityProduct();
+         isLoading.value = false;
       });
 
       watch(activityId, (val) => {
