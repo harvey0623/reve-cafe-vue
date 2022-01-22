@@ -1,0 +1,40 @@
+<div class="quota-block">
+   <div class="criteriaBox" v-if="criteria.status === 1">
+      <p>
+         活動條件 : 滿<span class="text-primary">{{ criteria.iMinAmount | currency }}</span>件享折扣，已選購<span class="text-primary">{{ pickedCount | currency }}</span>件
+         <span class="reached" v-show="isAchieved">{{ discountText }}</span>
+      </p>
+      <p class="subTotal">
+         目前總計:
+         <span class="origin" :class="{achieve:isAchieved}">${{ pickedTotalDollar | currency }}</span>
+         <span class="reached" v-show="isAchieved">${{ discountPrice | currency }}</span>
+      </p>
+   </div>
+   <div class="picked-outer">
+      <table class="picked-table">
+         <thead>
+            <tr>
+               <th>商品名稱</th>
+               <th>數量</th>
+               <th>單價</th>
+               <th>總價</th>
+               <th>刪除</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr is="fullAmountRow" v-for="pick in pickedList.data" :key="pick.specId" :pickInfo="pick" @changeSpecCount="changeSpecCount" @remove="removePickedItem"></tr>
+         </tbody>
+      </table>
+      <div class="picked-summary">
+         <p>目前總計: <span class="text-primary">${{ pickedTotalDollar | currency }}</span></p>
+         <button class="btn-hover-activity" :class="{disabled:!isAchieved}" @click="addCart">加入購物車</button>
+      </div>
+   </div>
+   <div class="activity-product-outer">
+      <fullAmountItem v-for="product in productList.data" :key="product.iId" :productInfo="product" @picked="pickedHandler"></fullAmountItem>
+   </div>
+   <Loading v-show="isLoading"></Loading>
+   <modal-message ref="cartModal" :showCancel="true" :showConfirm="false" cancelText="確定">
+      <p>{{ cartMessage }}</p>
+   </modal-message>
+</div>

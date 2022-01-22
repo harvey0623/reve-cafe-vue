@@ -21,7 +21,13 @@ export default {
       let cartModal = ref(null);
       let activityId = computed(() => root.$store.state.activity.activityInfo.id);
       let criteria = computed(() => root.$store.getters['activity/criteria']);
-      let pickedCount = computed(() => pickedList.data.length);
+      
+      let pickedCount = computed(() => {
+         return pickedList.data.reduce((prev, current) => {
+            prev += current.buyCount;
+            return prev; 
+         }, 0);
+      });
 
       let pickedTotalDollar = computed(() => {
          return pickedList.data.reduce((prev, current) => {
@@ -152,22 +158,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.criteriaBox {
-   .text-primary {
-      margin: 0 3px;
-   }
-   .reached {
-      color: red;
-   }
-   .subTotal {
-      margin-top: 10px;
-      >.origin {
-         margin: 0 5px;
-         &.achieve {
-            text-decoration: line-through;
-         }
-      }
-   }
-}
+<style lang="scss">
+
 </style>

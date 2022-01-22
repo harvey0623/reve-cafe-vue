@@ -56,6 +56,24 @@ body {
    }
 }
 
+.criteriaBox {
+   .text-primary {
+      margin: 0 3px;
+   }
+   .reached {
+      color: red;
+   }
+   .subTotal {
+      margin-top: 10px;
+      >.origin {
+         margin: 0 5px;
+         &.achieve {
+            text-decoration: line-through;
+         }
+      }
+   }
+}
+
 .picked-outer {
    margin: 25px 0;
    border: 1px solid map-get($borderColor, outer);

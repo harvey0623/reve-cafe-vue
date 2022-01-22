@@ -50,10 +50,10 @@ export const activityStore = {
             full_amount: { iPromoType, iPromoAmount, iMinAmount },
             red_with_green: { iGreenAmount, iRedAmount }
          };
-         let criteria = mapping[code];
-         if (criteria === undefined) return { status: 0 };
-         criteria.status = 1;
-         return criteria;
+         let obj = mapping[code];
+         if (obj === undefined) return { status: 0 };
+         obj.status = 1;
+         return obj;
       }
    },
    actions: {
