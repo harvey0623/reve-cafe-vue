@@ -4,6 +4,7 @@
          <div class="profile">
             <div class="imgBox">
                <img :src="pickInfo.imageUrl" alt="">
+               <span class="label" :style="{backgroundColor:labelInfo.backgroundColor}">{{ labelInfo.title }}</span>
             </div>
             <div class="descBox">
                <p class="name">{{ pickInfo.productName }}</p>
@@ -30,12 +31,22 @@
 
 <script>
 import { computed, toRefs } from '@vue/composition-api'
+import { createSalesInfo } from '@/composition-api/index.js'
 export default {
    props: {
       pickInfo: { type: Object, required: true }
    },
    setup(props, { emit }) {
       let { pickInfo:info } = toRefs(props);
+       let { mappingLabel } = createSalesInfo();
+
+      let labelInfo = computed(() => {
+         return {
+            title: mappingLabel[info.value.iPromoType].title,
+            backgroundColor: mappingLabel[info.value.iPromoType].backgroundColor
+         }
+      });
+
       let buyCount = computed({
          get() {
             return info.value.buyCount;
@@ -49,7 +60,7 @@ export default {
 
       let removeHandler = () => emit('remove', info.value.iId);
 
-      return { ...toRefs(props.pickInfo), buyCount, totalDollar, removeHandler }
+      return { ...toRefs(props.pickInfo), buyCount, totalDollar, removeHandler, labelInfo }
    }
 }
 </script>

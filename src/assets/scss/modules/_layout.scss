@@ -120,11 +120,22 @@ body {
             display: flex;
             align-items: flex-start;
             >.imgBox {
+               position: relative;
                @include size(130px, 97.5px);
                >img {
                   display: block;
                   @include size(100%);
                   object-fit: cover;
+               }
+               >.label {
+                  position: absolute;
+                  right: 5px;
+                  top: 5px;
+                  @include size(30px);
+                  line-height: 30px;
+                  text-align: center;
+                  border-radius: 50%;
+                  color: #fff;
                }
             }
             >.descBox {

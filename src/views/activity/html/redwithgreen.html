@@ -1,11 +1,11 @@
 <div class="quota-block">
    <div class="criteriaBox" v-if="criteria.status === 1">
       <p>
-         活動條件 : 紅標商品<span class="mark red">{{ 1 | currency }}</span>搭配綠標商品<span class="mark green">{{ 1 | currency }}</span>
-            , 紅標已選購<span class="mark red">{{ 1 | currency }}</span>件 + 綠標已選購<span class="mark green">{{ 1 | currency}}</span>件
+         活動條件 : 紅標商品<span class="mark red">{{ criteria.iRedAmount| currency }}</span>搭配綠標商品<span class="mark green">{{ criteria.iGreenAmount | currency }}</span>
+            , 紅標已選購<span class="mark red">{{ redItemCount | currency }}</span>件 + 綠標已選購<span class="mark green">{{ greenItemCount | currency}}</span>件
       </p>
       <p class="subTotal">
-         目前總計: <span class="text-primary">${{ 1000 | currency }}</span>
+         目前總計: <span class="text-primary">${{ pickedTotalDollar | currency }}</span>
       </p>
    </div>
    <div class="picked-outer">
@@ -19,20 +19,20 @@
                <th>刪除</th>
             </tr>
          </thead>
-         <!-- <tbody>
-            <tr is="fullAmountRow" v-for="pick in pickedList.data" :key="pick.specId" :pickInfo="pick" @changeSpecCount="changeSpecCount" @remove="removePickedItem"></tr>
-         </tbody> -->
+         <tbody>
+            <tr is="RedGreenRow" v-for="pick in pickedList.data" :key="pick.specId" :pickInfo="pick" @changeSpecCount="changeSpecCount" @remove="removePickedItem"></tr>
+         </tbody>
       </table>
       <div class="picked-summary">
-         <p>目前總計: <span class="text-primary">${{ 1000 | currency }}</span></p>
-         <button class="btn-hover-activity disabled">加入購物車</button>
+         <p>目前總計: <span class="text-primary">${{ pickedTotalDollar | currency }}</span></p>
+         <button class="btn-hover-activity" :class="{disabled:!isAchieved}">加入購物車</button>
       </div>
    </div>
    <div class="mark-block">
       <MarkItem v-for="(value, key) in markList" :key="key" :markInfo="value" :markKey="key" :markType.sync="markType"></MarkItem>
    </div>
    <div class="activity-product-outer">
-      <!-- <fullAmountItem v-for="product in productList.data" :key="product.iId" :productInfo="product" @picked="pickedHandler"></fullAmountItem> -->
+      <redGreenItem v-for="product in filterProductList" :key="product.iId" :productInfo="product" @picked="pickedHandler"></redGreenItem>
    </div>
    <Loading v-show="isLoading"></Loading>
    <modal-message ref="cartModal" :showCancel="true" :showConfirm="false" cancelText="確定">
