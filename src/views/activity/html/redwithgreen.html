@@ -29,7 +29,7 @@
       </div>
    </div>
    <div class="mark-block">
-      <MarkItem v-for="(value, key) in markList" :key="key" :markInfo="value" :markKey="key" :markType="markType" @markType="changeMarkType"></MarkItem>
+      <MarkItem v-for="(value, key) in markList" :key="key" :markInfo="value" :markKey="key" :markType.sync="markType"></MarkItem>
    </div>
    <div class="activity-product-outer">
       <!-- <fullAmountItem v-for="product in productList.data" :key="product.iId" :productInfo="product" @picked="pickedHandler"></fullAmountItem> -->

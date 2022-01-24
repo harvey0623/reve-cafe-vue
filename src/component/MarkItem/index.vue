@@ -28,7 +28,7 @@ export default {
 
       let clickHandler = () => {
          if (isActive.value) return;
-         emit('markType', markKey.value);
+         emit('update:markType', markKey.value);
       }
 
       return { markTitle, styleInfo, isActive, clickHandler }

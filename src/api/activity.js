@@ -31,5 +31,16 @@ export const activityRequest = {
       }).catch(err => {
          return err.response.data;
       })
+   },
+   red_with_green_meta(payload) {
+      return httpConfig({
+         url: '/activity/product_promotions/red_with_green_meta',
+         method: 'get',
+         params: payload
+      }).then(res => {
+         return res.data; 
+      }).catch(err => {
+         return err.response.data;
+      })
    }
 }
