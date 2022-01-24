@@ -72,6 +72,15 @@ body {
          }
       }
    }
+   .mark {
+      margin: 0 3px;
+      &.red {
+         color: red;
+      }
+      &.green {
+         color: green;
+      }
+   }
 }
 
 .picked-outer {
