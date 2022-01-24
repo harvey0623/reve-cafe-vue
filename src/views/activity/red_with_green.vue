@@ -110,6 +110,30 @@ export default {
          setProductBuyCount({ iId, count: 0 });
       }
 
+      let createCartParams = (promotionId, code) => {
+         let products = pickedList.data.reduce((prev, current) => {
+            let { productCode, specId, buyCount } = current;
+            prev.push({ vProductCode: productCode, iSpecId: specId, iCount: buyCount });
+            return prev;
+         }, []);
+         return { iActivityProductPromotionsId: promotionId, code, products };
+      }
+
+      let addCart = async() => {
+         if (!isAchieved.value) return;
+         isLoading.value = true;
+         let cartParams = createCartParams(activityId.value, 'red_with_green');
+         let cartResponse = await activityCartApi.addCart(cartParams);
+         if (cartResponse.status === 1) {
+            cartMessage.value = cartResponse.message;
+            pickedList.data = [];
+            productList.data.forEach(item => item.buyCount = 0);
+            root.$store.dispatch('cart/getAllCart');
+         }
+         cartModal.value.openModal();
+         isLoading.value = false;
+      }
+
       onMounted(async() => {
          isLoading.value = true;
          await getActivityProduct();
@@ -122,7 +146,7 @@ export default {
          isLoading.value = false;
       });
 
-      return { isLoading, pickedList,cartMessage, activityId, criteria, cartModal, markType, markList, filterProductList, pickedHandler, changeSpecCount, removePickedItem, pickedTotalDollar, redItemCount, greenItemCount, isAchieved }
+      return { isLoading, pickedList,cartMessage, activityId, criteria, cartModal, markType, markList, filterProductList, pickedHandler, changeSpecCount, removePickedItem, pickedTotalDollar, redItemCount, greenItemCount, isAchieved, addCart }
    }
 }
 </script>

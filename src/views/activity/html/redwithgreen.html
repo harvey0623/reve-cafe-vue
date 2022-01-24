@@ -25,7 +25,7 @@
       </table>
       <div class="picked-summary">
          <p>目前總計: <span class="text-primary">${{ pickedTotalDollar | currency }}</span></p>
-         <button class="btn-hover-activity" :class="{disabled:!isAchieved}">加入購物車</button>
+         <button class="btn-hover-activity" :class="{disabled:!isAchieved}" @click="addCart">加入購物車</button>
       </div>
    </div>
    <div class="mark-block">
