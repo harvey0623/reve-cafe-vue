@@ -10,11 +10,6 @@ export const salesInfo = (root, activityType) => {
    let activityId = computed(() => root.$store.state.activity.activityInfo.id);
    let criteria = computed(() => root.$store.getters['activity/criteria']);
 
-   let mappingLabel = reactive({
-      1: { title: '紅', backgroundColor: '#FF0000' },
-      2: { title: '綠', backgroundColor: '#04a978' }
-   });
-
    let pickedCount = computed(() => {
       return pickedList.data.reduce((prev, current) => {
          prev += current.buyCount;
@@ -127,5 +122,5 @@ export const salesInfo = (root, activityType) => {
       isLoading.value = false;
    });
 
-   return { isLoading, productList, pickedList, cartMessage, cartModal, activityId, criteria, pickedCount, pickedTotalDollar, discountText, getActivityProduct, pickedHandler, changeSpecCount, removePickedItem, createCartParams, getCanAddToCart, addCart, mappingLabel }
+   return { isLoading, productList, pickedList, cartMessage, cartModal, activityId, criteria, pickedCount, pickedTotalDollar, discountText, getActivityProduct, pickedHandler, changeSpecCount, removePickedItem, createCartParams, getCanAddToCart, addCart }
 }

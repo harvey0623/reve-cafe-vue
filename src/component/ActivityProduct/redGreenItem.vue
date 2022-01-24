@@ -15,14 +15,13 @@
 
 <script>
 import { computed, toRefs } from '@vue/composition-api'
-import { createSalesInfo } from '@/composition-api/index.js'
 export default {
    props: {
-      productInfo: { type: Object, required: true }
+      productInfo: { type: Object, required: true },
+      mappingLabel: { type: Object, required: true }
    },
    setup(props, { emit }) {
-      let { productInfo } = toRefs(props);
-      let { mappingLabel } = createSalesInfo();
+      let { productInfo, mappingLabel } = toRefs(props);
       let productImage = computed(() => productInfo.value.product.vImages[0] || '');
       let productName = computed(() => productInfo.value.product.info.vProductName);
       let specName = computed(() => productInfo.value.full_amount_meta_spec.vSpecTitle);
@@ -32,8 +31,8 @@ export default {
 
       let labelInfo = computed(() => {
          return {
-            title: mappingLabel[productInfo.value.iPromoType].title,
-            backgroundColor: mappingLabel[productInfo.value.iPromoType].backgroundColor
+            title: mappingLabel.value[productInfo.value.iPromoType].title,
+            backgroundColor: mappingLabel.value[productInfo.value.iPromoType].backgroundColor
          }
       });
 

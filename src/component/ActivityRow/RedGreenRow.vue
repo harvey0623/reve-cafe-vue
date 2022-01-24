@@ -31,19 +31,18 @@
 
 <script>
 import { computed, toRefs } from '@vue/composition-api'
-import { createSalesInfo } from '@/composition-api/index.js'
 export default {
    props: {
-      pickInfo: { type: Object, required: true }
+      pickInfo: { type: Object, required: true },
+      mappingLabel: { type: Object, required: true }
    },
    setup(props, { emit }) {
-      let { pickInfo:info } = toRefs(props);
-       let { mappingLabel } = createSalesInfo();
+      let { pickInfo:info, mappingLabel } = toRefs(props);
 
       let labelInfo = computed(() => {
          return {
-            title: mappingLabel[info.value.iPromoType].title,
-            backgroundColor: mappingLabel[info.value.iPromoType].backgroundColor
+            title: mappingLabel.value[info.value.iPromoType].title,
+            backgroundColor: mappingLabel.value[info.value.iPromoType].backgroundColor
          }
       });
 

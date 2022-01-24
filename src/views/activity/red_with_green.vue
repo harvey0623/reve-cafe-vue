@@ -26,6 +26,11 @@ export default {
          1: { title: '紅標', fontColor: '#FF0000', borderColor: '#FF0000', backgroundColor: '#fff', hoverFontColor: '#fff', hoverBackgroundColor: '#FF0000' },
          2: { title: '綠標',  fontColor: '#04a978', borderColor: '#04a978', backgroundColor: '#fff', hoverFontColor: '#fff', hoverBackgroundColor: '#04a978' },
       });
+      let mappingLabel = reactive({
+         1: { title: '紅', backgroundColor: '#FF0000' },
+         2: { title: '綠', backgroundColor: '#04a978' }
+      });
+      
       let activityId = computed(() => root.$store.state.activity.activityInfo.id);
       let criteria = computed(() => root.$store.getters['activity/criteria']);
 
@@ -146,7 +151,7 @@ export default {
          isLoading.value = false;
       });
 
-      return { isLoading, pickedList,cartMessage, activityId, criteria, cartModal, markType, markList, filterProductList, pickedHandler, changeSpecCount, removePickedItem, pickedTotalDollar, redItemCount, greenItemCount, isAchieved, addCart }
+      return { isLoading, pickedList,cartMessage, activityId, criteria, cartModal, markType, markList, filterProductList, pickedHandler, changeSpecCount, removePickedItem, pickedTotalDollar, redItemCount, greenItemCount, isAchieved, addCart, mappingLabel }
    }
 }
 </script>
