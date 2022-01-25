@@ -42,7 +42,7 @@
    <div class="mark-block">
       <MarkItem v-for="(value, key) in markList" :key="key" :markInfo="value" :markKey="key" :markType.sync="markType"></MarkItem>
    </div>
-   <div class="activity-product-outer">
+   <div class="activity-product-outer" v-show="hasProduct">
       <redGreenItem 
          v-for="product in filterProductList" 
          :key="product.iId" 

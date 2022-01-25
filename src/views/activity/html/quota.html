@@ -34,7 +34,7 @@
          >加入購物車</button>
       </div>
    </div>
-   <div class="activity-product-outer">
+   <div class="activity-product-outer" v-show="hasProduct">
       <fullAmountItem v-for="product in productList.data" :key="product.iId" :productInfo="product" @picked="pickedHandler"></fullAmountItem>
    </div>
    <Loading v-show="isLoading"></Loading>
