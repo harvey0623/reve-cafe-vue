@@ -22,7 +22,7 @@
             </tr>
          </thead>
          <tbody>
-            <tr is="fullAmountRow" v-for="pick in pickedList.data" :key="pick.specId" :pickInfo="pick" @changeSpecCount="changeSpecCount" @remove="removePickedItem"></tr>
+            <tr is="fullAmountRow" v-for="pick in pickedList.data" :key="pick.iId" :pickInfo="pick" @changeSpecCount="changeSpecCount" @remove="removePickedItem"></tr>
          </tbody>
       </table>
       <div class="picked-summary">

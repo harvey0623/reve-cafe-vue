@@ -3,7 +3,7 @@
 <script>
 import { ref, reactive, computed, onMounted, watch } from '@vue/composition-api'
 import { createSalesInfo } from '@/composition-api/index.js'
-import { activityCartApi } from '@/api/index.js'
+// import { activityCartApi } from '@/api/index.js'
 import fullAmountItem from '@/component/ActivityProduct/fullAmountItem.vue'
 import fullAmountRow from '@/component/ActivityRow/FullAmountRow.vue'
 export default {

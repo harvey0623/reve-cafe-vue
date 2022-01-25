@@ -23,7 +23,8 @@
             <tr 
                is="RedGreenRow" 
                v-for="pick in pickedList.data" 
-               :key="pick.specId" :pickInfo="pick"
+               :key="pick.iId" 
+               :pickInfo="pick"
                :mappingLabel="mappingLabel"
                @changeSpecCount="changeSpecCount" 
                @remove="removePickedItem"></tr>
@@ -34,7 +35,7 @@
          <button 
             class="btn-hover-activity" 
             :class="{disabled:!isAchieved}"
-            @click="addCart"
+            @click="addCart(isAchieved, 'red_with_green')"
          >加入購物車</button>
       </div>
    </div>

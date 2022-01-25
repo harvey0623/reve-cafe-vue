@@ -25,8 +25,9 @@ export const salesInfo = (root, activityType) => {
    });
 
    let discountText = computed(() => {
-      let { status, iPromoAmount, iPromoType } = criteria.value;
+      let { status, iPromoAmount, iPromoType, iRedAmount } = criteria.value;
       if (status === 0) return '';
+      if (iRedAmount !== undefined) return '';
       let currencyFormat = root.$options.filters.currency;
       let mappingText = {
          1: `固定優惠${currencyFormat(iPromoAmount)}元`,
