@@ -16,7 +16,7 @@
                   <li class="info-item">
                      <p class="name">相關政策</p>
                      <div class="link-block">
-                        <router-link v-for="term in termList" :key="term.id" :to="{name: 'home', query:{termId: term.id }}">{{ term.title }}</router-link>
+                        <router-link v-for="term in termList" :key="term.id" :to="{name: 'term', query:{termId: term.id }}">{{ term.title }}</router-link>
                      </div>
                   </li>
                </ul>

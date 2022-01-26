@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { ref, computed, watch, onMounted, onBeforeUnmount } from '@vue/composition-api'
+import { ref, computed, watch, onBeforeUnmount } from '@vue/composition-api'
 import { activityStore } from '@/store/modules/activity.js'
 import ActivityMenu from '@/component/ActivityMenu/index.vue'
 export default {

@@ -1,5 +1,5 @@
 <template>
-   <h3 class="page-name text-primary" v-show="isShow">{{ pageName }}</h3>
+   <h3 class="page-name" v-show="isShow">{{ pageName }}</h3>
 </template>
 
 <script>
@@ -14,12 +14,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-   .page-name {
-      margin-top: 20px;
-      margin-bottom: 40px;
-      text-align: center;
-      font-size: 30px;
-      font-weight: normal;
-   }
+<style>
+   
 </style>

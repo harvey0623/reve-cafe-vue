@@ -17,6 +17,7 @@ import Activity from '@/views/activity/index.vue';
 import Quanity from '@/views/activity/quanity.vue';
 import Quota from '@/views/activity/quota.vue';
 import RedWithGreen from '@/views/activity/red_with_green.vue';
+import Term from '@/views/term/index.vue'
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,23 @@ const routes = [
 			},
 			breadcrumb: {
 				title: '首頁',
+				skip: false
+			},
+		}
+	},
+	{
+		path: '/term',
+		name: 'term',
+		component: Term,
+		meta: {
+			auth: false,
+			layout: 'page-layout',
+			pageName: {
+				title: '',
+				show: false
+			},
+			breadcrumb: {
+				title: '條款',
 				skip: false
 			},
 		}

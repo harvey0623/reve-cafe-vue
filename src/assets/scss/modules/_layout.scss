@@ -12,6 +12,18 @@ body {
    }
 }
 
+.page-name {
+   margin-top: 20px;
+   margin-bottom: 40px;
+   text-align: center;
+   font-size: 35px;
+   font-weight: normal;
+   color: map-get($fontColor, primary);
+   &.left {
+      text-align: left;
+   }
+}
+
 .outline-block {
    width: 760px;
    min-height: 300px;
