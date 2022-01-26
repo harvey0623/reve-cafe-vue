@@ -18,6 +18,7 @@ import Quanity from '@/views/activity/quanity.vue';
 import Quota from '@/views/activity/quota.vue';
 import RedWithGreen from '@/views/activity/red_with_green.vue';
 import Term from '@/views/term/index.vue'
+import Brand from '@/views/brand/index.vue'
 
 Vue.use(VueRouter)
 
@@ -52,6 +53,23 @@ const routes = [
 			},
 			breadcrumb: {
 				title: '條款',
+				skip: false
+			},
+		}
+	},
+	{
+		path: '/brand',
+		name: 'brand',
+		component: Brand,
+		meta: {
+			auth: false,
+			layout: 'page-layout',
+			pageName: {
+				title: '品牌介紹',
+				show: true
+			},
+			breadcrumb: {
+				title: '品牌介紹',
 				skip: false
 			},
 		}

@@ -9,7 +9,7 @@
                   <router-link v-for="(menu,index) in menuList.data" :key="index" :to="menu.urlParams" @click.native="openDropdownMenu = false">{{ menu.title }}</router-link>
                </div>
             </a>
-           <router-link to="/">品牌介紹</router-link>
+           <router-link to="/brand">品牌介紹</router-link>
            <router-link to="/">聯絡我們</router-link>
          </div>
       </div>

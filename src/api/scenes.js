@@ -5,7 +5,16 @@ export const scenesRequest = {
       return httpConfig({
          url: '/scenes/banner',
          method: 'get',
-         data: {}
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      })
+   },
+   brand() {
+      return httpConfig({
+         url: '/scenes/article/brand',
+         method: 'get',
       }).then(res => {
          return res.data;
       }).catch(err => {
