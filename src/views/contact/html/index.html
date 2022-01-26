@@ -1,0 +1,66 @@
+<div class="contact-block">
+   <div class="imgBox">
+      <img :src="require('@/assets/img/contact.jpg')" alt="">
+   </div>
+   <div class="form-outer">
+      <validation-observer tag="div" class="form-layout" ref="form">
+         <div class="form-row">
+            <div class="form-title text-right">
+               <span class="require-mark text-primary">*</span>聯絡目的
+            </div>
+            <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors,failed }">
+               <select class="form-control" v-model="contactInfo.type">
+                  <option value="">請選擇</option>
+                  <option value="1">商品諮詢</option>
+                  <option value="2">訂單問題</option>
+                  <option value="3">其他</option>
+               </select>
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">
+               <span class="require-mark text-primary">*</span>姓名
+            </div>
+            <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors,failed }">
+               <input type="text" class="form-control" v-model="contactInfo.name" placeholder="請輸入姓名">
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">
+               <span class="require-mark text-primary">*</span>電子信箱
+            </div>
+            <validation-provider tag="div" class="form-content" rules="required|email" v-slot="{ errors,failed }">
+               <input type="text" class="form-control" v-model="contactInfo.email" placeholder="請輸入電子信箱">
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">
+               <span class="require-mark text-primary">*</span>主旨
+            </div>
+            <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors,failed }">
+               <input type="text" class="form-control" v-model="contactInfo.subject" placeholder="請輸入主旨">
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">
+               <span class="require-mark text-primary">*</span>內容
+            </div>
+            <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors,failed }">
+               <textarea class="form-control" v-model="contactInfo.content" placeholder="請輸入內容"></textarea>
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+      </validation-observer>
+      <div class="btnBox center">
+         <button class="btn-primary" @click="submitHandler">送出</button>
+      </div>
+   </div>
+   <Loading v-show="isLoading"></Loading>
+   <modal-message ref="contactModal" :showCancel="true" :showConfirm="false" cancelText="確定">
+      <p>{{ contactResult.message }}</p>
+   </modal-message>
+</div>
