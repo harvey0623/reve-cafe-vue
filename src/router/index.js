@@ -1,24 +1,25 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '@/store/index.js';
-import { checkEntrance } from './middleware/checkEntrance.js';
-import TempView from '@/views/tempView/index.vue';
-import Home from '@/views/home/index.vue';
-import Signin from '@/views/signin/index.vue';
-import Profile from '@/views/member/profile.vue';
-import Register_Step1 from '@/views/register/step1.vue';
-import Register_Step2 from '@/views/register/step2.vue';
-import Forgot_Step1 from '@/views/forgot/step1.vue';
-import Forgot_Step2 from '@/views/forgot/step2.vue';
-import Forgot_Step3 from '@/views/forgot/step3.vue';
-import ProductDetail from '@/views/product/detail.vue';
-import ProductCategory from '@/views/product/category.vue';
-import Activity from '@/views/activity/index.vue';
-import Quanity from '@/views/activity/quanity.vue';
-import Quota from '@/views/activity/quota.vue';
-import RedWithGreen from '@/views/activity/red_with_green.vue';
+import store from '@/store/index.js'
+import { checkEntrance } from './middleware/checkEntrance.js'
+import TempView from '@/views/tempView/index.vue'
+import Home from '@/views/home/index.vue'
+import Signin from '@/views/signin/index.vue'
+import Profile from '@/views/member/profile.vue'
+import Register_Step1 from '@/views/register/step1.vue'
+import Register_Step2 from '@/views/register/step2.vue'
+import Forgot_Step1 from '@/views/forgot/step1.vue'
+import Forgot_Step2 from '@/views/forgot/step2.vue'
+import Forgot_Step3 from '@/views/forgot/step3.vue'
+import ProductDetail from '@/views/product/detail.vue'
+import ProductCategory from '@/views/product/category.vue'
+import Activity from '@/views/activity/index.vue'
+import Quanity from '@/views/activity/quanity.vue'
+import Quota from '@/views/activity/quota.vue'
+import RedWithGreen from '@/views/activity/red_with_green.vue'
 import Term from '@/views/term/index.vue'
 import Brand from '@/views/brand/index.vue'
+import Contact from '@/views/contact/index.vue'
 
 Vue.use(VueRouter)
 
@@ -70,6 +71,23 @@ const routes = [
 			},
 			breadcrumb: {
 				title: '品牌介紹',
+				skip: false
+			},
+		}
+	},
+	{
+		path: '/contact',
+		name: 'contact',
+		component: Contact,
+		meta: {
+			auth: false,
+			layout: 'page-layout',
+			pageName: {
+				title: '聯絡我們',
+				show: true
+			},
+			breadcrumb: {
+				title: '聯絡我們',
 				skip: false
 			},
 		}

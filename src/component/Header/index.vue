@@ -10,7 +10,7 @@
                </div>
             </a>
            <router-link to="/brand">品牌介紹</router-link>
-           <router-link to="/">聯絡我們</router-link>
+           <router-link to="/contact">聯絡我們</router-link>
          </div>
       </div>
       <div class="header-bottom">

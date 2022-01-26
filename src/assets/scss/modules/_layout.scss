@@ -30,6 +30,9 @@ body {
    margin: 0 auto;
    padding: 30px 30px;
    border: 1px solid map-get($borderColor, outer);
+   &.contact {
+      width: 620px;
+   }
 }
 
 .swiper-pagination-bullet {
@@ -61,7 +64,7 @@ body {
       @include size(100%, 40px);
       margin: 0 auto;
       text-align: center;
-      font-size: 15px;
+      font-size: 16px;
    }
    >a[class^=btn-hover] {
       line-height: 36px;

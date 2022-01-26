@@ -16,7 +16,6 @@ export const productRequest = {
       return httpConfig({
          url: '/product/product_recommend_meta',
          method: 'get',
-         data: {}
       }).then(res => {
          return res.data;
       }).catch(err => {
@@ -27,7 +26,6 @@ export const productRequest = {
       return httpConfig({
          url: `/product/product_detail/${productCode}`,
          method: 'get',
-         data: {}
       }).then(res => {
          return res.data;
       }).catch(err => {
@@ -38,7 +36,6 @@ export const productRequest = {
       return httpConfig({
          url: '/product/product_category',
          method: 'get',
-         data: {},
          params: payload
       }).then(res => {
          return res.data;

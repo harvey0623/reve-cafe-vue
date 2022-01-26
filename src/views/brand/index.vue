@@ -1,6 +1,7 @@
 <template>
    <div class="brnand-block">
       <div class="outline-block" v-html="brandContent"></div>
+      <Loading v-show="isLoading"></Loading>
    </div>
 </template>
 
@@ -15,13 +16,16 @@ export default {
    },
    setup(props) {
       let brandContent = ref('');
+      let isLoading = ref(false);
       
       onMounted(async() => {
+         isLoading.value = true;
          let response = await scenesApi.brand();
          brandContent.value = response.aaData.vDetail;
+         isLoading.value = false;
       });
       
-      return { brandContent }
+      return { brandContent, isLoading }
    }
 }
 </script>
