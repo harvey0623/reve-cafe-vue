@@ -1,6 +1,6 @@
 <template>
    <div class="red-green-product">
-      <div class="imgBox">
+      <div class="imgBox" @click="introHandler">
          <img :src="productImage" alt="">
          <span class="label" :style="{backgroundColor:labelInfo.backgroundColor}">{{ labelInfo.title }}</span>
       </div>
@@ -51,7 +51,17 @@ export default {
          });
       }
 
-      return { productImage, productName, specName, specPrice, pickHandler, isFullStock, labelInfo }
+      let introHandler = () => {
+         emit('intro', {
+            productName: productName.value,
+            specName: specName.value,
+            productSummary: productInfo.value.product.vProductSummary,
+            price: specPrice.value,
+            imageUrl: productImage.value
+         });
+      }
+
+      return { productImage, productName, specName, specPrice, pickHandler, isFullStock, labelInfo, introHandler }
    }
 }
 </script>

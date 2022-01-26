@@ -49,10 +49,12 @@
          :productInfo="product"
          :mappingLabel="mappingLabel" 
          @picked="pickedHandler"
+         @intro="introHandler"
       ></redGreenItem>
    </div>
    <Loading v-show="isLoading"></Loading>
    <modal-message ref="cartModal" :showCancel="true" :showConfirm="false" cancelText="確定">
       <p>{{ cartMessage }}</p>
    </modal-message>
+   <modal-product ref="productModal"></modal-product>
 </div>

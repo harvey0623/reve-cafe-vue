@@ -15,7 +15,7 @@ export default {
       }
    },
    setup(props, { root }) {
-      let { isLoading, productList, pickedList, cartMessage, cartModal, activityId, criteria, hasProduct, pickedCount, pickedTotalDollar, discountText, getActivityProduct, pickedHandler, changeSpecCount, removePickedItem, addCart } = createSalesInfo(root, 'full_amount_meta');
+      let { isLoading, productList, pickedList, cartMessage, cartModal, productModal, activityId, criteria, hasProduct, pickedCount, pickedTotalDollar, discountText, getActivityProduct, pickedHandler, changeSpecCount, removePickedItem, introHandler, addCart } = createSalesInfo(root, 'full_amount_meta');
       // let isLoading = ref(false);
       // let productList = reactive({ data: [] });
       // let pickedList = reactive({ data: [] });
@@ -156,7 +156,7 @@ export default {
       // });
 
 
-      return { isLoading, productList, pickedList, cartMessage, cartModal, activityId, criteria, hasProduct, pickedCount, pickedTotalDollar, discountText, getActivityProduct, pickedHandler, changeSpecCount, removePickedItem, addCart, isAchieved, discountPrice }
+      return { isLoading, productList, pickedList, cartMessage, cartModal, productModal, activityId, criteria, hasProduct, pickedCount, pickedTotalDollar, discountText, getActivityProduct, pickedHandler, changeSpecCount, removePickedItem, introHandler, addCart, isAchieved, discountPrice }
    }
 }
 </script>

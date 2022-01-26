@@ -1,6 +1,6 @@
 <template>
    <div class="full-amount-product">
-      <div class="imgBox">
+      <div class="imgBox" @click="introHandler">
          <img :src="productImage" alt="">
       </div>
       <div class="descBox">
@@ -41,7 +41,17 @@ export default {
          });
       }
 
-      return { productImage, productName, specName, specPrice, pickHandler, isFullStock }
+      let introHandler = () => {
+         emit('intro', {
+            productName: productName.value,
+            specName: specName.value,
+            productSummary: productInfo.value.product.vProductSummary,
+            price: specPrice.value,
+            imageUrl: productImage.value
+         });
+      }
+
+      return { productImage, productName, specName, specPrice, pickHandler, isFullStock, introHandler }
    }
 }
 </script>
@@ -51,10 +61,10 @@ export default {
    flex: 0 0 25%;
    padding: 0 10px;
    margin-bottom: 30px;
-   cursor: pointer;
    >.imgBox {
       position: relative;
       padding-top: 75%;
+      cursor: pointer;
       >img {
          position: absolute;
          left: 0;

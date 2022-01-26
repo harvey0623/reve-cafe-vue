@@ -7,6 +7,7 @@ export const salesInfo = (root, activityType) => {
    let pickedList = reactive({ data: [] });
    let cartMessage = ref('');
    let cartModal = ref(null);
+   let productModal = ref(null);
    let activityId = computed(() => root.$store.state.activity.activityInfo.id);
    let criteria = computed(() => root.$store.getters['activity/criteria']);
 
@@ -98,6 +99,11 @@ export const salesInfo = (root, activityType) => {
 
    let getCanAddToCart = (can) => can;
 
+   let introHandler = (payload) => {
+      productModal.value.updateIntroInfo(payload);
+      productModal.value.openModal();
+   }
+
    let addCart = async(isAchieved, type) => {
       if (!getCanAddToCart(isAchieved)) return;
       isLoading.value = true;
@@ -125,5 +131,5 @@ export const salesInfo = (root, activityType) => {
       isLoading.value = false;
    });
 
-   return { isLoading, productList, pickedList, cartMessage, cartModal, activityId, criteria, hasProduct, pickedCount, pickedTotalDollar, discountText, getActivityProduct, pickedHandler, changeSpecCount, removePickedItem, createCartParams, getCanAddToCart, addCart }
+   return { isLoading, productList, pickedList, cartMessage, cartModal, productModal, activityId, criteria, hasProduct, pickedCount, pickedTotalDollar, discountText, getActivityProduct, pickedHandler, changeSpecCount, removePickedItem, createCartParams, introHandler, addCart }
 }
