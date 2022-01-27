@@ -11,6 +11,7 @@
                      <p class="name">關於黑浮</p>
                      <div class="link-block">
                         <router-link to="/faq">Q&A</router-link>
+                        <router-link to="/brand">品牌介紹</router-link>
                      </div>
                   </li>
                   <li class="info-item">
@@ -25,7 +26,7 @@
       </div>
       <div class="footer-bottom">
          <div class="my-container">
-            <p class="copyright">Copyright © 2021 Revecoffeeroaster.E-commerce Powered by EasyStore</p>   
+            <p class="copyright">Copyright © RÊVE INTERNATIONAL RESTAURANT MANAGEMENT CO., LTD.</p>   
          </div>
       </div>
    </footer>
