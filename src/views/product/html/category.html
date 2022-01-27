@@ -13,7 +13,7 @@
                   共<span class="text-primary">{{ totalProduct | currency }}</span>項商品
                </div>
                <div class="search-block">
-                  <input type="text" class="form-control" placeholder="關鍵字搜尋" v-model.trim="keyword">
+                  <input type="text" class="form-control" placeholder="關鍵字搜尋" v-model.trim="keyword" @keyup.enter="searchHandler">
                   <button class="btn-primary" @click="searchHandler">
                      <i class="fal fa-search"></i>
                   </button>

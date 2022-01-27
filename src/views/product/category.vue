@@ -92,6 +92,7 @@ export default {
       onMounted(async() => {
          isLoading.value = true;
          queryId.value = parseInt(root.$route.query.categoryId);
+         keyword.value = root.$route.query.keyword || '';
          await setCategory();
          await getPagination(false, 1);
          isLoading.value = false;
@@ -99,9 +100,9 @@ export default {
 
       watch(() => root.$route, async(val) => {
          isLoading.value = true;
-         queryId.value = parseInt(root.$route.query.categoryId);
          loadMore.value = false;
-         keyword.value = '';
+         queryId.value = parseInt(root.$route.query.categoryId);
+         keyword.value = root.$route.query.keyword || '';
          await setCategory();
          await getPagination(false, 1);
          isLoading.value = false;

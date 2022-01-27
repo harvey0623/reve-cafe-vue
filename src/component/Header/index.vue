@@ -20,8 +20,8 @@
             </router-link>
             <div class="search-block">
                <div class="input-box">
-                  <input type="text" class="form-control" placeholder="Search">
-                  <i class="fal fa-search"></i>
+                  <input type="text" class="form-control" placeholder="Search" v-model.trim="keyword" @keyup.enter="searchHandler">
+                  <i class="fal fa-search" @click="searchHandler"></i>
                </div>
             </div>
             <div class="feature-block">
@@ -46,6 +46,7 @@ import { productApi, activityApi } from '@/api/index.js'
 import { createActivityInfo } from '@/composition-api/index.js'
 export default {
    setup(props, { root }) {
+      let keyword = ref('');
       let menuList = reactive({ data: [] });
       let openDropdownMenu = ref(false);
       let isLogin = computed(() => root.$store.getters['auth/isLogin']);
@@ -86,11 +87,20 @@ export default {
          menuList.data = [ ...list, activityItem ];
       }
 
+      let searchHandler = () => {
+         if (keyword.value === '') return;
+         root.$router.push({ 
+            name: 'product_category', 
+            query: { categoryId: 0, keyword: keyword.value} 
+         }).catch(() => {});
+         keyword.value = '';
+      }
+
       onMounted(() => {
          createMenuList();
       });
 
-      return { openDropdownMenu, memberLink, cartTotal, showCartCount, isLogin, menuList };
+      return { keyword, openDropdownMenu, memberLink, cartTotal, showCartCount, isLogin, menuList, searchHandler };
    }
 }
 </script>
