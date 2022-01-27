@@ -45,7 +45,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoepd>
+<style lang="scss" scoped>
 .contact-block {
    display: flex;
    justify-content: center;
@@ -62,16 +62,16 @@ export default {
       margin-left: 20px;
       padding: 30px 25px;
       border: 1px solid map-get($borderColor, outer);
-   }
-}
-.form-layout {
-   .form-title {
-      flex: 0 0 120px;
-   }
-}
-.btnBox {
-   button {
-      width: 120px;
+      .form-layout {
+         .form-title {
+            flex: 0 0 120px;
+         }
+      }
+      .btnBox {
+         button {
+            width: 120px;
+         }
+      }
    }
 }
 </style>

@@ -10,7 +10,7 @@
                   <li class="info-item">
                      <p class="name">關於黑浮</p>
                      <div class="link-block">
-                        <router-link to="/">Q&A</router-link>
+                        <router-link to="/faq">Q&A</router-link>
                      </div>
                   </li>
                   <li class="info-item">

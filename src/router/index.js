@@ -20,6 +20,7 @@ import RedWithGreen from '@/views/activity/red_with_green.vue'
 import Term from '@/views/term/index.vue'
 import Brand from '@/views/brand/index.vue'
 import Contact from '@/views/contact/index.vue'
+import Faq from '@/views/faq/index.vue'
 
 Vue.use(VueRouter)
 
@@ -71,6 +72,23 @@ const routes = [
 			},
 			breadcrumb: {
 				title: '品牌介紹',
+				skip: false
+			},
+		}
+	},
+	{
+		path: '/faq',
+		name: 'faq',
+		component: Faq,
+		meta: {
+			auth: false,
+			layout: 'page-layout',
+			pageName: {
+				title: '常見問題',
+				show: true
+			},
+			breadcrumb: {
+				title: '常見問題',
 				skip: false
 			},
 		}

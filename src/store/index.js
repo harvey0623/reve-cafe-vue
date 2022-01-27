@@ -33,8 +33,8 @@ export default new Vuex.Store({
 	actions: {
 		async getTerm({ commit }) {
 			let termResponse = await thirdPartyApi.getTerm({ type: ['register'] });
-			if (termResponse.results.term_information.length === 0) return;
-			commit('setTermList', termResponse.results.term_information[0].terms);
+			if (termResponse.aaData.term_information.length === 0) return;
+			commit('setTermList', termResponse.aaData.term_information[0].terms);
 		}
 	},
 	modules: {
