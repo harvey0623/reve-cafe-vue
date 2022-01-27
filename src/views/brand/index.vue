@@ -1,12 +1,12 @@
 <template>
    <div class="brnand-block">
-      <div class="outline-block" v-html="brandContent"></div>
+      <div class="outline-block" v-show="hasContent" v-html="brandContent"></div>
       <Loading v-show="isLoading"></Loading>
    </div>
 </template>
 
 <script>
-import { ref, onMounted } from '@vue/composition-api'
+import { ref, computed, onMounted } from '@vue/composition-api'
 import { scenesApi } from '@/api/index.js'
 export default {
    metaInfo () {
@@ -17,6 +17,7 @@ export default {
    setup(props) {
       let brandContent = ref('');
       let isLoading = ref(false);
+      let hasContent = computed(() => brandContent.value !== '');
       
       onMounted(async() => {
          isLoading.value = true;
@@ -25,7 +26,7 @@ export default {
          isLoading.value = false;
       });
       
-      return { brandContent, isLoading }
+      return { brandContent, isLoading, hasContent }
    }
 }
 </script>
