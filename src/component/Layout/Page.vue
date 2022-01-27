@@ -1,5 +1,5 @@
 <template>
-   <section>
+   <section class="my-section">
       <div class="my-container">
          <PageName></PageName>
          <slot></slot>

@@ -44,7 +44,7 @@ export default {
       let slideUp = () => isOpen.value = false; 
 
 
-      return { ...toRefs(props.faqInfo), isOpen, canClick, toggleHandler, setCanClick, slideUp }
+      return { ...toRefs(props.faqInfo), isOpen, toggleHandler, setCanClick, slideUp }
    }
 }
 </script>
