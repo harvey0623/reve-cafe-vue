@@ -1,19 +1,18 @@
 <template>
-   <div class="member_profile">
-      profile
+   <div class="point-history-block">
+      point
    </div>
 </template>
 
 <script>
 import { ref } from '@vue/composition-api'
 export default {
-   name: 'profile',
    metaInfo () {
       return {
-        title: '會員資料',
+        title: '點數紀錄',
       }
    },
-   setup(props, { root }) {
+   setup(props) {
       
 
       return {}

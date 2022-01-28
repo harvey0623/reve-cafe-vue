@@ -5,7 +5,6 @@ import { checkEntrance } from './middleware/checkEntrance.js'
 import TempView from '@/views/tempView/index.vue'
 import Home from '@/views/home/index.vue'
 import Signin from '@/views/signin/index.vue'
-import Profile from '@/views/member/profile.vue'
 import Register_Step1 from '@/views/register/step1.vue'
 import Register_Step2 from '@/views/register/step2.vue'
 import Forgot_Step1 from '@/views/forgot/step1.vue'
@@ -21,6 +20,10 @@ import Term from '@/views/term/index.vue'
 import Brand from '@/views/brand/index.vue'
 import Contact from '@/views/contact/index.vue'
 import Faq from '@/views/faq/index.vue'
+import Member from '@/views/member/index.vue'
+import Profile from '@/views/member/profile.vue'
+import orderHistory from '@/views/member/order_history.vue'
+import pointHistory from '@/views/member/point_history.vue'
 
 Vue.use(VueRouter)
 
@@ -38,74 +41,6 @@ const routes = [
 			},
 			breadcrumb: {
 				title: '首頁',
-				skip: false
-			},
-		}
-	},
-	{
-		path: '/term',
-		name: 'term',
-		component: Term,
-		meta: {
-			auth: false,
-			layout: 'page-layout',
-			pageName: {
-				title: '',
-				show: false
-			},
-			breadcrumb: {
-				title: '條款',
-				skip: false
-			},
-		}
-	},
-	{
-		path: '/brand',
-		name: 'brand',
-		component: Brand,
-		meta: {
-			auth: false,
-			layout: 'page-layout',
-			pageName: {
-				title: '品牌介紹',
-				show: true
-			},
-			breadcrumb: {
-				title: '品牌介紹',
-				skip: false
-			},
-		}
-	},
-	{
-		path: '/faq',
-		name: 'faq',
-		component: Faq,
-		meta: {
-			auth: false,
-			layout: 'page-layout',
-			pageName: {
-				title: '常見問題',
-				show: true
-			},
-			breadcrumb: {
-				title: '常見問題',
-				skip: false
-			},
-		}
-	},
-	{
-		path: '/contact',
-		name: 'contact',
-		component: Contact,
-		meta: {
-			auth: false,
-			layout: 'page-layout',
-			pageName: {
-				title: '聯絡我們',
-				show: true
-			},
-			breadcrumb: {
-				title: '聯絡我們',
 				skip: false
 			},
 		}
@@ -261,7 +196,7 @@ const routes = [
 	},
 	{
 		path: '/member',
-		component: TempView,
+		component: Member,
 		meta: {
 			auth: true,
 			layout: 'page-layout',
@@ -270,14 +205,14 @@ const routes = [
 				show: false
 			},
 			breadcrumb: {
-				title: '',
-				skip: true
+				title: '會員中心',
+				skip: false
 			}
 		},
 		children: [
 			{
 				path: '',
-				redirect: '/'
+				redirect: 'profile'
 			},
 			{
 				path: 'profile',
@@ -292,6 +227,40 @@ const routes = [
 					},
 					breadcrumb: {
 						title: '會員資料',
+						skip: false
+					}
+				},
+			},
+			{
+				path: 'order',
+				name: 'order',
+				component: orderHistory,
+				meta: {
+					auth: true,
+					layout: 'page-layout',
+					pageName: {
+						title: '訂單紀錄',
+						show: true
+					},
+					breadcrumb: {
+						title: '訂單紀錄',
+						skip: false
+					}
+				},
+			},
+			{
+				path: 'point',
+				name: 'point',
+				component: pointHistory,
+				meta: {
+					auth: true,
+					layout: 'page-layout',
+					pageName: {
+						title: '點數紀錄',
+						show: true
+					},
+					breadcrumb: {
+						title: '點數紀錄',
 						skip: false
 					}
 				},
@@ -432,6 +401,74 @@ const routes = [
 		]
 	},
 	{
+		path: '/term',
+		name: 'term',
+		component: Term,
+		meta: {
+			auth: false,
+			layout: 'page-layout',
+			pageName: {
+				title: '',
+				show: false
+			},
+			breadcrumb: {
+				title: '條款',
+				skip: false
+			},
+		}
+	},
+	{
+		path: '/brand',
+		name: 'brand',
+		component: Brand,
+		meta: {
+			auth: false,
+			layout: 'page-layout',
+			pageName: {
+				title: '品牌介紹',
+				show: true
+			},
+			breadcrumb: {
+				title: '品牌介紹',
+				skip: false
+			},
+		}
+	},
+	{
+		path: '/faq',
+		name: 'faq',
+		component: Faq,
+		meta: {
+			auth: false,
+			layout: 'page-layout',
+			pageName: {
+				title: '常見問題',
+				show: true
+			},
+			breadcrumb: {
+				title: '常見問題',
+				skip: false
+			},
+		}
+	},
+	{
+		path: '/contact',
+		name: 'contact',
+		component: Contact,
+		meta: {
+			auth: false,
+			layout: 'page-layout',
+			pageName: {
+				title: '聯絡我們',
+				show: true
+			},
+			breadcrumb: {
+				title: '聯絡我們',
+				skip: false
+			},
+		}
+	},
+	{
 		path: '*',
 		redirect: '/'
 	}
@@ -455,12 +492,12 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
 	if (to.matched.some(item => item.meta.auth === true)) {
-		router.app.$Progress.start();
-		let checkResult = await store.dispatch('auth/checkLoginStatus');
-		if (checkResult.status !== 1) {
-			router.app.$Progress.finish();
-			return next('/signin');
-		}
+		// router.app.$Progress.start();
+		// let checkResult = await store.dispatch('auth/checkLoginStatus');
+		// if (checkResult.status !== 1) {
+		// 	router.app.$Progress.finish();
+		// 	return next('/signin');
+		// }
 	}
 	router.app.$Progress.finish();
 	return next();

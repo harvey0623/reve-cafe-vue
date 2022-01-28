@@ -1,19 +1,18 @@
 <template>
-   <div class="member_profile">
-      profile
+   <div class="order-history-block">
+      order
    </div>
 </template>
 
 <script>
 import { ref } from '@vue/composition-api'
 export default {
-   name: 'profile',
    metaInfo () {
       return {
-        title: '會員資料',
+        title: '訂單管理',
       }
    },
-   setup(props, { root }) {
+   setup(props) {
       
 
       return {}
