@@ -22,8 +22,8 @@ import Contact from '@/views/contact/index.vue'
 import Faq from '@/views/faq/index.vue'
 import Member from '@/views/member/index.vue'
 import Profile from '@/views/member/profile.vue'
-import orderHistory from '@/views/member/order_history.vue'
-import pointHistory from '@/views/member/point_history.vue'
+import orderHistory from '@/views/member/order.vue'
+import pointHistory from '@/views/member/point.vue'
 
 Vue.use(VueRouter)
 

@@ -33,7 +33,7 @@
                <span class="require-mark text-primary">*</span>姓名
             </div>
             <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors,failed }">
-               <input type="password" class="form-control" placeholder="請輸入您的中文姓名" v-model.trim="user.name">
+               <input type="text" class="form-control" placeholder="請輸入您的中文姓名" v-model.trim="user.name">
                <p class="error-text" v-show="failed">{{ errors[0] }}</p>
             </validation-provider >
          </div>

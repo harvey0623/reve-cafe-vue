@@ -1,0 +1,100 @@
+<div class="member-profile">
+   <div class="level-point-panel">
+      <div class="levelBox">目前階級:<span class="text-primary">{{ pointLevelInfo.levelTitle  }}</span></div>
+      <div class="pointBox">剩餘點數:<span class="text-primary">{{ pointLevelInfo.pointAmount }}</span></div>
+   </div>
+   <div class="profile-block">
+      <validation-observer tag="div" class="form-layout" ref="form">
+         <div class="form-row">
+            <div class="form-title text-right">帳號</div>
+            <div class="form-content">
+               <input type="number" class="form-control" v-model="profileInfo.mobile" disabled>
+            </div>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">姓名</div>
+            <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors,failed }">
+               <input type="text" class="form-control" placeholder="請輸入您的中文姓名" v-model.trim="profileInfo.name">
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider >
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">性別</div>
+            <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors,failed }">
+               <select class="form-control" v-model="profileInfo.gender">
+                  <option value="" disabled>請選擇</option>
+                  <option v-for="gender in genderList" :key="gender.id" :value="gender.id">
+                     {{ gender.title }}
+                  </option>
+               </select>
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">電子信箱</div>
+            <validation-provider tag="div" class="form-content" rules="email" v-slot="{ errors, failed }">
+               <input type="email" class="form-control" placeholder="Email" v-model.trim="profileInfo.email">
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">出生日期</div>
+            <validation-provider tag="div" class="form-content" rules="" v-slot="{ errors, failed }">
+               <input type="date" class="form-control" v-model="profileInfo.birthday">
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">忘記密碼安全問題</div>
+            <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors, failed }">
+               <select class="form-control" v-model="profileInfo.security_question">
+                  <option value="" disabled>請選擇</option>
+                  <option v-for="question in questionList" :key="question.id" :value="question.id">
+                     {{ question.title }}
+                  </option>
+               </select>
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">安全問題答案</div>
+            <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors, failed }">
+               <input type="text" class="form-control" placeholder="請輸入答案" v-model.trim="profileInfo.security_answer">
+               <p class="error-text" v-show="failed">{{ errors[0] }}</p>
+            </validation-provider>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">縣市</div>
+            <div class="form-content">
+               <select class="form-control" v-model="addressInfo.city">
+                  <option value="" disabled>請選擇</option>
+                  <option v-for="city in cityList" :key="city" :value="city">{{ city }}</option>
+               </select>
+            </div>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">地區</div>
+            <div class="form-content">
+               <select class="form-control" v-model="addressInfo.district">
+                  <option value="" disabled>請選擇</option>
+                  <option v-for="district in districtList" :key="district.name" :value="district.name">
+                     {{ district.name }}
+                  </option>
+               </select>
+            </div>
+         </div>
+         <div class="form-row">
+            <div class="form-title text-right">地址</div>
+            <div class="form-content">
+               <input type="text" class="form-control" v-model.trim="profileInfo.address" placeholder="地址">
+            </div>
+         </div>
+      </validation-observer>
+      <div class="btnBox">
+         <button class="btn-primary" @click="submitHandler">確認修改</button>
+      </div>
+      <modal-message ref="updateModal" :showCancel="true" :showConfirm="false" cancelText="確定">
+         <p>{{ updateInfo.message }}</p>
+      </modal-message>
+   </div>
+</div>

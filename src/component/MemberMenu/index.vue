@@ -18,7 +18,7 @@ export default {
       let memberList = reactive([
          { title: '會員資料', summary: 'Member Profile', routeName: 'profile', path: '/member/profile' },
          { title: '訂單管理', summary: 'Order Management', routeName: 'order', path: '/member/order' },
-         { title: '點數紀錄', summary: 'Point History', routeName: 'poiont', path: '/member/point' },
+         { title: '點數紀錄', summary: 'Point History', routeName: 'point', path: '/member/point' },
       ]);
 
       let currentRouteName = computed(() => root.$route.name);

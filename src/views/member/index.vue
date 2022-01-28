@@ -5,7 +5,7 @@
             <MemberMenu @logout="doubleCheck"></MemberMenu>
          </div>
          <div class="right">
-            <router-view></router-view>
+            <router-view @loading="setLoading"></router-view>
          </div>
       </div>
       <Loading v-show="isLoading"></Loading>
@@ -26,6 +26,8 @@ export default {
 
       let doubleCheck = () => logoutModal.value.openModal();
 
+      let setLoading = (val) => isLoading.value = val;
+
       let logoutHandler = async() => {
          logoutModal.value.closeModal();
          isLoading.value = true;
@@ -34,7 +36,7 @@ export default {
          isLoading.value = false;
       }
 
-      return { logoutModal, isLoading, logoutHandler, doubleCheck }
+      return { logoutModal, isLoading, logoutHandler, doubleCheck, setLoading }
    }
 }
 </script>
