@@ -24,6 +24,8 @@ import Member from '@/views/member/index.vue'
 import Profile from '@/views/member/profile.vue'
 import orderHistory from '@/views/member/order.vue'
 import pointHistory from '@/views/member/point.vue'
+import CartStep1 from '@/views/cart/step1.vue'
+import CartStep2 from '@/views/cart/step2.vue'
 
 Vue.use(VueRouter)
 
@@ -265,6 +267,62 @@ const routes = [
 					}
 				},
 			}
+		]
+	},
+	{
+		path: '/cart',
+		component: TempView,
+		meta: {
+			auth: true,
+			layout: 'page-layout',
+			pageName: {
+				title: '',
+				show: false
+			},
+			breadcrumb: {
+				title: '購物車',
+				skip: false
+			}
+		},
+		children: [
+			{
+				path: '',
+				redirect: 'step1'
+			},
+			{
+				path: 'step1',
+				name: 'cart-step1',
+				component: CartStep1,
+				meta: {
+					auth: true,
+					layout: 'page-layout',
+					pageName: {
+						title: '購物車-step1',
+						show: true
+					},
+					breadcrumb: {
+						title: 'step1',
+						skip: false
+					}
+				},
+			},
+			{
+				path: 'step2',
+				name: 'cart-step2',
+				component: CartStep2,
+				meta: {
+					auth: true,
+					layout: 'page-layout',
+					pageName: {
+						title: '購物車-step2',
+						show: true
+					},
+					breadcrumb: {
+						title: 'step2',
+						skip: false
+					}
+				},
+			},
 		]
 	},
 	{

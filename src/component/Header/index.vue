@@ -29,7 +29,7 @@
                   <i class="fal fa-user"></i>
                   <p class="text-primary">會員中心</p>
                </router-link>
-               <router-link to="/" class="feature-item" v-if="isLogin">
+               <router-link to="/cart" class="feature-item" v-if="isLogin">
                   <i class="fal fa-shopping-cart"></i>
                   <p class="text-primary">購物車</p>
                   <span class="cart-count" v-show="showCartCount">{{ cartTotal }}</span>

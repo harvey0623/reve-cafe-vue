@@ -35,6 +35,7 @@ textarea.form-control {
    background-color: #fff;
    border: 1px solid map-get($borderColor, primary);
    border-radius: map-get($radius, basic);
+   cursor: pointer;
    &:after {
       content: '';
       position: absolute;
@@ -43,12 +44,25 @@ textarea.form-control {
       @include size(7px, 14px);
       transform: translate(-50%, -62%) rotate(40deg);
       border: 1px solid transparent;
-      cursor: pointer;
+      border-left: none;
+      border-top: none;
    }
    &:checked {
       &:after {
          border-bottom-color: map-get($borderColor, primary);
          border-right-color: map-get($borderColor, primary);
+      }
+   }
+   &.cart {
+      &:after {
+         border-width: 2px;
+      }
+      &:checked {
+         background-color: map-get($elBgColor, primary);
+         &:after {
+            border-bottom-color: #fff;
+            border-right-color: #fff;
+         }
       }
    }
 }
