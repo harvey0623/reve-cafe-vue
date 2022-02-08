@@ -1,7 +1,7 @@
 <template>
    <div class="cart-step1-blockc cart-outer">
       <div class="temperature-list">
-         <TemperatureItem></TemperatureItem>
+         <TemperatureItem v-for="item in temperatureTab" :key="item.iId" :info="item" :temperatureType="temperatureType" @setTab="setTab"></TemperatureItem>
       </div>
       <div class="picked-cart-outer">
          <table class="picked-cart-table">
@@ -43,12 +43,20 @@ export default {
    name: 'cart-step1',
    components: { TemperatureItem, NormalEditRow, ActivityEditRow, MatchEditRow },
    setup(props, { root }) {
+      let cartList = reactive({ data: [] });
       let temperatureList = reactive({ data: [] });
+      let temperatureType = ref('');
       let isAllChecked = ref(true);
       let isLoading = ref(false);
 
+      let temperatureTab = computed(() => temperatureList.data.filter(item => item.count > 0));
+
       let changeAllChecked = () => {
          
+      }
+
+      let setTab = (payload) => {
+         temperatureType.value = payload.type;
       }
 
       let createUid = () => {
@@ -110,6 +118,14 @@ export default {
          return arr;
       }
 
+      let createTemperatureList = (temperatureArr, cartArr) => {
+         return temperatureArr.reduce((prev, current) => {
+            let filterArr = cartArr.filter(item => item.temperatureCode === current.vTemperatureCode);
+            prev.push({ ...current, count: filterArr.length });
+            return prev;
+         }, []);
+      }
+
       let getCartAndtemperature = async() => {
          let [normalCartInfo, activityCartInfo, temperatureInfo] = await Promise.all([
             cartApi.getCart(), activityCartApi.getCart(), productApi.product_temperature()
@@ -117,8 +133,11 @@ export default {
          let [ normalList, activityList ] = await Promise.all([
             checkNormalCart(normalCartInfo.aaData), checkActivityCart(activityCartInfo.aaData)
          ]);
+         let allCart = normalList.concat(activityList);
+         temperatureList.data = createTemperatureList(temperatureInfo.aaData, allCart);
+         cartList.data = normalList.concat(activityList);
+         temperatureType.value = temperatureTab.value.length !== 0 ? temperatureTab.value[0].vTemperatureCode : '';
          
-         console.log(normalList, activityList)
       }
 
       onMounted(async() => {
@@ -128,7 +147,7 @@ export default {
          isLoading.value = false;
       });
 
-      return { isLoading, isAllChecked, changeAllChecked }
+      return { isLoading, isAllChecked, temperatureType, temperatureTab, changeAllChecked, setTab }
    }
 }
 </script>

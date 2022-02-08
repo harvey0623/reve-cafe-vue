@@ -1,17 +1,25 @@
 <template>
-   <div class="temperature-item">常溫</div>
+   <div class="temperature-item" :class="{active:isActive}" @click="clickHandler">{{ temperatureTitle }}</div>
 </template>
 
 <script>
-import { computed } from '@vue/composition-api'
+import { computed, toRefs } from '@vue/composition-api'
 export default {
    props: {
-
+      info: { type: Object, required: true },
+      temperatureType: { type: String, default: '' }
    },
    setup(props, { emit }) {
+      let { info, temperatureType } = toRefs(props);
+      let temperatureTitle = computed(() => info.value.vTemperatureTitle);
+      let isActive = computed(() => info.value.vTemperatureCode === temperatureType.value);
 
+      let clickHandler = () => {
+         if (isActive.value) return;
+         emit('setTab', { type: info.value.vTemperatureCode });
+      }
 
-      return {}
+      return { temperatureTitle, isActive, clickHandler }
    }
 }
 </script>
