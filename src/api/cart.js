@@ -22,5 +22,15 @@ export const cartRequest = {
       }).catch(err => {
          return err.response.data;
       })
+   },
+   removeCart(payload) {
+      return httpConfig({
+         url: `/cart/${payload}`,
+         method: 'delete',
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      })
    }
 }

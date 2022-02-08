@@ -130,7 +130,6 @@ export default {
 }
 .popular-row {
    display: flex;
-   align-items: flex-start;
-   justify-content: space-between;
+   justify-content: flex-start;
 }
 </style>

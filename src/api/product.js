@@ -42,5 +42,15 @@ export const productRequest = {
       }).catch(err => {
          return err.response.data;
       })
+   },
+   product_temperature() {
+      return httpConfig({
+         url: '/product/product_temperature',
+         method: 'get',
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      })
    }
 }

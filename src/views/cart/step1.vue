@@ -8,7 +8,7 @@
             <thead>
                <tr>
                   <th width="100">
-                     <input type="checkbox" class="hook-checkbox cart">全選
+                     <input type="checkbox" class="hook-checkbox cart" v-model="isAllChecked" @change="changeAllChecked">全選
                   </th>
                   <th>商品品項</th>
                   <th>數量</th>
@@ -33,18 +33,102 @@
 </template>
 
 <script>
-import { ref } from '@vue/composition-api'
+import { ref, reactive ,computed, onMounted } from '@vue/composition-api'
+import { productApi, thirdPartyMemberApi, cartApi, activityCartApi } from '@/api/index.js'
 import TemperatureItem from '@/component/TemperatureItem/index.vue'
-import normalEditRow from '@/component/CartTableRow/normal-edit-row.vue'
-import activityEditRow from '@/component/CartTableRow/activity-edit-row.vue'
+import NormalEditRow from '@/component/CartTableRow/normal-edit-row.vue'
+import ActivityEditRow from '@/component/CartTableRow/activity-edit-row.vue'
+import MatchEditRow from '@/component/CartTableRow/match-edit-row.vue'
 export default {
    name: 'cart-step1',
-   components: { TemperatureItem, normalEditRow, activityEditRow },
+   components: { TemperatureItem, NormalEditRow, ActivityEditRow, MatchEditRow },
    setup(props, { root }) {
+      let temperatureList = reactive({ data: [] });
+      let isAllChecked = ref(true);
       let isLoading = ref(false);
-      
 
-      return { isLoading }
+      let changeAllChecked = () => {
+         
+      }
+
+      let createUid = () => {
+         let d = new Date().getTime()
+         let d2 = (performance && performance.now && (performance.now() * 1000)) || 0;
+         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            let r = Math.random() * 16;
+            if (d > 0) {
+               r = (d + r) % 16 | 0;
+               d = Math.floor(d / 16);
+            } else {
+               r = (d2 + r) % 16 | 0;
+               d2 = Math.floor(d2 / 16);
+            }
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+         });
+      }
+
+      let checkNormalCart = async(lists) => {
+         if (lists.length === 0) return [];
+         let arr = [];
+         for (let list of lists) {
+            if (list.spec.iSpecStock <= 0) {
+               await cartApi.removeCart(list.iId);
+            } else {
+               arr.push({
+                  ...list,
+                  uid: createUid(),
+                  temperatureCode: list.product.temperature.vTemperatureCode,
+                  isChecked: isAllChecked.value,
+                  componentName: 'NormalEditRow',
+                  cartType: 'normal',
+               });
+            }
+         }
+         return arr;
+      }
+
+      let checkActivityCart = async(lists) => {
+         if (lists.length === 0) return [];
+         let arr = [];
+         for (let list of lists) {
+            let hasStock = list.cart.every(item => item.spec.iSpecStock > 0);
+            if (!hasStock) {
+               await activityCartApi.removeCart(list.iId);
+            } else {
+               let isFullAmountCode = list.vActivityCode === 'full_amount';
+               let componentName = isFullAmountCode ? 'ActivityEditRow' : 'MatchEditRow';
+               arr.push({
+                  ...list,
+                  uid: createUid(),
+                  temperatureCode: list.temperature.vTemperatureCode,
+                  isChecked: isAllChecked.value,
+                  componentName,
+                  cartType: 'activity'
+               });
+            }
+         }
+         return arr;
+      }
+
+      let getCartAndtemperature = async() => {
+         let [normalCartInfo, activityCartInfo, temperatureInfo] = await Promise.all([
+            cartApi.getCart(), activityCartApi.getCart(), productApi.product_temperature()
+         ]);
+         let [ normalList, activityList ] = await Promise.all([
+            checkNormalCart(normalCartInfo.aaData), checkActivityCart(activityCartInfo.aaData)
+         ]);
+         
+         console.log(normalList, activityList)
+      }
+
+      onMounted(async() => {
+         isLoading.value = true;
+         await getCartAndtemperature();
+
+         isLoading.value = false;
+      });
+
+      return { isLoading, isAllChecked, changeAllChecked }
    }
 }
 </script>

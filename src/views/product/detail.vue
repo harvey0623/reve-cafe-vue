@@ -28,7 +28,7 @@ export default {
       let pickedSpecHasStock = computed(() => pickedSpec.stockTotal > 0);
 
       let setProductIntro = (payload) => {
-         productIntro.category = payload.category.vCategoryName;
+         productIntro.category = payload.category ? payload.category.vCategoryName : '';
          productIntro.num = payload.vProductNum;
          productIntro.name = payload.vProductName;
          productIntro.summary = payload.vProductSummary;
