@@ -29,7 +29,7 @@ export default {
    @extend %centerFlex;
    min-width: 100px;
    height: 40px;
-   @include elGutter(margin-right, 12px);
+   @include elGutter(margin-right, 10px);
    color: map-get($fontColor, primary);
    background-color: #fff;
    border: 1px solid map-get($borderColor, primary);

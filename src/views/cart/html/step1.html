@@ -1,0 +1,47 @@
+<div class="cart-step1-blockc cart-outer">
+   <template v-if="true">
+      <div class="temperature-list">
+         <TemperatureItem v-for="item in temperatureTab" :key="item.iId" :info="item" :temperatureType="temperatureType" @setTab="setTab"></TemperatureItem>
+      </div>
+      <div class="picked-cart-outer">
+         <table class="picked-cart-table">
+            <thead>
+               <tr>
+                  <th width="100">
+                     <input type="checkbox" class="hook-checkbox cart" v-model="isAllChecked" @change="changeAllChecked">全選
+                  </th>
+                  <th>商品品項</th>
+                  <th>數量</th>
+                  <th>單價</th>
+                  <th>總價</th>
+                  <th>刪除</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr 
+                  v-for="item in filterCartList" 
+                  :key="item.uid" 
+                  :is="item.componentName"
+                  :info="item"
+                  @changeCount="changeCount"
+                  @singleCheck="singleCheck"
+                  @remove="removeCartItem"
+               ></tr>
+            </tbody>
+         </table>
+         <div class="picked-cart-summary">
+            <p>共<span class="text-primary">{{ filterCartCount | currency }}</span>項商品</p>
+            <p>商品小計</p>
+            <p>${{ filterCartSubTotal | currency }}</p>
+         </div>
+      </div>
+   </template>
+   <template v-else>
+      <div class="no-cart">
+         <i class="fal fa-exclamation-circle"></i>
+         <span>目前購物車無商品</span>
+      </div>
+   </template>
+
+   <Loading v-show="isLoading"></Loading>
+</div>

@@ -1,36 +1,4 @@
-<template>
-   <div class="cart-step1-blockc cart-outer">
-      <div class="temperature-list">
-         <TemperatureItem v-for="item in temperatureTab" :key="item.iId" :info="item" :temperatureType="temperatureType" @setTab="setTab"></TemperatureItem>
-      </div>
-      <div class="picked-cart-outer">
-         <table class="picked-cart-table">
-            <thead>
-               <tr>
-                  <th width="100">
-                     <input type="checkbox" class="hook-checkbox cart" v-model="isAllChecked" @change="changeAllChecked">全選
-                  </th>
-                  <th>商品品項</th>
-                  <th>數量</th>
-                  <th>單價</th>
-                  <th>總價</th>
-                  <th>刪除</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr is=""></tr>
-            </tbody>
-         </table>
-         <div class="picked-cart-summary">
-            <p>共<span class="text-primary">{{ 1 | currency }}</span>商品</p>
-            <p>商品小計</p>
-            <p>${{ 1 | currency }}</p>
-         </div>
-      </div>
-
-      <Loading v-show="isLoading"></Loading>
-   </div>
-</template>
+<template src="./html/step1.html"></template>
 
 <script>
 import { ref, reactive ,computed, onMounted } from '@vue/composition-api'
@@ -49,15 +17,31 @@ export default {
       let isAllChecked = ref(true);
       let isLoading = ref(false);
 
+      let hasCart = computed(() => cartList.data.length > 0 );
+
       let temperatureTab = computed(() => temperatureList.data.filter(item => item.count > 0));
 
-      let changeAllChecked = () => {
-         
-      }
+      let filterCartList = computed(() => cartList.data.filter(item => item.temperatureCode === temperatureType.value));
 
-      let setTab = (payload) => {
-         temperatureType.value = payload.type;
-      }
+      let filterCartCount = computed(() => filterCartList.value.length);
+
+      let normalCartDollar = computed(() => {
+         let arr = filterCartList.value.filter(item => item.cartType === 'normal' && item.isChecked);
+         return arr.reduce((prev, current) => {
+            prev += current.iCount * current.spec.price.iSpecPromoPrice;
+            return prev;
+         }, 0);
+      });
+
+      let activityCartDollar = computed(() => {
+         let arr = filterCartList.value.filter(item => item.cartType === 'activity' && item.isChecked);
+         return arr.reduce((prev, current) => {
+            prev += current.iCount * current.iBundlePromoPrice;
+            return prev;
+         }, 0);
+      });
+
+      let filterCartSubTotal = computed(() => normalCartDollar.value + activityCartDollar.value);
 
       let createUid = () => {
          let d = new Date().getTime()
@@ -140,6 +124,53 @@ export default {
          
       }
 
+      let setTab = (payload) => {
+         temperatureType.value = payload.type;
+         isAllChecked.value = filterCartList.value.every(item => item.isChecked);
+      }
+
+      let checkTabStatus = () => {
+         let targetTab = temperatureList.data.find(item => item.vTemperatureCode === temperatureType.value);
+         targetTab.count = filterCartCount.value;
+         if (filterCartCount.value > 0) return;
+         if (temperatureTab.value.length > 0) {
+            setTab({ type: temperatureTab.value[0].vTemperatureCode });
+         } else {
+            temperatureType.value = '';
+         }
+      }
+
+      let singleCheck = (payload) => {
+         let obj = filterCartList.value.find(item => item.uid === payload.uid);
+         obj.isChecked = payload.isChecked;
+         isAllChecked.value = filterCartList.value.every(item => item.isChecked);
+      }
+
+      let changeAllChecked = () => {
+         filterCartList.value.forEach(item => item.isChecked = isAllChecked.value);  
+      }
+
+      let changeCount = async(payload) => {
+         let { vProductCode, iSpecId, iCount } = payload;
+         let targetObj = filterCartList.value.find(item => {
+            return item.vProductCode === vProductCode && item.iSpecId === iSpecId;
+         });
+         targetObj.iCount = iCount;
+      }
+
+      let removeCartItem = async(payload) => {
+         isLoading.value = true;
+         let { cartType, uid, iId } = payload;
+         let mappingApi = { normal: cartApi, activity: activityCartApi };
+         let response = await mappingApi[cartType].removeCart(iId);
+         if (response.status === 0) return isLoading.value = false;
+         let index = cartList.data.findIndex(item => item.uid ===  uid);
+         cartList.data.splice(index, 1);
+         root.$store.dispatch('cart/getAllCart');
+         checkTabStatus();
+         isLoading.value = false;
+      }
+
       onMounted(async() => {
          isLoading.value = true;
          await getCartAndtemperature();
@@ -147,7 +178,7 @@ export default {
          isLoading.value = false;
       });
 
-      return { isLoading, isAllChecked, temperatureType, temperatureTab, changeAllChecked, setTab }
+      return { isLoading, isAllChecked, temperatureType, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem }
    }
 }
 </script>

@@ -9,6 +9,7 @@ export const cartRequest = {
       }).then(res => {
          return res.data;
       }).catch(err => {
+         console.log(err.response)
          return err.response.data;
       })
    },
