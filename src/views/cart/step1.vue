@@ -155,6 +155,7 @@ export default {
          let targetObj = filterCartList.value.find(item => {
             return item.vProductCode === vProductCode && item.iSpecId === iSpecId;
          });
+         cartApi.addCart(payload);
          targetObj.iCount = iCount;
       }
 
