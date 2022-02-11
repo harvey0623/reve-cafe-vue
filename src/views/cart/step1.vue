@@ -73,6 +73,7 @@ export default {
                   isChecked: isAllChecked.value,
                   componentName: 'NormalEditRow',
                   cartType: 'normal',
+                  routeName: 'product_detail'
                });
             }
          }

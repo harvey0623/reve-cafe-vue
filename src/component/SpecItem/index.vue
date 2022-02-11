@@ -41,6 +41,7 @@ export default {
    padding: 5px 10px;
    @include elGutter(margin-right, 5px);
    border: 1px solid map-get($borderColor, outer);
+   background-color: #fff;
    text-align: center;
    cursor: pointer;
    &.active {
@@ -50,6 +51,9 @@ export default {
    }
    &.disabled {
       opacity: 0.5;
+      border-color: map-get($borderColor, outer);
+      background-color: #fff;
+      color: map-get($fontColor, input);
       cursor: not-allowed;
    }
 }

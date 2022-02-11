@@ -76,6 +76,16 @@ export default {
          showGallery.value = true;
       }
 
+      let findSpecificSpec = () => {
+         let routeSpecId = parseInt(root.$route.query.specId);
+         let targetSpec = specList.data.find(spec => spec.iId === routeSpecId);
+         if (targetSpec === undefined) return;
+         pickedSpec.specId = targetSpec.iId;
+         pickedSpec.stockTotal = targetSpec.iSpecStock;
+         pickedSpec.buyCount = 1;
+         pickedSpec.price = targetSpec.price.iSpecPromoPrice;
+      }
+
       let addCart = async(isRedirect) => {
          isLoading.value = true;
          let addResponse = await cartApi.addCart({
@@ -104,6 +114,7 @@ export default {
          isLoading.value = true;
          productCode.value = root.$route.params.productCode;
          await setProductDetail();
+         findSpecificSpec();
          isFirstLoading.value = false;
          isLoading.value = false;
       });
@@ -112,6 +123,7 @@ export default {
          isLoading.value = true;
          productCode.value = val.params.productCode;
          await setProductDetail();
+         findSpecificSpec();
          isLoading.value = false;
       });
 

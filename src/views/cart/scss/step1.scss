@@ -66,6 +66,7 @@
                      @include elGutter(margin-bottom, 10px);
                   }
                   >.title {
+                     display: block;
                      font-weight: bold;
                   }
                   >.combo-list {

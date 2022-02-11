@@ -9,7 +9,7 @@
                <img :src="productImage" alt="">
             </div>
             <div class="descBox">
-               <p class="title">{{ productName }}</p>
+               <router-link :to="productUrl" class="title">{{ productName }}</router-link>
                <p class="spec text-input">{{ specName }}</p>
             </div>
          </div>
@@ -62,6 +62,14 @@ export default {
          }
       });
 
+      let productUrl = computed(() => {
+         return {
+            name: info.value.routeName,
+            params: { productCode: info.value.vProductCode },
+            query: { specId: info.value.iSpecId }
+         }
+      });
+
       let changeCount = () => {
          emit('changeCount', {
             vProductCode: info.value.vProductCode,
@@ -83,7 +91,7 @@ export default {
          specInfo.id = info.value.iSpecId;
       });
 
-      return { specInfo, productName, specName, price, totalStocks, subTotal, productImage, isChecked, changeCount, removeHandler }
+      return { specInfo, productName, specName, price, totalStocks, subTotal, productImage, isChecked, productUrl, changeCount, removeHandler }
    }
 }
 </script>
