@@ -3,6 +3,7 @@
 <script>
 import { ref, reactive ,computed, onMounted } from '@vue/composition-api'
 import { productApi, thirdPartyMemberApi, cartApi, activityCartApi } from '@/api/index.js'
+import { createActivityInfo } from '@/composition-api/index.js'
 import TemperatureItem from '@/component/TemperatureItem/index.vue'
 import NormalEditRow from '@/component/CartTableRow/normal-edit-row.vue'
 import ActivityEditRow from '@/component/CartTableRow/activity-edit-row.vue'
@@ -83,6 +84,7 @@ export default {
       let checkActivityCart = async(lists) => {
          if (lists.length === 0) return [];
          let arr = [];
+         let mappingObj = createActivityInfo();
          for (let list of lists) {
             let hasStock = list.cart.every(item => item.spec.iSpecStock > 0);
             if (!hasStock) {
@@ -96,7 +98,8 @@ export default {
                   temperatureCode: list.temperature.vTemperatureCode,
                   isChecked: isAllChecked.value,
                   componentName,
-                  cartType: 'activity'
+                  cartType: 'activity',
+                  routeName: mappingObj[list.vActivityCode][list.activity_product_promotions.iType].routeName
                });
             }
          }

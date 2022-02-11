@@ -9,7 +9,7 @@
                <img :src="productImage" alt="">
             </div>
             <div class="descBox">
-               <p class="title">product name</p>
+               <router-link :to="productUrl" class="title">product name</router-link>
                <ul class="combo-list">
                   <li class="combo-item" v-for="bundle in bundleList" :key="bundle.iId">
                      <span>{{ bundle.iCount | currency }}</span>
@@ -57,6 +57,17 @@ export default {
          }
       });
 
+      let productUrl = computed(() => {
+         let { routeName, activity_product_promotions, vActivityCode } = info.value;
+         return {
+            name: routeName,
+            query: { 
+               activityId: activity_product_promotions.iId,
+               activityType: vActivityCode
+            }
+         }
+      });
+
       let bundleList = computed(() => {
          let cart = info.value.cart;
          return cart.reduce((prev, current) => {
@@ -77,7 +88,7 @@ export default {
          });
       }
 
-      return { bundleCount, bundlePrice, subTotal, productImage, isChecked, bundleList, removeHandler }
+      return { bundleCount, bundlePrice, subTotal, productImage, isChecked, productUrl, bundleList, removeHandler }
    }
 }
 </script>
