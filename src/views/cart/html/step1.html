@@ -1,8 +1,9 @@
 <div class="cart-step1-blockc cart-outer">
-   <template v-if="true">
+   <template v-if="hasCart">
       <div class="temperature-list">
          <TemperatureItem v-for="item in temperatureTab" :key="item.iId" :info="item" :temperatureType="temperatureType" @setTab="setTab"></TemperatureItem>
       </div>
+
       <div class="picked-cart-outer">
          <table class="picked-cart-table">
             <thead>
@@ -33,6 +34,123 @@
             <p>共<span class="text-primary">{{ filterCartCount | currency }}</span>項商品</p>
             <p>商品小計</p>
             <p>${{ filterCartSubTotal | currency }}</p>
+         </div>
+      </div>
+
+      <div class="fill-outer">
+         <div class="fill-block">
+            <h3 class="text-primary">配送方式</h3>
+            <div class="fill-body">
+               <div class="fill-row">
+                  <p class="title required">配送取貨</p>
+                  <div class="content">
+                     <select class="form-control"></select>
+                  </div>
+                  <p class="title required">付款方式</p>
+                  <div class="content">
+                     <select class="form-control"></select>
+                  </div>
+               </div>
+               <div class="fill-row">
+                  <p class="title required">發票選項</p>
+                  <div class="content">
+                     <select class="form-control"></select>
+                  </div>
+                  <div class="content remained">
+                     <input type="text" class="form-control">
+                  </div>
+                  <div class="content remained" v-show="false">
+                     <input type="text" class="form-control">
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="fill-block">
+            <h3 class="text-primary">訂購人資訊</h3>
+            <div class="fill-body">
+               <div class="fill-row">
+                  <p class="title required">姓名</p>
+                  <div class="content">
+                     <input type="text" class="form-control" placeholder="請填寫姓名">
+                  </div>
+                  <p class="title required">性別</p>
+                  <div class="content">
+                     <select class="form-control"></select>
+                  </div>
+               </div>
+               <div class="fill-row">
+                  <p class="title required">手機號碼</p>
+                  <div class="content">
+                     <input type="number" class="form-control" placeholder="請填寫手機號碼">
+                  </div>
+                  <p class="title required">電子信箱</p>
+                  <div class="content">
+                     <input type="email" class="form-control" placeholder="請填寫電子信箱">
+                  </div>
+               </div>
+               <div class="fill-row">
+                  <p class="title required">訂購人地址</p>
+                  <div class="content address">
+                     <select class="form-control"></select>
+                  </div>
+                  <div class="content address">
+                     <select class="form-control"></select>
+                  </div>
+                  <div class="content remained">
+                     <input type="text" class="form-control" placeholder="請填寫地址">
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="fill-block">
+            <h3 class="text-primary">收件人資訊</h3>
+            <div class="fill-body">
+               <div class="fill-row">
+                  <p class="title"></p>
+                  <label class="content same">
+                     <input type="checkbox" class="hook-checkbox cart">
+                     <span>同訂購人</span>
+                  </label>
+               </div>
+               <div class="fill-row">
+                  <p class="title required">姓名</p>
+                  <div class="content">
+                     <input type="text" class="form-control" placeholder="請填寫姓名">
+                  </div>
+                  <p class="title required">性別</p>
+                  <div class="content">
+                     <select class="form-control"></select>
+                  </div>
+               </div>
+               <div class="fill-row">
+                  <p class="title required">手機號碼</p>
+                  <div class="content">
+                     <input type="number" class="form-control" placeholder="請填寫手機號碼">
+                  </div>
+                  <p class="title required">電子信箱</p>
+                  <div class="content">
+                     <input type="email" class="form-control" placeholder="請填寫電子信箱">
+                  </div>
+               </div>
+               <div class="fill-row">
+                  <p class="title required">收件人地址</p>
+                  <div class="content address">
+                     <select class="form-control"></select>
+                  </div>
+                  <div class="content address">
+                     <select class="form-control"></select>
+                  </div>
+                  <div class="content remained">
+                     <input type="text" class="form-control" placeholder="請填寫地址">
+                  </div>
+               </div>
+               <div class="fill-row align-top">
+                  <p class="title required">備註</p>
+                  <div class="content remained">
+                     <textarea class="form-control" placeholder="請填寫備註"></textarea>
+                  </div>
+               </div>
+            </div>
          </div>
       </div>
    </template>

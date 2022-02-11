@@ -20,7 +20,7 @@ export default {
 	components: { Header, Footer, Breadcrumb },
 	metaInfo: {
       title: 'reve-cafe',
-      titleTemplate: '%s | reve-cafe'
+      titleTemplate: '%s | 黑浮咖啡'
    },
 	setup(props, { root }) {
 		let isLogin = computed(() => root.$store.getters['auth/isLogin']);
