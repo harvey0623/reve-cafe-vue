@@ -9,7 +9,7 @@
                <img :src="productImage" alt="">
             </div>
             <div class="descBox">
-               <router-link to="productUrl" class="title">product name</router-link>
+               <router-link :to="productUrl" class="title">product name</router-link>
                <ul class="combo-list">
                   <li class="combo-item" v-for="bundle in bundleList" :key="bundle.iId">
                      <span>{{ bundle.iCount | currency }}</span>

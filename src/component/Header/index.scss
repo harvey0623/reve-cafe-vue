@@ -60,7 +60,7 @@ header {
    }
    >a {
       display: block;
-      @include elGutter(padding-bottom, 10px);
+      @include elGutter(padding-bottom, 12px);
       color: #000;
       text-align: center;
       &:last-child {
