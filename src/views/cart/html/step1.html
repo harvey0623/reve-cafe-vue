@@ -71,35 +71,27 @@
                <div class="fill-row">
                   <p class="title required">姓名</p>
                   <div class="content">
-                     <input type="text" class="form-control" placeholder="請填寫姓名">
+                     <input type="text" class="form-control" v-model="orderer.name" placeholder="請填寫姓名">
                   </div>
                   <p class="title required">性別</p>
                   <div class="content">
-                     <select class="form-control"></select>
+                     <select class="form-control" v-model="orderer.gender">
+                        <option value="" disabled>請選擇性別</option>
+                        <option v-for="gender in genderList" :key="gender.id" :value="gender.id">{{ gender.title }}</option>
+                     </select>
                   </div>
                </div>
                <div class="fill-row">
                   <p class="title required">手機號碼</p>
                   <div class="content">
-                     <input type="number" class="form-control" placeholder="請填寫手機號碼">
+                     <input type="number" class="form-control" v-model="orderer.mobile" placeholder="請填寫手機號碼">
                   </div>
                   <p class="title required">電子信箱</p>
                   <div class="content">
-                     <input type="email" class="form-control" placeholder="請填寫電子信箱">
+                     <input type="email" class="form-control" v-model="orderer.email" placeholder="請填寫電子信箱">
                   </div>
                </div>
-               <div class="fill-row">
-                  <p class="title required">訂購人地址</p>
-                  <div class="content address">
-                     <select class="form-control"></select>
-                  </div>
-                  <div class="content address">
-                     <select class="form-control"></select>
-                  </div>
-                  <div class="content remained">
-                     <input type="text" class="form-control" placeholder="請填寫地址">
-                  </div>
-               </div>
+               <AddressField fieldName="訂購人地址" :city.sync="orderer.city" :district.sync="orderer.district" :zipcode.sync="orderer.zipcode" :address.sync="orderer.address"></AddressField>
             </div>
          </div>
          <div class="fill-block">
@@ -108,46 +100,38 @@
                <div class="fill-row">
                   <p class="title"></p>
                   <label class="content same">
-                     <input type="checkbox" class="hook-checkbox cart">
+                     <input type="checkbox" class="hook-checkbox cart" v-model="syncOrderer" @change="syncHandler">
                      <span>同訂購人</span>
                   </label>
                </div>
                <div class="fill-row">
                   <p class="title required">姓名</p>
                   <div class="content">
-                     <input type="text" class="form-control" placeholder="請填寫姓名">
+                     <input type="text" class="form-control" placeholder="請填寫姓名" v-model="recipient.name" :disabled="syncOrderer">
                   </div>
                   <p class="title required">性別</p>
                   <div class="content">
-                     <select class="form-control"></select>
+                     <select class="form-control" v-model="recipient.gender" :disabled="syncOrderer">
+                        <option value="" disabled>請選擇性別</option>
+                        <option v-for="gender in genderList" :key="gender.id" :value="gender.id">{{ gender.title }}</option>
+                     </select>
                   </div>
                </div>
                <div class="fill-row">
                   <p class="title required">手機號碼</p>
                   <div class="content">
-                     <input type="number" class="form-control" placeholder="請填寫手機號碼">
+                     <input type="number" class="form-control" placeholder="請填寫手機號碼" v-model="recipient.mobile" :disabled="syncOrderer">
                   </div>
                   <p class="title required">電子信箱</p>
                   <div class="content">
-                     <input type="email" class="form-control" placeholder="請填寫電子信箱">
+                     <input type="email" class="form-control" placeholder="請填寫電子信箱" v-model="recipient.email" :disabled="syncOrderer">
                   </div>
                </div>
-               <div class="fill-row">
-                  <p class="title required">收件人地址</p>
-                  <div class="content address">
-                     <select class="form-control"></select>
-                  </div>
-                  <div class="content address">
-                     <select class="form-control"></select>
-                  </div>
-                  <div class="content remained">
-                     <input type="text" class="form-control" placeholder="請填寫地址">
-                  </div>
-               </div>
+               <AddressField fieldName="收件人地址" :city.sync="recipient.city" :district.sync="recipient.district" :zipcode.sync="recipient.zipcode" :address.sync="recipient.address" :disabled="syncOrderer"></AddressField>
                <div class="fill-row align-top">
                   <p class="title required">備註</p>
                   <div class="content remained">
-                     <textarea class="form-control" placeholder="請填寫備註"></textarea>
+                     <textarea class="form-control" placeholder="請填寫備註" v-model="recipient.remark"></textarea>
                   </div>
                </div>
             </div>

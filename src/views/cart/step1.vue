@@ -1,22 +1,29 @@
 <template src="./html/step1.html"></template>
 
 <script>
-import { ref, reactive ,computed, onMounted } from '@vue/composition-api'
+import { ref, reactive ,computed, onMounted, watch } from '@vue/composition-api'
 import { productApi, thirdPartyMemberApi, cartApi, activityCartApi } from '@/api/index.js'
-import { createActivityInfo } from '@/composition-api/index.js'
+import { createActivityInfo, createFormList } from '@/composition-api/index.js'
 import TemperatureItem from '@/component/TemperatureItem/index.vue'
 import NormalEditRow from '@/component/CartTableRow/normal-edit-row.vue'
 import ActivityEditRow from '@/component/CartTableRow/activity-edit-row.vue'
 import MatchEditRow from '@/component/CartTableRow/match-edit-row.vue'
+import AddressField from '@/component/AddressField/index.vue'
 export default {
    name: 'cart-step1',
-   components: { TemperatureItem, NormalEditRow, ActivityEditRow, MatchEditRow },
+   components: { TemperatureItem, NormalEditRow, ActivityEditRow, MatchEditRow, AddressField },
    setup(props, { root }) {
+      let { genderList } = createFormList();
       let cartList = reactive({ data: [] });
       let temperatureList = reactive({ data: [] });
       let temperatureType = ref('');
       let isAllChecked = ref(true);
       let isLoading = ref(false);
+      let orderer = reactive({
+         name: '', gender: '', mobile: '', email: '', city: '', district: '', address: '', zipcode: 0,
+      });
+      let recipient = reactive({ name: '', gender: '', mobile: '', email: '', city: '', district: '', address: '', zipcode: 0, remark: '' });
+      let syncOrderer = ref(false);
 
       let hasCart = computed(() => cartList.data.length > 0 );
 
@@ -125,7 +132,6 @@ export default {
          temperatureList.data = createTemperatureList(temperatureInfo.aaData, allCart);
          cartList.data = normalList.concat(activityList);
          temperatureType.value = temperatureTab.value.length !== 0 ? temperatureTab.value[0].vTemperatureCode : '';
-         
       }
 
       let setTab = (payload) => {
@@ -176,14 +182,36 @@ export default {
          isLoading.value = false;
       }
 
+      let setMemberProfile = async() => {
+         let response = await thirdPartyMemberApi.getProfile();
+         let profileData = response.aaData.member_profile
+         for (let key in orderer) {
+            orderer[key] = profileData[key] || '';
+         }
+      }
+
+      let syncHandler = async() => {
+         if (!syncOrderer.value) return;
+         for (let key in orderer) {
+            recipient[key] = orderer[key];
+         }
+         await root.$nextTick();
+         recipient.district = orderer.district;
+      }
+
       onMounted(async() => {
          isLoading.value = true;
+         await setMemberProfile(); 
          await getCartAndtemperature();
-
+         
          isLoading.value = false;
       });
 
-      return { isLoading, isAllChecked, temperatureType, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem }
+      watch(() => orderer, (val) => {
+         syncHandler();
+      }, { deep: true });
+
+      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, temperatureType, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler }
    }
 }
 </script>
