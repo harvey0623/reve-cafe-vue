@@ -48,19 +48,23 @@
                   </div>
                   <p class="title required">付款方式</p>
                   <div class="content">
-                     <select class="form-control"></select>
+                     <select class="form-control" v-model="orderConfig.pay.id">
+                        <option v-for="item in orderConfig.pay.list" :value="item.value">{{ item.text }}</option>
+                     </select>
                   </div>
                </div>
                <div class="fill-row">
                   <p class="title required">發票選項</p>
                   <div class="content">
-                     <select class="form-control"></select>
+                     <select class="form-control" v-model="orderConfig.invoice.id">
+                        <option v-for="item in orderConfig.invoice.list" :value="item.value">{{ item.text }}</option>
+                     </select>
+                  </div>
+                  <div class="content remained" v-show="showCompanyTitle">
+                     <input type="text" class="form-control" placeholder="公司抬頭" v-model="orderConfig.invoice.companyTitle">
                   </div>
                   <div class="content remained">
-                     <input type="text" class="form-control">
-                  </div>
-                  <div class="content remained" v-show="false">
-                     <input type="text" class="form-control">
+                     <input type="text" class="form-control" :placeholder="invoicePlaceholder" v-model="orderConfig.invoice.value" >
                   </div>
                </div>
             </div>

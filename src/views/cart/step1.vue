@@ -2,7 +2,7 @@
 
 <script>
 import { ref, reactive ,computed, onMounted, watch } from '@vue/composition-api'
-import { productApi, thirdPartyMemberApi, cartApi, activityCartApi } from '@/api/index.js'
+import { productApi, thirdPartyMemberApi, cartApi, activityCartApi, orderApi } from '@/api/index.js'
 import { createActivityInfo, createFormList } from '@/composition-api/index.js'
 import TemperatureItem from '@/component/TemperatureItem/index.vue'
 import NormalEditRow from '@/component/CartTableRow/normal-edit-row.vue'
@@ -24,6 +24,10 @@ export default {
       });
       let recipient = reactive({ name: '', gender: '', mobile: '', email: '', city: '', district: '', address: '', zipcode: 0, remark: '' });
       let syncOrderer = ref(false);
+      let orderConfig = reactive({
+         pay: { id: '', list: [] },
+         invoice: { id: '', list: [], value: '', companyTitle: '' }
+      });
 
       let hasCart = computed(() => cartList.data.length > 0 );
 
@@ -50,6 +54,19 @@ export default {
       });
 
       let filterCartSubTotal = computed(() => normalCartDollar.value + activityCartDollar.value);
+
+      let invoicePlaceholder = computed(() => {
+         let mappingText = { 
+            0: '', 
+            1: '請輸入手機條碼', 
+            2: '請輸入自然人憑證', 
+            4: '請輸入電子信箱', 
+            5: '請輸入統一編號' 
+         };
+         return mappingText[orderConfig.invoice.id] || '';
+      });
+
+      let showCompanyTitle = computed(() => orderConfig.invoice.id === 5);
 
       let createUid = () => {
          let d = new Date().getTime()
@@ -199,8 +216,25 @@ export default {
          recipient.district = orderer.district;
       }
 
+      let setPayInfo = (payload) => {
+         orderConfig.pay.list = payload.aaData;
+         orderConfig.pay.id = payload.aaData[0].value;
+      }
+
+      let setInvoceInfo = (payload) => {
+         orderConfig.invoice.list = payload.aaData;
+         orderConfig.invoice.id = payload.aaData[0].value;
+      }
+
+      let getConfigData = async() => {
+         let [payInfo, invoiceInfo] = await Promise.all([ orderApi.pay(), orderApi.invoice() ])
+         setPayInfo(payInfo);
+         setInvoceInfo(invoiceInfo);
+      }
+
       onMounted(async() => {
          isLoading.value = true;
+         await getConfigData();
          await setMemberProfile(); 
          await getCartAndtemperature();
          
@@ -211,7 +245,12 @@ export default {
          syncHandler();
       }, { deep: true });
 
-      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, temperatureType, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler }
+      watch(() => orderConfig.invoice.id, () => {
+         orderConfig.invoice.value = '';
+         orderConfig.invoice.companyTitle = '';
+      });
+
+      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, orderConfig, invoicePlaceholder, temperatureType, showCompanyTitle, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler }
    }
 }
 </script>
