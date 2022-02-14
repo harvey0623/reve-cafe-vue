@@ -26,7 +26,8 @@ export default {
       let syncOrderer = ref(false);
       let orderConfig = reactive({
          pay: { id: '', list: [] },
-         invoice: { id: '', list: [], value: '', companyTitle: '' }
+         invoice: { id: '', list: [], value: '', companyTitle: '' },
+         ship: { id: '', list: [] }
       });
 
       let hasCart = computed(() => cartList.data.length > 0 );
@@ -67,6 +68,8 @@ export default {
       });
 
       let showCompanyTitle = computed(() => orderConfig.invoice.id === 5);
+
+      let shipList = computed(() => orderConfig.ship.list.filter(item => item.vTemperatureCode === temperatureType.value));
 
       let createUid = () => {
          let d = new Date().getTime()
@@ -227,9 +230,10 @@ export default {
       }
 
       let getConfigData = async() => {
-         let [payInfo, invoiceInfo] = await Promise.all([ orderApi.pay(), orderApi.invoice() ])
+         let [payInfo, invoiceInfo, shipInfo] = await Promise.all([ orderApi.pay(), orderApi.invoice(), orderApi.ship() ])
          setPayInfo(payInfo);
          setInvoceInfo(invoiceInfo);
+         orderConfig.ship.list = shipInfo.aaData;
       }
 
       onMounted(async() => {
@@ -241,7 +245,7 @@ export default {
          isLoading.value = false;
       });
 
-      watch(() => orderer, (val) => {
+      watch(() => orderer, () => {
          syncHandler();
       }, { deep: true });
 
@@ -250,7 +254,11 @@ export default {
          orderConfig.invoice.companyTitle = '';
       });
 
-      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, orderConfig, invoicePlaceholder, temperatureType, showCompanyTitle, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler }
+      watch(() => shipList.value, (val) => {
+         orderConfig.ship.id = val[0] !== undefined ? val[0].iId : '';
+      });
+
+      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, orderConfig, temperatureType, invoicePlaceholder, showCompanyTitle, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, shipList, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler }
    }
 }
 </script>

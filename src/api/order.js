@@ -21,4 +21,14 @@ export const orderRequest = {
          return err.response.data;
       })
    },
+   ship() {
+      return httpConfig({
+         url: '/order/shipment',
+         method: 'get',
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      })
+   },
 }
