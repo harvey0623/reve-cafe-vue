@@ -19,15 +19,15 @@ export default {
       let temperatureType = ref('');
       let isAllChecked = ref(true);
       let isLoading = ref(false);
-      let orderer = reactive({
-         name: '', gender: '', mobile: '', email: '', city: '', district: '', address: '', zipcode: 0,
+      let syncOrderer = ref(false);
+      let orderer = reactive({ name: '', gender: '', mobile: '', email: '', city: '', district: '', address: '', zipcode: 0,
       });
       let recipient = reactive({ name: '', gender: '', mobile: '', email: '', city: '', district: '', address: '', zipcode: 0, remark: '' });
-      let syncOrderer = ref(false);
       let orderConfig = reactive({
          pay: { id: '', list: [] },
          invoice: { id: '', list: [], value: '', companyTitle: '' },
-         ship: { id: '', list: [] }
+         ship: { id: 0, list: [] },
+         outbound: []
       });
 
       let hasCart = computed(() => cartList.data.length > 0 );
@@ -70,6 +70,28 @@ export default {
       let showCompanyTitle = computed(() => orderConfig.invoice.id === 5);
 
       let shipList = computed(() => orderConfig.ship.list.filter(item => item.vTemperatureCode === temperatureType.value));
+
+      let shipInfo = computed(() => { //運費資訊
+         let obj = shipList.value.find(item => item.iId === orderConfig.ship.id);
+         return obj !== undefined ? obj : null;
+      });
+
+      let freeShipmentAmount = computed(() => { //免運金額
+         return shipInfo.value !== null ? shipInfo.value.iFreeShipment : -1;
+      });
+
+      let isReachedFreeShipCondition = computed(() => { //是否達成免條件
+         if (freeShipmentAmount.value < 0) return false;
+         return filterCartSubTotal.value >= freeShipmentAmount.value;
+      });
+
+      let shipFee = computed(() => { //實際運費
+         if (shipInfo.value === null) return 0;
+         if (isReachedFreeShipCondition.value) return 0;
+         let isOutbound = orderConfig.outbound.some(item => item.vTitle === recipient.district);
+         let { iShipment, iShipmentOutbound } = shipInfo.value;
+         return isOutbound ? iShipmentOutbound : iShipment;
+      });
 
       let createUid = () => {
          let d = new Date().getTime()
@@ -230,10 +252,13 @@ export default {
       }
 
       let getConfigData = async() => {
-         let [payInfo, invoiceInfo, shipInfo] = await Promise.all([ orderApi.pay(), orderApi.invoice(), orderApi.ship() ])
+         let [payInfo, invoiceInfo, shipInfo, outBoundInfo] = await Promise.all([ 
+            orderApi.pay(), orderApi.invoice(), orderApi.ship(), orderApi.outbound()
+         ]);
          setPayInfo(payInfo);
          setInvoceInfo(invoiceInfo);
          orderConfig.ship.list = shipInfo.aaData;
+         orderConfig.outbound = outBoundInfo.aaData;
       }
 
       onMounted(async() => {
@@ -241,7 +266,6 @@ export default {
          await getConfigData();
          await setMemberProfile(); 
          await getCartAndtemperature();
-         
          isLoading.value = false;
       });
 
@@ -258,7 +282,7 @@ export default {
          orderConfig.ship.id = val[0] !== undefined ? val[0].iId : '';
       });
 
-      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, orderConfig, temperatureType, invoicePlaceholder, showCompanyTitle, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, shipList, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler }
+      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, orderConfig, temperatureType, invoicePlaceholder, showCompanyTitle, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, shipList, freeShipmentAmount, shipFee, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler }
    }
 }
 </script>

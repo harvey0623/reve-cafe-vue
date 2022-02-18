@@ -31,4 +31,14 @@ export const orderRequest = {
          return err.response.data;
       })
    },
+   outbound() {
+      return httpConfig({
+         url: '/order/shipment_outbound',
+         method: 'get',
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      })
+   },
 }
