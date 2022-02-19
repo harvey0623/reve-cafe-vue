@@ -20,6 +20,7 @@ export default {
       let isAllChecked = ref(true);
       let isLoading = ref(false);
       let syncOrderer = ref(false);
+      let customerDollar = ref(0);
       let orderer = reactive({ name: '', gender: '', mobile: '', email: '', city: '', district: '', address: '', zipcode: 0,
       });
       let recipient = reactive({ name: '', gender: '', mobile: '', email: '', city: '', district: '', address: '', zipcode: 0, remark: '' });
@@ -29,6 +30,7 @@ export default {
          ship: { id: 0, list: [] },
          outbound: []
       });
+      let userPoint = reactive({ total: 0, used: 0 });
 
       let hasCart = computed(() => cartList.data.length > 0 );
 
@@ -252,13 +254,15 @@ export default {
       }
 
       let getConfigData = async() => {
-         let [payInfo, invoiceInfo, shipInfo, outBoundInfo] = await Promise.all([ 
-            orderApi.pay(), orderApi.invoice(), orderApi.ship(), orderApi.outbound()
+         let [payInfo, invoiceInfo, shipInfo, outBoundInfo, memberSummary] = await Promise.all([ 
+            orderApi.pay(), orderApi.invoice(), orderApi.ship(), orderApi.outbound(),
+            thirdPartyMemberApi.summary()
          ]);
          setPayInfo(payInfo);
          setInvoceInfo(invoiceInfo);
          orderConfig.ship.list = shipInfo.aaData;
          orderConfig.outbound = outBoundInfo.aaData;
+         userPoint.total = memberSummary.aaData.point_summary.current_point[0].amount;
       }
 
       onMounted(async() => {
@@ -282,7 +286,7 @@ export default {
          orderConfig.ship.id = val[0] !== undefined ? val[0].iId : '';
       });
 
-      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, orderConfig, temperatureType, invoicePlaceholder, showCompanyTitle, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, shipList, freeShipmentAmount, shipFee, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler }
+      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, customerDollar, orderConfig, temperatureType, invoicePlaceholder, showCompanyTitle, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, shipList, freeShipmentAmount, shipFee, userPoint, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler }
    }
 }
 </script>

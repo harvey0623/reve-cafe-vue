@@ -151,6 +151,34 @@
    }
 }
 
+.summary-outer {
+   margin: 50px 0;
+   >h3 {
+      margin-bottom: 25px;
+      font-weight: normal;
+      font-size: 25px;
+   }
+   .summary-row {
+      display: flex;
+      align-items: center;
+      @include elGutter(margin-bottom, 20px);
+      >div {
+         flex: 1;
+         text-align: right;
+      }
+      .point-input {
+         display: inline-block;
+         width: 150px;
+         text-align: right;
+         &::-webkit-inner-spin-button,
+         &::-webkit-outer-spin-button{
+            -webkit-appearance: none;
+            margin: 0;
+            -moz-appearance: textfield;
+         }
+      }
+   }
+}
 
 .no-cart {
    @extend %centerFlex;

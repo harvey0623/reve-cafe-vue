@@ -143,6 +143,36 @@
             </div>
          </div>
       </div>
+
+      <div class="summary-outer">
+         <h3 class="text-primary">金額統計</h3>
+         <div class="summary-body">
+            <div class="summary-row">
+               <div>商品金額</div>
+               <div>${{ filterCartSubTotal | currency }}</div>
+            </div>
+            <div class="summary-row">
+               <div>運費</div>
+               <div>
+                  ${{ shipFee | currency }}
+                  <span class="text-primary">(滿${{ freeShipmentAmount | currency }}免運)</span></div>
+            </div>
+            <div class="summary-row">
+               <div>會員點數</div>
+               <div>${{ userPoint.total }}點</div>
+            </div>
+            <div class="summary-row">
+               <div>點數折抵</div>
+               <div>
+                  <input type="number" class="form-control point-input" v-model.number="userPoint.used">
+               </div>
+            </div>
+            <div class="summary-row">
+               <div>結帳金額</div>
+               <div>${{ customerDollar | currency }}</div>
+            </div>
+         </div>
+      </div>
    </template>
    <template v-else>
       <div class="no-cart">
