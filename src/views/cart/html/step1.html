@@ -159,19 +159,30 @@
             </div>
             <div class="summary-row">
                <div>會員點數</div>
-               <div>${{ userPoint.total }}點</div>
+               <div>${{ userPoint.total | currency }}點</div>
             </div>
             <div class="summary-row">
                <div>點數折抵</div>
                <div>
-                  <input type="number" class="form-control point-input" v-model.number="userPoint.used">
+                  <input
+                     type="number"
+                     class="form-control point-input" 
+                     v-model.number="userPoint.used"
+                     @keydown="checkPointKeydown"
+                     @blur="checkInsertedPoint"
+                     ref="pointInput">
+                  <p v-show="insertedPointIsError">點數輸入有誤</p>
                </div>
             </div>
             <div class="summary-row">
                <div>結帳金額</div>
-               <div>${{ customerDollar | currency }}</div>
+               <div>${{ settleDollar | currency }}</div>
             </div>
          </div>
+      </div>
+
+      <div class="btnBox center">
+         <button class="btn-primary" style="--width:200px;">下一步</button>
       </div>
    </template>
    <template v-else>
