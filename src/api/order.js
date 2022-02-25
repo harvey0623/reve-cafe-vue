@@ -41,4 +41,26 @@ export const orderRequest = {
          return err.response.data;
       })
    },
+   createOrder(payload) {
+      return httpConfig({
+         url: '/order/createOrder',
+         method: 'post',
+         data: payload
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      })
+   },
+   order_detail(orderNumber) {
+      return httpConfig({
+         url: '/order/order_detail',
+         method: 'get',
+         params: { vOrderNum: orderNumber }
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      })
+   }
 }

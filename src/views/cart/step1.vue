@@ -23,16 +23,20 @@ export default {
       let settleDollar = ref(0);
       let insertedPointIsError = ref(false);
       let pointInput = ref(null);
-      let orderer = reactive({ name: '', gender: '', mobile: '', email: '', city: '', district: '', address: '', zipcode: 0,
+      let cartModal = ref(null);
+      let checkModal = ref(null);
+      let orderer = reactive({ vName: '', vGender: '', vContact: '', vEmail: '', vCity: '', vArea: '', vAddress: '', vZipCode: 0,
       });
-      let recipient = reactive({ name: '', gender: '', mobile: '', email: '', city: '', district: '', address: '', zipcode: 0, remark: '' });
+      let recipient = reactive({ vName: '', vGender: '', vContact: '', vEmail: '', vCity: '', vArea: '', vAddress: '', vZipCode: 0, vRemarks: '' });
       let orderConfig = reactive({
          pay: { id: '', list: [] },
          invoice: { id: '', list: [], value: '', companyTitle: '' },
          ship: { id: 0, list: [] },
          outbound: []
       });
-      let userPoint = reactive({ total: 0, used: 0 });
+      let userPoint = reactive({ id: 0, total: 0, used: 0 });
+      let createdResult = reactive({ status: 0, message: '' });
+      let checkedBuildResult = reactive({ status: 0, message: '', orderNumber: '' });
 
       let hasCart = computed(() => cartList.data.length > 0 );
 
@@ -59,6 +63,8 @@ export default {
       });
 
       let filterCartSubTotal = computed(() => normalCartDollar.value + activityCartDollar.value);
+
+      let canSubmit = computed(() => filterCartSubTotal.value > 0);
 
       let invoicePlaceholder = computed(() => {
          let mappingText = { 
@@ -233,10 +239,14 @@ export default {
 
       let setMemberProfile = async() => {
          let response = await thirdPartyMemberApi.getProfile();
-         let profileData = response.aaData.member_profile
-         for (let key in orderer) {
-            orderer[key] = profileData[key] || '';
-         }
+         let profileData = response.aaData.member_profile;
+         orderer.vName = profileData.name;
+         orderer.vGender = profileData.gender;
+         orderer.vContact = profileData.mobile;
+         orderer.vEmail = profileData.email;
+         orderer.vCity = profileData.city;
+         orderer.vArea = profileData.district;
+         orderer.vAddress = profileData.address;
       }
 
       let syncHandler = async() => {
@@ -245,7 +255,21 @@ export default {
             recipient[key] = orderer[key];
          }
          await root.$nextTick();
-         recipient.district = orderer.district;
+         recipient.vArea = orderer.vArea;
+      }
+
+      let getConfigData = async() => {
+         let [payInfo, invoiceInfo, shipInfo, outBoundInfo, memberSummary] = await Promise.all([ 
+            orderApi.pay(), orderApi.invoice(), orderApi.ship(), orderApi.outbound(),
+            thirdPartyMemberApi.summary()
+         ]);
+         setPayInfo(payInfo);
+         setInvoceInfo(invoiceInfo);
+         orderConfig.ship.list = shipInfo.aaData;
+         orderConfig.outbound = outBoundInfo.aaData;
+         let pointInfo = memberSummary.aaData.point_summary.current_point[0]; 
+         userPoint.id = pointInfo.point_id;
+         userPoint.total = cammaToNumber(pointInfo.amount);
       }
 
       let setPayInfo = (payload) => {
@@ -273,7 +297,6 @@ export default {
 
       let checkInsertedPoint = async() => {
          let { total:totalPoint, used: usedPoint } = userPoint;
-         console.log('aaa')
          if (usedPoint === '') {
             insertedPointIsError.value = false;
             userPoint.used = 0;
@@ -297,16 +320,67 @@ export default {
          settleDollar.value = filterCartSubTotal.value + shipFee.value - userPoint.used;
       }
 
-      let getConfigData = async() => {
-         let [payInfo, invoiceInfo, shipInfo, outBoundInfo, memberSummary] = await Promise.all([ 
-            orderApi.pay(), orderApi.invoice(), orderApi.ship(), orderApi.outbound(),
-            thirdPartyMemberApi.summary()
-         ]);
-         setPayInfo(payInfo);
-         setInvoceInfo(invoiceInfo);
-         orderConfig.ship.list = shipInfo.aaData;
-         orderConfig.outbound = outBoundInfo.aaData;
-         userPoint.total = cammaToNumber(memberSummary.aaData.point_summary.current_point[0].amount);
+      let getSelectedCartItem = (cartType) => {
+         return filterCartList.value.filter(item => item.cartType === cartType && item.isChecked).map(item => item.iId);
+      }
+
+      let checkOrderIsBuild = async(orderNumber) => { //確認訂單是否已處理完成(0:失敗,1:完成,2:處理中)
+         let { status, message } = await orderApi.order_detail(orderNumber);
+         checkedBuildResult.status = status;
+         checkedBuildResult.message = message;
+         checkedBuildResult.orderNumber = orderNumber;
+         console.log(checkedBuildResult)
+         if (status === 0 || status === 1) {
+            root.$store.dispatch('cart/getAllCart');
+            checkModal.value.openModal();
+            isLoading.value = false;
+         } else if (status === 2) {
+            setTimeout(() => {
+               checkOrderIsBuild(orderNumber);
+            }, 3000);
+         }
+      }
+
+      let checkHandler = () => {
+         if (checkedBuildResult.status === 1) {
+            console.log(checkedBuildResult.orderNumber);
+         } else {
+            checkModal.value.closeModal();
+         }
+      }
+
+      let submitHandler = async() => {
+         if (!canSubmit.value) return;
+         if (insertedPointIsError.value) return;
+         isLoading.value = true;
+         let invoiceMappingKey = { 1: 'vInvoicePhoneId', 2: 'vInvoiceUserId', 3: 'vInvoiceLoveId', 4: 'vInvoiceEmail', 5: 'vInvoiceNum' };
+         let order_info = {
+            iPayId: orderConfig.pay.id,
+            iInvoiceType: orderConfig.invoice.id,
+         };
+         if (orderConfig.invoice.id !== 0) {
+            order_info[invoiceMappingKey[orderConfig.invoice.id]] = orderConfig.invoice.value;
+         }
+         if (orderConfig.invoice.id === 5) order_info.vInvoiceCompany = orderConfig.invoice.companyTitle;
+         let response = await orderApi.createOrder({
+            cart_ids: getSelectedCartItem('normal'),
+            activity_product_promotions_cart_bundle_ids: getSelectedCartItem('activity'),
+            product_purchase: [],
+            iShipmentId: orderConfig.ship.id,
+            order_info,
+            addressee_1: { ...orderer, vZipCode: orderer.vZipCode.toString() },
+            addressee_2: { ...recipient, vZipCode: recipient.vZipCode.toString() },
+            point_info: { point_id: userPoint.id, count: userPoint.used },
+            cash_card: [{ service: 'wish_mmrm_dudooeat', count: 0}]
+         });
+         createdResult.status = response.status;
+         createdResult.message = response.message;
+         if (response.status === 0) {
+            cartModal.value.openModal();
+            isLoading.value = false;
+         } else {
+            checkOrderIsBuild(response.vOrderNum);
+         }
       }
 
       onMounted(async() => {
@@ -339,7 +413,7 @@ export default {
          calculateSettledDollar();
       });
 
-      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, orderConfig, temperatureType, pointInput, insertedPointIsError, settleDollar,invoicePlaceholder, showCompanyTitle, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, shipList, freeShipmentAmount, shipFee, userPoint, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler, checkPointKeydown, checkInsertedPoint }
+      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, orderConfig, temperatureType, pointInput, cartModal, checkModal, checkHandler, insertedPointIsError, settleDollar, createdResult, checkedBuildResult, invoicePlaceholder, showCompanyTitle, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, canSubmit, shipList, freeShipmentAmount, shipFee, userPoint, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler, checkPointKeydown, checkInsertedPoint, submitHandler }
    }
 }
 </script>

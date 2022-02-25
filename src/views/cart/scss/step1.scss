@@ -177,6 +177,9 @@
             -moz-appearance: textfield;
          }
       }
+      .error-text {
+         color: red;
+      }
    }
 }
 
@@ -193,4 +196,8 @@
 
 .btnBox {
    margin-top: 80px;
+   >button.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+   }
 }
