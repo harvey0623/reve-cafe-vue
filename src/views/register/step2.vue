@@ -122,16 +122,10 @@ export default {
          >.btnBox {
             display: inline-block;
             >button {
-               width: 110px;
                color: #fff;
             }
          }
       }
-   }
-}
-.submitBox {
-   >button {
-      width: 150px;
    }
 }
 </style>

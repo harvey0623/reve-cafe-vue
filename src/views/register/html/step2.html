@@ -12,15 +12,15 @@
                <validation-provider tag="div" class="form-content" rules="required" v-slot="{ errors,failed }">
                   <input type="text" class="form-control" placeholder="請輸入驗證碼" v-model.trim="user.code">
                   <div class="btnBox no-mt">
-                     <button class="btn-primary" @click="resend_verify">發送驗證碼</button>
+                     <button class="btn-primary" @click="resend_verify" style="--width:110px;">發送驗證碼</button>
                   </div>
                   <p class="error-text text-align-left" v-show="failed">{{ errors[0] }}</p>
                </validation-provider>
             </div>
          </validation-observer>
       </div>
-      <div class="btnBox submitBox">
-         <button class="btn-primary" @click="submitHandler">送出</button>
+      <div class="btnBox">
+         <button class="btn-primary" style="--width:150px;" @click="submitHandler">送出</button>
       </div>
    </div>
    <modal-message ref="checkModal" @confirm="confirmHandler">

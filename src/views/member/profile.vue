@@ -91,9 +91,4 @@ export default {
       }
    }
 }
-.btnBox {
-   button {
-      width: 150px;
-   }
-}
 </style>

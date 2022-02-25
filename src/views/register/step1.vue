@@ -136,10 +136,5 @@ export default {
          flex: 0 0 300px;
       }
    }
-   .btnBox {
-      >button {
-         width: 200px;
-      }
-   }
 }
 </style>
