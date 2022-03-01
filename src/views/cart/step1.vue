@@ -329,7 +329,6 @@ export default {
          checkedBuildResult.status = status;
          checkedBuildResult.message = message;
          checkedBuildResult.orderNumber = orderNumber;
-         console.log(checkedBuildResult)
          if (status === 0 || status === 1) {
             root.$store.dispatch('cart/getAllCart');
             checkModal.value.openModal();
