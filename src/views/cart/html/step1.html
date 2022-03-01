@@ -191,14 +191,11 @@
          <span>目前購物車無商品</span>
       </div>
    </template>
-
    <modal-message ref="cartModal" :showCancel="true" :showConfirm="false" cancelText="確認">
       <p>{{ createdResult.message }}</p>
    </modal-message>
-
-   <modal-message ref="checkModal" @confirm="checkHandler">
+   <modal-message ref="checkModal" @confirm="checkBuildHandler">
       <p>{{ checkedBuildResult.message }}</p>
    </modal-message>
-
    <Loading v-show="isLoading"></Loading>
 </div>

@@ -340,7 +340,7 @@ export default {
          }
       }
 
-      let checkHandler = () => {
+      let checkBuildHandler = () => {
          if (checkedBuildResult.status === 1) {
             console.log(checkedBuildResult.orderNumber);
          } else {
@@ -374,11 +374,11 @@ export default {
          });
          createdResult.status = response.status;
          createdResult.message = response.message;
-         if (response.status === 0) {
+         if (response.status === 1) {
+            checkOrderIsBuild(response.vOrderNum);
+         } else {
             cartModal.value.openModal();
             isLoading.value = false;
-         } else {
-            checkOrderIsBuild(response.vOrderNum);
          }
       }
 
@@ -412,7 +412,7 @@ export default {
          calculateSettledDollar();
       });
 
-      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, orderConfig, temperatureType, pointInput, cartModal, checkModal, checkHandler, insertedPointIsError, settleDollar, createdResult, checkedBuildResult, invoicePlaceholder, showCompanyTitle, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, canSubmit, shipList, freeShipmentAmount, shipFee, userPoint, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler, checkPointKeydown, checkInsertedPoint, submitHandler }
+      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, orderConfig, temperatureType, pointInput, cartModal, checkModal, checkBuildHandler, insertedPointIsError, settleDollar, createdResult, checkedBuildResult, invoicePlaceholder, showCompanyTitle, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, canSubmit, shipList, freeShipmentAmount, shipFee, userPoint, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler, checkPointKeydown, checkInsertedPoint, submitHandler }
    }
 }
 </script>
