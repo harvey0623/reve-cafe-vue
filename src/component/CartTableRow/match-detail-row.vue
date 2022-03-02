@@ -31,7 +31,6 @@ export default {
    },
    setup(props, { emit }) {
       let { info } = toRefs(props);
-      console.log(info.value)
       let bundleCount = computed(() => info.value.iCount);
       let bundlePrice = computed(() => info.value.iBundlePromoPrice);
       let subTotal = computed(() => bundleCount.value * bundlePrice.value);

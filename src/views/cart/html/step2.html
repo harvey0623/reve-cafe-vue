@@ -18,11 +18,67 @@
             ></tr>
          </tbody>
       </table>
-      <!-- <div class="picked-cart-summary">
-         <p>共<span class="text-primary">{{ filterCartCount | currency }}</span>項商品</p>
-         <p>商品小計</p>
-         <p>${{ filterCartSubTotal | currency }}</p>
-      </div> -->
+   </div>
+
+   <div class="fill-outer">
+      <div class="fill-block">
+         <h3 class="text-primary">配送方式</h3>
+         <div class="fill-body">
+            <div class="fill-row">
+               <p class="title">配送取貨:</p>
+               <div class="content">{{ orderConfig.ship }}</div>
+               <p class="title">付款方式:</p>
+               <div class="content">{{ orderConfig.pay }}</div>
+            </div>
+            <div class="fill-row">
+               <p class="title">發票選項:</p>
+               <div class="content">{{ invoiceTitle }}-{{ orderConfig.invoice.value }}</div>
+            </div>
+         </div>
+      </div>
+      <div class="fill-block">
+         <h3 class="text-primary">訂購人資訊</h3>
+         <div class="fill-body">
+            <div class="fill-row">
+               <p class="title">姓名:</p>
+               <div class="content">{{ orderer.vName }}</div>
+               <p class="title">性別:</p>
+               <div class="content">{{ ordererGenderText }}</div>
+            </div>
+            <div class="fill-row">
+               <p class="title">手機號碼:</p>
+               <div class="content">{{ orderer.vContact }}</div>
+               <p class="title">電子信箱: </p>
+               <div class="content">{{ orderer.vEmail }}</div>
+            </div>
+            <div class="fill-row">
+               <p class="title">訂購人地址:</p>
+               <div class="content">{{ ordererAddress }}</div>
+            </div>
+         </div>
+      </div>
+      <div class="fill-block">
+         <h3 class="text-primary">收件人資訊</h3>
+         <div class="fill-body">
+            <div class="fill-row">
+               <p class="title">姓名:</p>
+               <div class="content">{{ recipient.vName }}</div>
+               <p class="title">性別:</p>
+               <div class="content">{{ receipentGenderText }}</div>
+            </div>
+            <div class="fill-row">
+               <p class="title">手機號碼:</p>
+               <div class="content">{{ recipient.vContact }}</div>
+               <p class="title">電子信箱: </p>
+               <div class="content">{{ recipient.vEmail }}</div>
+            </div>
+            <div class="fill-row">
+               <p class="title">訂購人地址:</p>
+               <div class="content">{{ recipientAddress }}</div>
+            </div>
+         </div>
+      </div>
+      
    </div>
 
    <modal-message ref="tipModal" @confirm="tipHandler">

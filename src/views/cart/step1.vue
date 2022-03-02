@@ -3,7 +3,7 @@
 <script>
 import { ref, reactive ,computed, onMounted, watch } from '@vue/composition-api'
 import { productApi, thirdPartyMemberApi, cartApi, activityCartApi, orderApi } from '@/api/index.js'
-import { createActivityInfo, createFormList } from '@/composition-api/index.js'
+import { createActivityInfo, createFormList, createCartInfo } from '@/composition-api/index.js'
 import TemperatureItem from '@/component/TemperatureItem/index.vue'
 import NormalEditRow from '@/component/CartTableRow/normal-edit-row.vue'
 import ActivityEditRow from '@/component/CartTableRow/activity-edit-row.vue'
@@ -14,6 +14,7 @@ export default {
    components: { TemperatureItem, NormalEditRow, ActivityEditRow, MatchEditRow, AddressField },
    setup(props, { root }) {
       let { genderList } = createFormList();
+      let { invoiceMappingKey } = createCartInfo();
       let cartList = reactive({ data: [] });
       let temperatureList = reactive({ data: [] });
       let temperatureType = ref('');
@@ -352,7 +353,6 @@ export default {
          if (!canSubmit.value) return;
          if (insertedPointIsError.value) return;
          isLoading.value = true;
-         let invoiceMappingKey = { 1: 'vInvoicePhoneId', 2: 'vInvoiceUserId', 3: 'vInvoiceLoveId', 4: 'vInvoiceEmail', 5: 'vInvoiceNum' };
          let order_info = {
             iPayId: orderConfig.pay.id,
             iInvoiceType: orderConfig.invoice.id,
