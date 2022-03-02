@@ -89,7 +89,6 @@ export default {
 
       let getOrderDetail = async() => {
          let response = await orderApi.order_detail({ vOrderNum: orderNumber.value });
-         console.log(response)
          if (response.status === 0) {
             tipMessage.value = response.message;
             tipModal.value.openModal();
