@@ -18,7 +18,7 @@ export default {
       let isLoading = ref(true);
       let tipModal = ref(null);
       let cartList = reactive({ data: [] });
-      let orderConfig = reactive({ ship: '', pay: '', invoice: { id: '', list: [], value: '' }});
+      let orderConfig = reactive({ ship: '', pay: '',  invoice: { id: '', list: [], value: '' },subTotal: 0, pointTotal: 0, shipFee: 0, moneyTotal: 0, payUrl: '' });
       let orderer = reactive({ vName: '', vGender: '', vContact: '', vEmail: '', vCity: '', vArea: '', vAddress: '', vZipCode: '',
       });
       let recipient = reactive({ vName: '', vGender: '', vContact: '', vEmail: '', vCity: '', vArea: '', vAddress: '', vZipCode: '', vRemarks: '' });
@@ -73,6 +73,11 @@ export default {
          orderConfig.pay = payload.info.vPayType;
          orderConfig.invoice.id = payload.info.iInvoiceType;
          orderConfig.invoice.value = payload.info[invoiceMappingKey[orderConfig.invoice.id]];
+         orderConfig.subTotal = payload.iSubTotal;
+         orderConfig.pointTotal = payload.iCoinTotal;
+         orderConfig.shipFee = payload.iShipmentFee;
+         orderConfig.moneyTotal = payload.iMoneyTotal;
+         orderConfig.payUrl = payload.vPayUrl;
       }
 
       let setPersonInfo = (type, payload) => {

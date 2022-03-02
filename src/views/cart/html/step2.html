@@ -81,6 +81,33 @@
       
    </div>
 
+   <div class="summary-outer">
+      <h3 class="text-primary">金額統計</h3>
+      <div class="summary-body">
+         <div class="summary-row">
+            <div>商品金額</div>
+            <div>${{ orderConfig.subTotal | currency }}</div>
+         </div>
+         <div class="summary-row">
+            <div>運費</div>
+            <div>${{ orderConfig.shipFee | currency }}</div>
+         </div>
+         <div class="summary-row">
+            <div>點數折抵</div>
+            <div>{{ orderConfig.pointTotal | currency }}點</div>
+         </div>
+         <div class="summary-row">
+            <div>結帳金額</div>
+            <div>${{ orderConfig.moneyTotal | currency }}</div>
+         </div>
+      </div>
+   </div>
+
+   <div class="btnBox flex">
+      <router-link to="/" class="btn-primary" style="--width:120px;">訂單紀錄</router-link>
+      <a :href="orderConfig.payUrl" class="btn-primary" style="--width:120px;">前往付款</a>
+   </div>
+
    <modal-message ref="tipModal" @confirm="tipHandler">
       <p>{{ tipMessage }}</p>
    </modal-message>

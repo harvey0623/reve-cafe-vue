@@ -55,6 +55,12 @@ body {
 //===btnBox
 .btnBox {
    margin-top: 40px;
+   &.flex {
+      @extend %centerFlex;
+      >* {
+         @include elGutter(margin-right, 15px);
+      }
+   }
    &.no-mt {
       margin-top: 0;
    }
@@ -68,7 +74,7 @@ body {
       min-width: 100%;
       height: 40px;
       min-width: var(--width, 100%);
-      margin: 0 auto;
+      // margin: 0 auto;
       text-align: center;
       font-size: 16px;
    }
