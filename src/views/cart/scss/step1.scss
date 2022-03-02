@@ -1,5 +1,5 @@
 .cart-outer {
-   max-width: 80%;
+   max-width: 85%;
    margin: 0 auto;
 }
 
@@ -31,7 +31,7 @@
          font-size: 18px;
          font-weight: normal;
          white-space: nowrap;
-         &:first-child {
+         &.left {
             text-align: left;
          }
          input {
@@ -43,6 +43,9 @@
    tbody {
       tr {
          border-bottom: 1px solid map-get($borderColor, outer);
+         &:last-child {
+            border-bottom: none;
+         }
          td {
             padding: 15px 20px;
             &:not(:first-child) {
@@ -52,13 +55,15 @@
                display: flex;
                align-items: flex-start;
                >.imgBox {
-                  @include size(120px, 90px);
+                  flex: 0 0 120px;
+                  height: 90px;
                   >img {
                      display: block;
                      @include size(100%);
                   }
                }
                >.descBox{
+                  flex: 1;
                   padding-top: 5px;
                   padding-left: 10px;
                   text-align: left;

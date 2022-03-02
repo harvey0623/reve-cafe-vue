@@ -1,15 +1,12 @@
 <template>
    <tr>
-      <td class="td-input">
-         <input type="checkbox" class="hook-checkbox cart" v-model="isChecked">
-      </td>
       <td>
          <div class="productInfo">
             <div class="imgBox">
                <img :src="productImage" alt="">
             </div>
             <div class="descBox">
-               <router-link :to="productUrl" class="title">{{ activityName }}</router-link>
+               <p>{{ activityName }}</p>
                <ul class="combo-list">
                   <li class="combo-item" v-for="bundle in bundleList" :key="bundle.iId">
                      <span>{{ bundle.iCount | currency }}</span>
@@ -23,9 +20,6 @@
       <td>{{ bundleCount | currency }}</td>
       <td>${{ bundlePrice | currency }}</td>
       <td class="text-primary">${{ subTotal | currency }}</td>
-      <td>
-         <i class="fal fa-trash-alt" @click="removeHandler"></i>
-      </td>
    </tr>
 </template>
 
@@ -37,59 +31,29 @@ export default {
    },
    setup(props, { emit }) {
       let { info } = toRefs(props);
+      console.log(info.value)
       let bundleCount = computed(() => info.value.iCount);
       let bundlePrice = computed(() => info.value.iBundlePromoPrice);
       let subTotal = computed(() => bundleCount.value * bundlePrice.value);
+      let activityName = computed(() => info.value.vTitle);
       let productImage = computed(() => {
-         let vImage = info.value.activity_product_promotions.vImages;
+         let vImage = info.value.vImages;
          return vImage.length > 0 ? vImage[0] : '';
-      });
-      let activityName = computed(() => info.value.activity_product_promotions.vTitle);
-
-      let isChecked = computed({
-         get() {
-            return info.value.isChecked;
-         },
-         set(val) {
-            emit('singleCheck', {
-               uid: info.value.uid,
-               isChecked: val
-            });
-         }
-      });
-
-      let productUrl = computed(() => {
-         let { routeName, activity_product_promotions, vActivityCode } = info.value;
-         return {
-            name: routeName,
-            query: { 
-               activityId: activity_product_promotions.iId,
-               activityType: vActivityCode
-            }
-         }
       });
 
       let bundleList = computed(() => {
-         let cart = info.value.cart;
-         return cart.reduce((prev, current) => {
+         return info.value.meta.reduce((prev, current) => {
             prev.push({
                iId: current.iId,
                iCount: current.iCount,
-               vProductName: current.product.vProductName
+               vProductName: current.vProductName
             });
             return prev;
          }, []);
       });
 
-      let removeHandler = () => {
-         emit('remove', {
-            cartType: info.value.cartType,
-            iId: info.value.iId,
-            uid: info.value.uid
-         });
-      }
 
-      return { bundleCount, bundlePrice, subTotal, productImage, activityName, isChecked, productUrl, bundleList, removeHandler }
+      return { bundleCount, bundlePrice, subTotal, activityName, productImage, bundleList }
    }
 }
 </script>

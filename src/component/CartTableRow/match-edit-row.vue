@@ -9,7 +9,7 @@
                <img :src="productImage" alt="">
             </div>
             <div class="descBox">
-               <router-link :to="productUrl" class="title">product name</router-link>
+               <router-link :to="productUrl" class="title">{{ activityName }}</router-link>
                <ul class="combo-list">
                   <li class="combo-item" v-for="bundle in bundleList" :key="bundle.iId">
                      <span>{{ bundle.iCount | currency }}</span>
@@ -44,6 +44,7 @@ export default {
          let vImage = info.value.activity_product_promotions.vImages;
          return vImage.length > 0 ? vImage[0] : '';
       });
+      let activityName = computed(() => info.value.activity_product_promotions.vTitle);
 
       let isChecked = computed({
          get() {
@@ -88,7 +89,7 @@ export default {
          });
       }
 
-      return { bundleCount, bundlePrice, subTotal, productImage, isChecked, productUrl, bundleList, removeHandler }
+      return { bundleCount, bundlePrice, subTotal, productImage, activityName, isChecked, productUrl, bundleList, removeHandler }
    }
 }
 </script>

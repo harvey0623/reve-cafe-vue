@@ -1,0 +1,32 @@
+<div class="cart-step2-block cart-outer">
+   <div class="picked-cart-outer">
+      <table class="picked-cart-table">
+         <thead>
+            <tr>
+               <th>商品品項</th>
+               <th width="140">數量</th>
+               <th width="140">單價</th>
+               <th width="140">總價</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr 
+               v-for="item in cartList.data" 
+               :key="item.iId" 
+               :is="item.componentName"
+               :info="item"
+            ></tr>
+         </tbody>
+      </table>
+      <!-- <div class="picked-cart-summary">
+         <p>共<span class="text-primary">{{ filterCartCount | currency }}</span>項商品</p>
+         <p>商品小計</p>
+         <p>${{ filterCartSubTotal | currency }}</p>
+      </div> -->
+   </div>
+
+   <modal-message ref="tipModal" @confirm="tipHandler">
+      <p>{{ tipMessage }}</p>
+   </modal-message>
+   <Loading v-show="isLoading"></Loading>
+</div>

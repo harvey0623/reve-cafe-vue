@@ -342,7 +342,7 @@ export default {
 
       let checkBuildHandler = () => {
          if (checkedBuildResult.status === 1) {
-            console.log(checkedBuildResult.orderNumber);
+            root.$router.push({ name: 'cart-step2', query: { orderNumber: checkedBuildResult.orderNumber }});
          } else {
             checkModal.value.closeModal();
          }

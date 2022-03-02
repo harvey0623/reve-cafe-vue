@@ -1,4 +1,4 @@
-<div class="cart-step1-blockc cart-outer">
+<div class="cart-step1-block cart-outer">
    <template v-if="hasCart">
       <div class="temperature-list">
          <TemperatureItem v-for="item in temperatureTab" :key="item.iId" :info="item" :temperatureType="temperatureType" @setTab="setTab"></TemperatureItem>
@@ -11,7 +11,7 @@
                   <th width="100">
                      <input type="checkbox" class="hook-checkbox cart" v-model="isAllChecked" @change="changeAllChecked">全選
                   </th>
-                  <th>商品品項</th>
+                  <th class="left">商品品項</th>
                   <th>數量</th>
                   <th>單價</th>
                   <th>總價</th>
