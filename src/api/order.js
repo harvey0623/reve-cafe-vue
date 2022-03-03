@@ -62,5 +62,16 @@ export const orderRequest = {
       }).catch(err => {
          return err.response.data;
       })
+   },
+   order_history(payload) {
+      return httpConfig({
+         url: '/order/order_history',
+         method: 'get',
+         params: payload
+      }).then(res => {
+         return res.data;
+      }).catch(err => {
+         return err.response.data;
+      })
    }
 }

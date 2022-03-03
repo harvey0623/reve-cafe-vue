@@ -1,25 +1,97 @@
-<template>
-   <div class="order-history-block">
-      order
-   </div>
-</template>
+<template src="./html/order.html"></template>
 
 <script>
-import { ref } from '@vue/composition-api'
+import dayjs from 'dayjs'
+import { ref, reactive, computed, onMounted } from '@vue/composition-api'
+import { orderApi } from '@/api/index.js'
+import HistoryAccordion from '@/component/HistoryAccordion/index.vue'
 export default {
+   name: 'order_history',
+   components: { HistoryAccordion },
    metaInfo () {
       return {
         title: '訂單管理',
       }
    },
    setup(props) {
-      
+      let datePicker = null;
+      let isLoading = ref(false);
+      let orderNumber = ref('');
+      let dateInput = ref(null);
+      let orderStatus = reactive({
+         id: '0',
+         list: { 0: '等待處理', 1: '訂單已完成', 2: '訂單已取消', 3: '處理中' }
+      });
+      let paginationInfo = reactive({ current: 1, next: 1, total: 0, loading: false });
+      let accordionInfo = reactive({ list: [] });
 
-      return {}
+      let hasNextPage = computed(() => {
+         let { next, total } = paginationInfo;
+         return next < total;
+      });
+
+      let initDatePicker = () => {
+         let minDate = dayjs().subtract(6, 'month').toDate();
+         let maxDate = new Date();
+         let beforeMonthDate = dayjs().subtract(1, 'month').toDate();
+         datePicker = new flatpickr(dateInput.value, {
+            mode: 'range',
+            dateFormat: 'Y/m/d',
+            minDate,
+            maxDate,
+            defaultDate: [beforeMonthDate, maxDate],
+            locale: { rangeSeparator: '~' }
+         });
+      }
+
+      let setPaginationInfo = (payload) => {
+         paginationInfo.current = payload.current_page;
+         paginationInfo.next = payload.current_page + 1;
+         paginationInfo.total = payload.total_pages;
+      }
+
+      let getOrderHistory = async(isPag, currentPage) => {
+         let [ startDate, endDate ] = datePicker.selectedDates;
+         let response = await orderApi.order_history({
+            create_time_start: dayjs(startDate).format('YYYY-MM-DD'),
+            create_time_end: dayjs(endDate).format('YYYY-MM-DD'),
+            order_num: orderNumber.value,
+            status: orderStatus.id,
+            page: currentPage !== undefined ? currentPage : paginationInfo.current
+         });
+         setPaginationInfo(response);
+         accordionInfo.list = response.aaData;
+      }
+
+      let submitHandler = async() => {
+         isLoading.value = true;
+         await getOrderHistory(false, 1);
+         isLoading.value = false;
+      }
+      
+      onMounted(async() => {
+         initDatePicker();
+         submitHandler();
+      });
+
+      return { isLoading, orderNumber, dateInput, orderStatus, paginationInfo, accordionInfo, hasNextPage, submitHandler }
    }
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.criteria-panel {
+   display: flex;
+   align-items: center;
+   margin-bottom: 30px;
+   >.form-control {
+      flex: 1;
+      margin-right: 10px;
+   }
+   >.btn-primary {
+      flex: 0 0 90px;
+      height: 38px;
+      font-size: 16px;
+   }
+}
 </style>
