@@ -25,10 +25,9 @@ export default {
       let paginationInfo = reactive({ current: 1, next: 1, total: 0, loading: false });
       let accordionInfo = reactive({ list: [] });
 
-      let hasNextPage = computed(() => {
-         let { next, total } = paginationInfo;
-         return next < total;
-      });
+      let hasNextPage = computed(() => paginationInfo.next <= paginationInfo.total);
+
+      let seeMoreButtonText = computed(() => paginationInfo.loading ? '載入中...' : '顯示更多');
 
       let initDatePicker = () => {
          let minDate = dayjs().subtract(6, 'month').toDate();
@@ -57,10 +56,18 @@ export default {
             create_time_end: dayjs(endDate).format('YYYY-MM-DD'),
             order_num: orderNumber.value,
             status: orderStatus.id,
-            page: currentPage !== undefined ? currentPage : paginationInfo.current
+            page: currentPage !== undefined ? currentPage : paginationInfo.next
          });
+         console.log(response)
          setPaginationInfo(response);
-         accordionInfo.list = response.aaData;
+         if (isPag) accordionInfo.list = accordionInfo.list.concat(response.aaData);
+         else accordionInfo.list = response.aaData;
+      }
+
+      let seeMore = async() => {
+         paginationInfo.loading = true;
+         await getOrderHistory(true);
+         paginationInfo.loading = false;
       }
 
       let submitHandler = async() => {
@@ -74,7 +81,7 @@ export default {
          submitHandler();
       });
 
-      return { isLoading, orderNumber, dateInput, orderStatus, paginationInfo, accordionInfo, hasNextPage, submitHandler }
+      return { isLoading, orderNumber, dateInput, orderStatus, paginationInfo, accordionInfo, hasNextPage, seeMoreButtonText, seeMore, submitHandler }
    }
 }
 </script>

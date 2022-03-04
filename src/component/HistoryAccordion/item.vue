@@ -53,7 +53,7 @@ export default {
    setup(props, { emit }) {
       let { accordion, invoiceList } = toRefs(props); 
       let { invoiceMappingKey } = createCartInfo();
-      let isOpen = ref(true);
+      let isOpen = ref(false);
 
       let invoiceTitle = computed(() => {
          let obj = invoiceList.value.find(item => item.value === accordion.value.info.iInvoiceType);

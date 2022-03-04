@@ -7,8 +7,10 @@
       </select>
       <button class="btn-primary" @click="submitHandler">送出</button>
    </div>
-
    <HistoryAccordion :accordionList="accordionInfo.list"></HistoryAccordion>
+   <div class="btnBox center" v-show="hasNextPage">
+      <button class="btn-primary" style="--width:120px;" @click="seeMore">{{ seeMoreButtonText }}</button>
+   </div>
    
    <Loading v-show="isLoading"></Loading>
 </div>
