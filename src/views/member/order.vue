@@ -59,7 +59,6 @@ export default {
             status: orderStatus.id,
             page: currentPage !== undefined ? currentPage : paginationInfo.next
          });
-         console.log(response)
          setPaginationInfo(response);
          if (isPag) accordionInfo.list = accordionInfo.list.concat(response.aaData);
          else accordionInfo.list = response.aaData;

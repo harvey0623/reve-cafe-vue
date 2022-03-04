@@ -9,5 +9,20 @@ export const cartInfo = () => {
       5: 'vInvoiceNum'
    });
 
-   return { invoiceMappingKey };
+   let processNormalProduct = (arr) => {
+      return arr.reduce((prev, current) => {
+         prev.push({ ...current, cartType: 'normal', componentName: 'NormalDetailRow' });
+         return prev;
+      }, []);
+   }
+
+   let processActivityProduct = (arr) => {
+      return arr.reduce((prev, current) => {
+         let componentName = current.vActivityCode === 'full_amount' ? 'ActivityDetailRow' : 'MatchDetailRow';
+         prev.push({ ...current, cartType: 'activity', componentName });
+         return prev;
+      }, []);
+   }
+
+   return { invoiceMappingKey, processNormalProduct, processActivityProduct };
 }

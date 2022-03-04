@@ -22,6 +22,21 @@
             <div class="content">{{ detail.vPayStatusMessage }}</div>
          </div>
          <div class="bottom-block" :class="{show:isOpen}">
+            <div class="picked-cart-outer history">
+               <table class="picked-cart-table history">
+                  <thead>
+                     <tr>
+                        <th>商品品項</th>
+                        <th width="140">數量</th>
+                        <th width="140">單價</th>
+                        <th width="140">總價</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr v-for="item in cartList.data" :key="item.iId" :is="item.componentName" :info="item"></tr>
+                  </tbody>
+               </table>
+            </div>
             <div class="orderInfo">
                <p>詳細訂購資訊：</p>
                <div class="content">
@@ -43,17 +58,22 @@
 </template>
 
 <script>
-import { ref, reactive, computed, toRefs } from '@vue/composition-api'
-import { createCartInfo } from '@/composition-api/index.js';
+import { ref, reactive, computed, toRefs, onMounted } from '@vue/composition-api'
+import { createCartInfo } from '@/composition-api/index.js'
+import NormalDetailRow from '@/component/CartTableRow/normal-detail-row.vue'
+import ActivityDetailRow from '@/component/CartTableRow/activity-detail-row.vue'
+import MatchDetailRow from '@/component/CartTableRow/match-detail-row.vue'
 export default {
+   components: { NormalDetailRow, ActivityDetailRow, MatchDetailRow },
    props: {
       accordion: { type: Object, required: true },
       invoiceList: { type: Array, required: true }
    },
    setup(props, { emit }) {
       let { accordion, invoiceList } = toRefs(props);
-      let { invoiceMappingKey } = createCartInfo();
+      let { invoiceMappingKey, processNormalProduct, processActivityProduct } = createCartInfo();
       let isOpen = ref(false);
+      let cartList = reactive({ data: []});
 
       let invoiceTitle = computed(() => {
          let obj = invoiceList.value.find(item => item.value === accordion.value.info.iInvoiceType);
@@ -85,8 +105,14 @@ export default {
          }, 0);
       }
 
+      onMounted(() => {
+         let normalCart = processNormalProduct(accordion.value.meta);
+         let activityCart = processActivityProduct(accordion.value.activity_product_promotions_meta_bundle);
+         cartList.data = normalCart.concat(activityCart);
+      });
 
-      return { detail:accordion, isOpen, invoiceTitle, invoiceValue, storeName, triggerHandler }
+
+      return { detail:accordion, isOpen, cartList, invoiceTitle, invoiceValue, storeName, triggerHandler }
    }
 }
 </script>
@@ -98,7 +124,7 @@ export default {
 .accordion-header {
    @extend %bwtFlex;
    padding: 10px 15px;
-   background-color: map-get($elBgColor, primary);
+   background-color: #8C8276;
    color: #fff;
    .toggle-block {
       cursor: pointer;
@@ -134,14 +160,15 @@ export default {
    >.bottom-block {
       display: none;
       padding: 15px;
+      border: 1px dashed map-get($borderColor, divide);
       &.show {
          display: block;
       }
       >.orderInfo {
          >.content {
-            margin-top: 5px;
+            margin-top: 8px;
             >.text-input {
-               @include elGutter(margin-bottom, 5px);
+               @include elGutter(margin-bottom, 8px);
                font-size: 15px;
             }
          }

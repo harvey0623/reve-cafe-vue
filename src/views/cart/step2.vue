@@ -12,7 +12,7 @@ export default {
    components: { NormalDetailRow, ActivityDetailRow, MatchDetailRow },
    setup(props, { root }) {
       let { genderList } = createFormList();
-      let { invoiceMappingKey } = createCartInfo();
+      let { invoiceMappingKey, processNormalProduct, processActivityProduct } = createCartInfo();
       let orderNumber = ref('');
       let tipMessage = ref('');
       let isLoading = ref(true);
@@ -53,21 +53,6 @@ export default {
 
       let tipHandler = () => root.$router.replace('/');
       
-      let processNormalProduct = (arr) => {
-         return arr.reduce((prev, current) => {
-            prev.push({ ...current, cartType: 'normal', componentName: 'NormalDetailRow' });
-            return prev;
-         }, []);
-      }
-
-      let processActivityProduct = (arr) => {
-         return arr.reduce((prev, current) => {
-            let componentName = current.vActivityCode === 'full_amount' ? 'ActivityDetailRow' : 'MatchDetailRow';
-            prev.push({ ...current, cartType: 'activity', componentName });
-            return prev;
-         }, []);
-      }
-
       let setOrderConfig = (payload) => {
          orderConfig.ship = payload.shipping.vShipmentType;
          orderConfig.pay = payload.info.vPayType;
