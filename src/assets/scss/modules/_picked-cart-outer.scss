@@ -1,0 +1,107 @@
+.picked-cart-outer {
+   margin: 50px 0;
+   border: 1px solid map-get($borderColor, outer);
+   &.history {
+      margin-top: 0;
+      margin-bottom: 20px;
+      border: none;
+   }
+   >.picked-cart-summary {
+      @extend %bwtFlex;
+      padding: 15px 20px;
+      .text-primary {
+         margin: 0 3px;
+      }
+   }
+}
+
+.picked-cart-table {
+   width: 100%;
+   &.history {
+      thead {
+         background-color: #fff;
+         border-bottom: 1px solid map-get($borderColor, divide);
+         th {
+            color: #000;
+         }
+      }
+   }
+   thead {
+      background-color: #8C8276;
+      th {
+         padding: 10px 20px;
+         color: #fff;
+         font-size: 18px;
+         font-weight: normal;
+         white-space: nowrap;
+         &.left {
+            text-align: left;
+         }
+         input {
+            margin-right: 5px;
+            transform: translateY(2.8px);
+         }
+      }
+   }
+   tbody {
+      tr {
+         border-bottom: 1px solid map-get($borderColor, divide);
+         &:last-child {
+            border-bottom: none;
+         }
+         td {
+            padding: 15px 20px;
+            &:not(:first-child) {
+               text-align: center;
+            }
+            >.productInfo {
+               display: flex;
+               align-items: flex-start;
+               >.imgBox {
+                  flex: 0 0 120px;
+                  height: 90px;
+                  >img {
+                     display: block;
+                     @include size(100%);
+                  }
+               }
+               >.descBox{
+                  flex: 1;
+                  padding-top: 5px;
+                  padding-left: 10px;
+                  text-align: left;
+                  >* {
+                     @include elGutter(margin-bottom, 10px);
+                  }
+                  >.title {
+                     display: block;
+                     font-weight: bold;
+                  }
+                  >.combo-list {
+                     padding-left: 8px;
+                     border-left: 3px solid #8C8276;
+                     >.combo-item {
+                        display: flex;
+                        >.text-input {
+                           margin: 0 3px;
+                        }
+                        >.name {
+                           word-break: break-all;
+                        }
+                     }
+                  }
+               }
+            }
+            >.form-control {
+               width: 100px;
+               margin: 0 auto;
+               text-align: center;
+            }
+            >.fa-trash-alt {
+               font-size: 18px;
+               cursor: pointer;
+            }
+         }
+      }
+   }
+}
