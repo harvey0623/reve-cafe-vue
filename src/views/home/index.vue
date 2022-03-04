@@ -32,6 +32,9 @@
                   :productInfo="product"
                ></MultipleSpecItem>
             </div>
+            <div class="btnBox center">
+               <router-link :to="{name:'product_category', query:{categoryId:0}}" class="btn-primary" style="--width:120px;">查看商品</router-link>
+            </div>
          </div>
       </div>
       <Loading v-show="isLoading"></Loading>

@@ -418,4 +418,4 @@ export default {
 }
 </script>
 
-<style lang="scss" src="./scss/step1.scss"></style>
+<style lang="scss" src="./scss/step1.scss" scoped></style>

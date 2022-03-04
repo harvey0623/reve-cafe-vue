@@ -88,7 +88,6 @@ export default {
       }
 
       let searchHandler = () => {
-         if (keyword.value === '') return;
          root.$router.push({ 
             name: 'product_category', 
             query: { categoryId: 0, keyword: keyword.value} 
