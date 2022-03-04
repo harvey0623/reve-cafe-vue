@@ -95,13 +95,10 @@
    }
 }
 
-.btnBox {
+.cart-btnBox {
    margin-top: 80px;
    >button.disabled {
       opacity: 0.5;
       cursor: not-allowed;
-   }
-   >a {
-      line-height: 40px;
    }
 }
