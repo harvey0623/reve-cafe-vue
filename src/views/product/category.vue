@@ -52,8 +52,10 @@ export default {
       }
 
       let gatherProductParams = (pageNumber) => {
+         let category_ids = categoryId.value === 0 ? subCategory.data.filter(item => item.iId !== 0).map(item => item.iId).join(',') : categoryId.value;
+         
          return { 
-            category_ids: categoryId.value,
+            category_ids,
             keyword: keyword.value,
             page: pageNumber !== undefined ? pageNumber : paginationInfo.next
          }
