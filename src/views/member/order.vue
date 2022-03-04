@@ -14,9 +14,8 @@ export default {
         title: '訂單管理',
       }
    },
-   setup(props) {
+   setup(props, { emit }) {
       let datePicker = null;
-      let isLoading = ref(false);
       let orderNumber = ref('');
       let dateInput = ref(null);
       let accordionBlock = ref(null);
@@ -76,10 +75,10 @@ export default {
       }
 
       let submitHandler = async() => {
-         isLoading.value = true;
+         emit('loading', true);
          await getOrderHistory(false, 1);
          closeAllAccordion();
-         isLoading.value = false;
+         emit('loading', false);
       }
       
       onMounted(async() => {
@@ -87,7 +86,7 @@ export default {
          submitHandler();
       });
 
-      return { isLoading, accordionBlock, orderNumber, dateInput, orderStatus, paginationInfo, accordionInfo, hasNextPage, hasHistory, seeMoreButtonText, seeMore, submitHandler }
+      return { accordionBlock, orderNumber, dateInput, orderStatus, paginationInfo, accordionInfo, hasNextPage, hasHistory, seeMoreButtonText, seeMore, submitHandler }
    }
 }
 </script>

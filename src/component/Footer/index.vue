@@ -47,4 +47,74 @@ export default {
 }
 </script>
 
-<style src="./scss/index.scss" lang="scss" scoped></style>
+<style lang="scss" scoped>
+.footer-top {
+   position: relative;
+   background-image: url('~@/assets/img/footer-bg.jpg');
+   background-size: cover;
+   background-position: center center;
+   >.my-container {
+      position: relative;
+      @extend %bwtFlex;
+      padding-top: 55px;
+      padding-bottom: 55px;
+      z-index: 2;
+      >.footer-logo-box {
+         flex: 0 0 250px;
+         >img {
+            display: block;
+            @include size(100%, auto);
+         }
+      }
+   }
+   &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      @include size(100%);
+      background-color: rgba(#000, 0.7);
+      z-index: 1;
+   }
+}
+
+.infoList {
+   display: flex;
+   align-items: flex-start;
+   >.info-item {
+      @include elGutter(margin-right, 50px);
+      >.name {
+         color: #fff;
+         font-size: 20px;
+         &:after {
+            content: '';
+            display: block;
+            @include size(50px, 2px);
+            margin-top: 15px;
+            background-color: map-get($elBgColor, primary);
+         }
+      }
+      >.link-block {
+         margin-top: 15px;
+         >a {
+            display: block;
+            @include elGutter(margin-bottom, 15px);
+            color: #fff;
+         }
+      }
+   }
+}
+
+.footer-bottom {
+   background-color: #000;
+   color: #fff;
+   >.my-container {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      >.copyright {
+         text-align: center;
+         font-size: 12px;
+      }
+   }
+}
+</style>
