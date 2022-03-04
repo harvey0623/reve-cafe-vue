@@ -5,7 +5,7 @@
          :key="accordion.iId" 
          :accordion="accordion"
          :invoiceList="invoiceInfo.list"
-         ref="accordionItem"
+         ref="accordionItems"
       ></AccordionItem>
    </div>
 </template>
@@ -20,14 +20,14 @@ export default {
       accordionList: { type: Array, required: true }
    },
    setup(props) {
-      let accordionItem = ref(null);
+      let accordionItems = ref(null);
       let invoiceInfo = reactive({ list: [] });
 
       onMounted(async() => {
          invoiceInfo.list = await orderApi.invoice().then(res => res.aaData);
       });
 
-      return { invoiceInfo, accordionItem }
+      return { invoiceInfo, accordionItems }
    }
 }
 </script>

@@ -18,6 +18,7 @@ export default {
       let isLoading = ref(false);
       let orderNumber = ref('');
       let dateInput = ref(null);
+      let accordionBlock = ref(null);
       let orderStatus = reactive({
          id: '0',
          list: { 0: '等待處理', 1: '訂單已完成', 2: '訂單已取消', 3: '處理中' }
@@ -64,6 +65,10 @@ export default {
          else accordionInfo.list = response.aaData;
       }
 
+      let closeAllAccordion = () => {
+         accordionBlock.value.$refs.accordionItems.forEach(item => item.isOpen = false);
+      }
+
       let seeMore = async() => {
          paginationInfo.loading = true;
          await getOrderHistory(true);
@@ -73,6 +78,7 @@ export default {
       let submitHandler = async() => {
          isLoading.value = true;
          await getOrderHistory(false, 1);
+         closeAllAccordion();
          isLoading.value = false;
       }
       
@@ -81,7 +87,7 @@ export default {
          submitHandler();
       });
 
-      return { isLoading, orderNumber, dateInput, orderStatus, paginationInfo, accordionInfo, hasNextPage, seeMoreButtonText, seeMore, submitHandler }
+      return { isLoading, accordionBlock, orderNumber, dateInput, orderStatus, paginationInfo, accordionInfo, hasNextPage, seeMoreButtonText, seeMore, submitHandler }
    }
 }
 </script>

@@ -28,7 +28,7 @@
                   <p class="text-input">收件人資訊：{{ detail.addressee_2.vName }}</p>
                   <p class="text-input">手機號碼：{{ detail.addressee_2.vContact }}</p>
                   <p class="text-input">運送方式：{{ detail.shipping.vShipmentType }}</p>
-                  <p class="text-input">超商地址：</p>
+                  <p class="text-input">超商地址：{{ storeName }}</p>
                   <p class="text-input">收件人地址：242新北市新莊區中正路</p>
                   <p class="text-input">商品金額：${{ detail.iOrderTotal | currency }}</p>
                   <p class="text-input">運費：${{ detail.iShipmentFee | currency }}</p>
@@ -51,7 +51,7 @@ export default {
       invoiceList: { type: Array, required: true }
    },
    setup(props, { emit }) {
-      let { accordion, invoiceList } = toRefs(props); 
+      let { accordion, invoiceList } = toRefs(props);
       let { invoiceMappingKey } = createCartInfo();
       let isOpen = ref(false);
 
@@ -66,6 +66,15 @@ export default {
          return accordion.value.info[key] || '';
       });
 
+      let storeName = computed(() => {
+         if (accordion.value.cvs_com === null) return '';
+         let text = '';
+         for (let key in accordion.value.cvs_com) {
+            text += accordion.value.cvs_com[key];
+         }
+         return text;
+      });
+
       let triggerHandler = (evt) => {
          isOpen.value = !isOpen.value;
          let headerHeight = document.querySelector('header').offsetHeight;
@@ -77,7 +86,7 @@ export default {
       }
 
 
-      return { detail:accordion, invoiceTitle, invoiceValue, isOpen, triggerHandler }
+      return { detail:accordion, isOpen, invoiceTitle, invoiceValue, storeName, triggerHandler }
    }
 }
 </script>
