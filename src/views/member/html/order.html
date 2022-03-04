@@ -7,7 +7,9 @@
       </select>
       <button class="btn-primary" @click="submitHandler">送出</button>
    </div>
-   <HistoryAccordion :accordionList="accordionInfo.list" ref="accordionBlock"></HistoryAccordion>
+   <HistoryAccordion v-show="hasHistory" :accordionList="accordionInfo.list" ref="accordionBlock"></HistoryAccordion>
+   <EmptyBlock v-show="!hasHistory" text="查無訂單紀錄"></EmptyBlock>
+
    <div class="btnBox center" v-show="hasNextPage">
       <button class="btn-primary" style="--width:120px;" @click="seeMore">{{ seeMoreButtonText }}</button>
    </div>

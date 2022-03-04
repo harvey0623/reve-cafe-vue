@@ -9,9 +9,10 @@ import NormalEditRow from '@/component/CartTableRow/normal-edit-row.vue'
 import ActivityEditRow from '@/component/CartTableRow/activity-edit-row.vue'
 import MatchEditRow from '@/component/CartTableRow/match-edit-row.vue'
 import AddressField from '@/component/AddressField/index.vue'
+import EmptyBlock from '@/component/EmptyBlock/index.vue'
 export default {
    name: 'cart-step1',
-   components: { TemperatureItem, NormalEditRow, ActivityEditRow, MatchEditRow, AddressField },
+   components: { TemperatureItem, NormalEditRow, ActivityEditRow, MatchEditRow, AddressField, EmptyBlock },
    setup(props, { root }) {
       let { genderList } = createFormList();
       let { invoiceMappingKey } = createCartInfo();

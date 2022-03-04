@@ -186,10 +186,7 @@
       </div>
    </template>
    <template v-else>
-      <div class="no-cart">
-         <i class="fal fa-exclamation-circle"></i>
-         <span>目前購物車無商品</span>
-      </div>
+      <EmptyBlock text="目前購物車無商品"></EmptyBlock>
    </template>
    <modal-message ref="cartModal" :showCancel="true" :showConfirm="false" cancelText="確認">
       <p>{{ createdResult.message }}</p>

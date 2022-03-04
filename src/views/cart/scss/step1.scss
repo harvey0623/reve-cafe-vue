@@ -95,17 +95,6 @@
    }
 }
 
-.no-cart {
-   @extend %centerFlex;
-   font-size: 23px;
-   >.fa-exclamation-circle {
-      color: red;
-   }
-   >span {
-      margin-left: 5px;
-   }
-}
-
 .btnBox {
    margin-top: 80px;
    >button.disabled {

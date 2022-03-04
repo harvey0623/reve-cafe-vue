@@ -47,6 +47,8 @@ export default {
    align-items: flex-start;
    >.left {
       flex: 0 0 200px;
+      position: sticky;
+      top: 200px;
    }
    >.right {
       flex: 1;

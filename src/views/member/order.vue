@@ -5,9 +5,10 @@ import dayjs from 'dayjs'
 import { ref, reactive, computed, onMounted } from '@vue/composition-api'
 import { orderApi } from '@/api/index.js'
 import HistoryAccordion from '@/component/HistoryAccordion/index.vue'
+import EmptyBlock from '@/component/EmptyBlock/index.vue'
 export default {
    name: 'order_history',
-   components: { HistoryAccordion },
+   components: { HistoryAccordion, EmptyBlock },
    metaInfo () {
       return {
         title: '訂單管理',
@@ -27,8 +28,8 @@ export default {
       let accordionInfo = reactive({ list: [] });
 
       let hasNextPage = computed(() => paginationInfo.next <= paginationInfo.total);
-
       let seeMoreButtonText = computed(() => paginationInfo.loading ? '載入中...' : '顯示更多');
+      let hasHistory = computed(() => accordionInfo.list.length > 0);
 
       let initDatePicker = () => {
          let minDate = dayjs().subtract(6, 'month').toDate();
@@ -86,7 +87,7 @@ export default {
          submitHandler();
       });
 
-      return { isLoading, accordionBlock, orderNumber, dateInput, orderStatus, paginationInfo, accordionInfo, hasNextPage, seeMoreButtonText, seeMore, submitHandler }
+      return { isLoading, accordionBlock, orderNumber, dateInput, orderStatus, paginationInfo, accordionInfo, hasNextPage, hasHistory, seeMoreButtonText, seeMore, submitHandler }
    }
 }
 </script>
