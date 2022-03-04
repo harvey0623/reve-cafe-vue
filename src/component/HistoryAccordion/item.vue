@@ -22,7 +22,21 @@
             <div class="content">{{ detail.vPayStatusMessage }}</div>
          </div>
          <div class="bottom-block" :class="{show:isOpen}">
-
+            <div class="orderInfo">
+               <p>詳細訂購資訊：</p>
+               <div class="content">
+                  <p class="text-input">收件人資訊：{{ detail.addressee_2.vName }}</p>
+                  <p class="text-input">手機號碼：{{ detail.addressee_2.vContact }}</p>
+                  <p class="text-input">運送方式：{{ detail.shipping.vShipmentType }}</p>
+                  <p class="text-input">超商地址：</p>
+                  <p class="text-input">收件人地址：242新北市新莊區中正路</p>
+                  <p class="text-input">商品金額：${{ detail.iOrderTotal | currency }}</p>
+                  <p class="text-input">運費：${{ detail.iShipmentFee | currency }}</p>
+                  <p class="text-input">點數折抵：{{ detail.iCoinTotal }}點</p>
+                  <p class="text-input">總金額：${{ detail.iMoneyTotal | currency }}</p>
+                  <p class="text-input">備註：{{ detail.addressee_2.vRemarks }}</p>
+               </div>
+            </div>
          </div>
       </div>
    </div>
@@ -39,7 +53,7 @@ export default {
    setup(props, { emit }) {
       let { accordion, invoiceList } = toRefs(props); 
       let { invoiceMappingKey } = createCartInfo();
-      let isOpen = ref(false);
+      let isOpen = ref(true);
 
       let invoiceTitle = computed(() => {
          let obj = invoiceList.value.find(item => item.value === accordion.value.info.iInvoiceType);
@@ -94,7 +108,6 @@ export default {
    >.top-block {
       display: flex;
       flex-wrap: wrap;
-      // border-bottom: 1.5px dashed map-get($borderColor, divide);
       font-size: 15px;
       >.title {
          flex: 0 0 20%;
@@ -110,12 +123,19 @@ export default {
       }
    }
    >.bottom-block {
-      height: 200px;
-      padding: 15px;
-      background-color: orange;
       display: none;
+      padding: 15px;
       &.show {
          display: block;
+      }
+      >.orderInfo {
+         >.content {
+            margin-top: 5px;
+            >.text-input {
+               @include elGutter(margin-bottom, 5px);
+               font-size: 15px;
+            }
+         }
       }
    }
 }
