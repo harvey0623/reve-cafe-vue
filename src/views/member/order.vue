@@ -64,10 +64,6 @@ export default {
          else accordionInfo.list = response.aaData;
       }
 
-      let closeAllAccordion = () => {
-         accordionBlock.value.$refs.accordionItems.forEach(item => item.isOpen = false);
-      }
-
       let seeMore = async() => {
          paginationInfo.loading = true;
          await getOrderHistory(true);
@@ -77,7 +73,7 @@ export default {
       let submitHandler = async() => {
          emit('loading', true);
          await getOrderHistory(false, 1);
-         closeAllAccordion();
+         accordionBlock.value.closeAll()
          emit('loading', false);
       }
       

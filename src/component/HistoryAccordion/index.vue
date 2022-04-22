@@ -23,11 +23,16 @@ export default {
       let accordionItems = ref(null);
       let invoiceInfo = reactive({ list: [] });
 
+      let closeAll = () => {
+         if (accordionItems.value === null) return;
+         accordionItems.value.forEach(item => item.isOpen = false);
+      }
+
       onMounted(async() => {
          invoiceInfo.list = await orderApi.invoice().then(res => res.aaData);
       });
 
-      return { invoiceInfo, accordionItems }
+      return { invoiceInfo, accordionItems, closeAll }
    }
 }
 </script>
