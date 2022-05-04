@@ -2,7 +2,7 @@
 
 <script>
 import { ref, reactive ,computed, onMounted, watch } from '@vue/composition-api'
-import { productApi, thirdPartyMemberApi, cartApi, activityCartApi, orderApi } from '@/api/index.js'
+import { productApi, thirdPartyMemberApi, cartApi, activityCartApi, orderApi, webConfigApi } from '@/api/index.js'
 import { createActivityInfo, createFormList, createCartInfo } from '@/composition-api/index.js'
 import TemperatureItem from '@/component/TemperatureItem/index.vue'
 import NormalEditRow from '@/component/CartTableRow/normal-edit-row.vue'
@@ -23,7 +23,6 @@ export default {
       let isLoading = ref(false);
       let syncOrderer = ref(false);
       let settleDollar = ref(0);
-      let insertedPointIsError = ref(false);
       let pointInput = ref(null);
       let cartModal = ref(null);
       let checkModal = ref(null);
@@ -36,7 +35,7 @@ export default {
          ship: { id: 0, list: [] },
          outbound: []
       });
-      let userPoint = reactive({ id: 0, total: 0, used: 0 });
+      let userPoint = reactive({ id: 0, total: 0, used: 0, ratio: 0, errorCode: 0 });
       let createdResult = reactive({ status: 0, message: '' });
       let checkedBuildResult = reactive({ status: 0, message: '', orderNumber: '' });
 
@@ -104,6 +103,16 @@ export default {
          let isOutbound = orderConfig.outbound.some(item => item.vTitle === recipient.district);
          let { iShipment, iShipmentOutbound } = shipInfo.value;
          return isOutbound ? iShipmentOutbound : iShipment;
+      });
+
+      let upperLimitPointUsed = computed(() => { //點數上限始用
+         let percent = userPoint.ratio / 100;
+         return Math.round(filterCartSubTotal.value * percent);
+      });
+
+      let pointErrorMessage = computed(() => { //點數錯誤訊息
+         let obj = { 0: '', 1: '過超商品金額', 2: '超過總點數', 3: `超過折扣上限${upperLimitPointUsed.value}點` };
+         return obj[userPoint.errorCode];
       });
 
       let createUid = () => {
@@ -261,9 +270,9 @@ export default {
       }
 
       let getConfigData = async() => {
-         let [payInfo, invoiceInfo, shipInfo, outBoundInfo, memberSummary] = await Promise.all([ 
+         let [payInfo, invoiceInfo, shipInfo, outBoundInfo, memberSummary, configData] = await Promise.all([ 
             orderApi.pay(), orderApi.invoice(), orderApi.ship(), orderApi.outbound(),
-            thirdPartyMemberApi.summary()
+            thirdPartyMemberApi.summary(), webConfigApi.getConfig()
          ]);
          setPayInfo(payInfo);
          setInvoceInfo(invoiceInfo);
@@ -272,6 +281,7 @@ export default {
          let pointInfo = memberSummary.aaData.point_summary.current_point[0]; 
          userPoint.id = pointInfo.point_id;
          userPoint.total = cammaToNumber(pointInfo.amount);
+         userPoint.ratio = parseInt(configData.aaData.wish_mmrm_point_limit_percentage);
       }
 
       let setPayInfo = (payload) => {
@@ -297,17 +307,19 @@ export default {
          }
       }
 
-      let checkInsertedPoint = async() => {
+      let checkInsertedPoint = () => {
          let { total:totalPoint, used: usedPoint } = userPoint;
-         if (usedPoint === '') {
-            insertedPointIsError.value = false;
+         if (usedPoint === '' || usedPoint === 0) {
             userPoint.used = 0;
-         } else if (usedPoint > totalPoint || usedPoint > filterCartSubTotal.value) {
-            insertedPointIsError.value = true;
-            focusPointInput();
-         } else {
-            insertedPointIsError.value = false;
+            userPoint.errorCode = 0;
+         } else if (usedPoint > filterCartSubTotal.value) {
+            userPoint.errorCode = 1;
+         } else if (usedPoint > totalPoint) {
+            userPoint.errorCode = 2;
+         } else if (usedPoint > upperLimitPointUsed.value) {
+            userPoint.errorCode = 3;
          }
+         if (userPoint.errorCode > 0) focusPointInput();
          calculateSettledDollar();
       }
 
@@ -352,7 +364,7 @@ export default {
 
       let submitHandler = async() => {
          if (!canSubmit.value) return;
-         if (insertedPointIsError.value) return;
+         if (userPoint.errorCode > 0) return;
          isLoading.value = true;
          let order_info = {
             iPayId: orderConfig.pay.id,
@@ -413,7 +425,7 @@ export default {
          calculateSettledDollar();
       });
 
-      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, orderConfig, temperatureType, pointInput, cartModal, checkModal, checkBuildHandler, insertedPointIsError, settleDollar, createdResult, checkedBuildResult, invoicePlaceholder, showCompanyTitle, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, canSubmit, shipList, freeShipmentAmount, shipFee, userPoint, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler, checkPointKeydown, checkInsertedPoint, submitHandler }
+      return { genderList, isLoading, isAllChecked, orderer, recipient, syncOrderer, orderConfig, temperatureType, pointInput, cartModal, checkModal, checkBuildHandler, settleDollar, createdResult, checkedBuildResult, invoicePlaceholder, showCompanyTitle, hasCart, temperatureTab, filterCartList, filterCartCount, filterCartSubTotal, canSubmit, shipList, freeShipmentAmount, shipFee, upperLimitPointUsed, pointErrorMessage, userPoint, changeAllChecked, setTab, changeCount, singleCheck, removeCartItem, syncHandler, checkPointKeydown, checkInsertedPoint, submitHandler }
    }
 }
 </script>

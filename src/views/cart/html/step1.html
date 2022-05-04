@@ -162,7 +162,9 @@
                <div>${{ userPoint.total | currency }}點</div>
             </div>
             <div class="summary-row">
-               <div>點數折抵</div>
+               <div>
+                  點數折抵<span class="error-text">(折扣上限{{ upperLimitPointUsed | currency }}點)</span>
+               </div>
                <div>
                   <input
                      type="number"
@@ -171,7 +173,7 @@
                      @keydown="checkPointKeydown"
                      @blur="checkInsertedPoint"
                      ref="pointInput">
-                  <p class="error-text" v-show="insertedPointIsError">點數輸入有誤</p>
+                  <p class="error-text" v-show="userPoint.errorCode !== 0">{{ pointErrorMessage }}</p>
                </div>
             </div>
             <div class="summary-row">
