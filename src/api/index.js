@@ -9,6 +9,7 @@ import { customerRequest } from './customer-service.js';
 import { faqRequest } from './faq.js';
 import { thirdPartyMemberRequest } from './third_party_member.js';
 import { orderRequest } from './order.js';
+import { webConfigRequest } from './webConfig.js';
 
 export const thirdPartyAuthApi = thirdPartyAuthRequest;
 export const thirdPartyApi = thirdPartyApiRequest;
@@ -21,3 +22,4 @@ export const customerApi = customerRequest;
 export const faqApi = faqRequest;
 export const thirdPartyMemberApi = thirdPartyMemberRequest;
 export const orderApi = orderRequest;
+export const webConfigApi = webConfigRequest;
