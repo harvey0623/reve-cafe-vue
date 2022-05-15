@@ -19,7 +19,7 @@ export const auth = {
    },
    actions: {
       getUserInfoFromStorage({ commit }) {
-         let userInfo = storageObj.getItem('userInfo');
+         let userInfo = storageObj.getItem('cafe-userInfo');
          if (_.isEmpty(userInfo)) return;
          commit('setUserInfo', userInfo);
       },
@@ -28,7 +28,7 @@ export const auth = {
          if (loginResponse.status === 1) {
             let token = loginResponse.aaData.access_token;
             commit('setUserInfo', { token });
-            storageObj.setItem('userInfo', { token });
+            storageObj.setItem('cafe-userInfo', { token });
          }
          return loginResponse;
       },
@@ -36,7 +36,7 @@ export const auth = {
          let logoutResponse = await thirdPartyAuthApi.logout();
          if (logoutResponse.status === 1) {
             commit('setUserInfo', {});
-            storageObj.removeItem('userInfo');
+            storageObj.removeItem('cafe-userInfo');
          }
          return logoutResponse;
       },
@@ -47,10 +47,10 @@ export const auth = {
          if (refreshResponse.status === 1) {
             let token = refreshResponse.aaData.access_token;
             commit('setUserInfo', { token });
-            storageObj.setItem('userInfo', { token });
+            storageObj.setItem('cafe-userInfo', { token });
          } else {
             commit('setUserInfo', {});
-            storageObj.removeItem('userInfo');
+            storageObj.removeItem('cafe-userInfo');
          }
          return refreshResponse;
       },

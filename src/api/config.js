@@ -8,7 +8,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(function (config) {
-   let userInfo = storageObj.getItem('userInfo');
+   let userInfo = storageObj.getItem('cafe-userInfo');
    config.headers.Authorization = userInfo !== null ? `Bearer ${userInfo.token}` : '';
    return config;
 }, function (error) {
@@ -32,7 +32,7 @@ instance.interceptors.response.use(function (response) {
    }
    store.commit('auth/setUserInfo', {});
    store.dispatch('cart/clearAllCart');
-   storageObj.removeItem('userInfo');
+   storageObj.removeItem('cafe-userInfo');
    if (currentRoute.meta.auth || currentRoute.meta.needBackToSingin) {
       storageObj.setSessionItem('backInfo', { url: currentRoute.fullPath });
       router.replace('/signin');
