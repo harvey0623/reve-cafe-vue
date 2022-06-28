@@ -550,12 +550,12 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
 	if (to.matched.some(item => item.meta.auth === true)) {
-		router.app.$Progress.start();
-		let checkResult = await store.dispatch('auth/checkLoginStatus');
-		if (checkResult.status !== 1) {
-			router.app.$Progress.finish();
-			return next('/signin');
-		}
+		// router.app.$Progress.start();
+		// let checkResult = await store.dispatch('auth/checkLoginStatus');
+		// if (checkResult.status !== 1) {
+		// 	router.app.$Progress.finish();
+		// 	return next('/signin');
+		// }
 	}
 	router.app.$Progress.finish();
 	return next();

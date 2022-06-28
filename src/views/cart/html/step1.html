@@ -157,11 +157,11 @@
                   ${{ shipFee | currency }}
                   <span class="text-primary">(滿${{ freeShipmentAmount | currency }}免運)</span></div>
             </div>
-            <div class="summary-row">
+            <div class="summary-row" v-if="false">
                <div>會員點數</div>
                <div>${{ userPoint.total | currency }}點</div>
             </div>
-            <div class="summary-row">
+            <div class="summary-row" v-if="false">
                <div>
                   點數折抵<span class="error-text">(折扣上限{{ upperLimitPointUsed | currency }}點)</span>
                </div>

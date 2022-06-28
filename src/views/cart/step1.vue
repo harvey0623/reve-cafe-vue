@@ -339,7 +339,7 @@ export default {
       }
 
       let checkOrderIsBuild = async(orderNumber) => { //確認訂單是否已處理完成(0:失敗,1:完成,2:處理中)
-         let { status, message } = await orderApi.order_detail(orderNumber);
+         let { status, message } = await orderApi.order_detail({ vOrderNum: orderNumber });
          checkedBuildResult.status = status;
          checkedBuildResult.message = message;
          checkedBuildResult.orderNumber = orderNumber;
@@ -383,7 +383,7 @@ export default {
             addressee_1: { ...orderer, vZipCode: orderer.vZipCode.toString() },
             addressee_2: { ...recipient, vZipCode: recipient.vZipCode.toString() },
             point_info: { point_id: userPoint.id, count: userPoint.used },
-            cash_card: [{ service: 'wish_mmrm_dudooeat', count: 0}]
+            cash_card: [{ service: 'dudooeat', count: 0}]
          });
          createdResult.status = response.status;
          createdResult.message = response.message;
