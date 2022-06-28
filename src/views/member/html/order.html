@@ -3,6 +3,7 @@
       <input type="text" class="form-control" ref="dateInput">
       <input type="text" class="form-control" v-model="orderNumber" placeholder="請輸入定單編號">
       <select class="form-control" v-model="orderStatus.id">
+         <option value="-1">訂單狀態</option>
          <option v-for="(value, key) in orderStatus.list" :key="key" :value="key">{{ value }}</option>
       </select>
       <button class="btn-primary" @click="submitHandler">送出</button>

@@ -20,7 +20,7 @@ export default {
       let dateInput = ref(null);
       let accordionBlock = ref(null);
       let orderStatus = reactive({
-         id: '0',
+         id: '-1',
          list: { 0: '等待處理', 1: '訂單已完成', 2: '訂單已取消', 3: '處理中' }
       });
       let paginationInfo = reactive({ current: 1, next: 1, total: 0, loading: false });
@@ -53,8 +53,8 @@ export default {
       let getOrderHistory = async(isPag, currentPage) => {
          let [ startDate, endDate ] = datePicker.selectedDates;
          let response = await orderApi.order_history({
-            create_time_start: dayjs(startDate).format('YYYY-MM-DD'),
-            create_time_end: dayjs(endDate).format('YYYY-MM-DD'),
+            create_time_start: `${dayjs(startDate).format('YYYY-MM-DD')} 00:00:00`,
+            create_time_end: `${dayjs(endDate).format('YYYY-MM-DD')} 23:59:59`,
             order_num: orderNumber.value,
             status: orderStatus.id,
             page: currentPage !== undefined ? currentPage : paginationInfo.next
